@@ -8,10 +8,13 @@ import com.cruise.model.CruiseShip;
 import com.cruise.model.Staff;
 import com.cruise.service.StaffService;
 import com.cruise.utils.ConvertorUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class StaffServiceImpl implements StaffService {
+
 
     private final StaffDAO staffDao;
 
@@ -21,7 +24,13 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Staff findById(int id) throws ServiceException{
-        return staffDao.findById(id);
+        Staff staff;
+        try {
+            staff = staffDao.findById(id);
+        } catch (DAOException e){
+            throw new ServiceException(e.getMessage());
+        }
+        return staff;
     }
 
     @Override
@@ -37,7 +46,13 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public List<Staff> getAllByCruiseId(int cruiseId) throws ServiceException{
-        return staffDao.getAllByCruiseId(cruiseId);
+        List<Staff> listStaff;
+        try {
+            listStaff = staffDao.getAllByCruiseId(cruiseId);
+        } catch (DAOException e) {
+            throw new ServiceException(e.getMessage());
+        }
+        return listStaff;
     }
 
     @Override
@@ -52,7 +67,11 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public void delete(Staff staff) throws ServiceException{
-        staffDao.delete(staff);
+        try {
+            staffDao.delete(staff);
+        } catch (DAOException e){
+            throw new ServiceException(e.getMessage());
+        }
     }
 
     @Override

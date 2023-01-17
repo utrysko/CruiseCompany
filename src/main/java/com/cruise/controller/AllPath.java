@@ -9,7 +9,7 @@ public final class AllPath {
     // pages
 
     //common
-    public static final String PAGE_INDEX = "/index.jsp";
+    public static final String PAGE_INDEX = "index.jsp";
     public static final String PAGE_SING_IN = "view/sign_in.jsp";
     public static final String ERROR_PAGE = "view/error_page.jsp";
     public static final String REGISTER_PAGE = "view/register.jsp";

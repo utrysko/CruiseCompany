@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface UserService {
      User findById(int id) throws ServiceException;
-     UserDTO findByLogin(String login) throws ServiceException;
+     User findByLogin(String login) throws ServiceException;
      UserDTO signIn(String login, String password) throws ServiceException;
      List<User> findAllUsers() throws ServiceException;
      void register(UserDTO userDTO, String password) throws ServiceException;

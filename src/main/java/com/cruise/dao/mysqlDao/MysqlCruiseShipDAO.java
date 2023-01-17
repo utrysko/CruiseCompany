@@ -6,6 +6,8 @@ import com.cruise.exceptions.DAOException;
 import com.cruise.dao.DAOFactory;
 import com.cruise.model.Cruise;
 import com.cruise.model.CruiseShip;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;

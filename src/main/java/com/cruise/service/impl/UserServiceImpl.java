@@ -10,6 +10,8 @@ import com.cruise.utils.ConvertorUtil;
 import com.cruise.utils.ValidationUtil;
 import com.cruise.utils.constants.Regex;
 import com.lambdaworks.crypto.SCryptUtil;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
@@ -32,20 +34,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findByLogin(String login) throws ServiceException{
-        UserDTO userDTO;
-        User user = userDAO.findByLogin(login);
+    public User findByLogin(String login) throws ServiceException{
+        User user;
+        try {
+            user = userDAO.findByLogin(login);
+        } catch (DAOException e){
+            throw new ServiceException(e.getMessage());
+        }
         if (user == null){
             throw new UserNotRegisterException();
         }
-        userDTO = ConvertorUtil.convertUserToDTO(user);
-        return userDTO;
+        return user;
     }
 
     @Override
     public UserDTO signIn(String login, String password) throws ServiceException {
         UserDTO userDTO;
-        User user = userDAO.findByLogin(login);
+        User user = findByLogin(login);
         if (user == null){
             throw new UserNotRegisterException();
         }

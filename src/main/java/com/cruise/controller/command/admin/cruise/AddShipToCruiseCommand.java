@@ -8,6 +8,8 @@ import com.cruise.model.Cruise;
 import com.cruise.model.CruiseShip;
 import com.cruise.service.CruiseService;
 import com.cruise.service.CruiseShipService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class AddShipToCruiseCommand implements Command {
+    private static final Logger LOG = LogManager.getLogger(AddShipToCruiseCommand.class);
     private CruiseService cruiseService;
     private CruiseShipService cruiseShipService;
     public AddShipToCruiseCommand(){
@@ -39,6 +42,7 @@ public class AddShipToCruiseCommand implements Command {
                     cruiseShipService.changeAvailableDate(cruiseShipOld, Date.valueOf(LocalDate.now()));
                 }
             } catch (ServiceException e) {
+                LOG.error(e.getMessage());
                 req.setAttribute("error", e.getMessage());
             }
             return AllPath.CRUISES_COMMAND;
@@ -48,6 +52,7 @@ public class AddShipToCruiseCommand implements Command {
             Cruise cruise = cruiseService.findById(cruiseId);
             cruiseShips = cruiseShipService.getAllFreeCruiseShip(cruise);
         } catch (ServiceException e) {
+            LOG.error(e.getMessage());
             req.setAttribute("error", e.getMessage());
             return forward;
         }

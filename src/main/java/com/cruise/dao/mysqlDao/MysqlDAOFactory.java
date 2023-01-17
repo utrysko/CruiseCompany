@@ -4,7 +4,6 @@ import com.cruise.connection.DataSource;
 import com.cruise.dao.*;
 
 public class MysqlDAOFactory extends DAOFactory {
-
     private CruiseShipDAO cruiseShipDAO;
     private CruiseDAO cruiseDAO;
     private UserDAO userDAO;

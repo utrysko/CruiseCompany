@@ -6,11 +6,15 @@ import com.cruise.controller.command.Command;
 import com.cruise.dto.UserDTO;
 import com.cruise.exceptions.ServiceException;
 import com.cruise.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class RegisterCommand implements Command {
+    private static final Logger LOG = LogManager.getLogger(RegisterCommand.class);
+
     UserService service;
     public RegisterCommand(){
         service = AppContext.getInstance().getUserService();
@@ -33,6 +37,7 @@ public class RegisterCommand implements Command {
         try {
             service.register(userDTO, password);
         } catch (ServiceException e) {
+            LOG.error(e.getMessage());
             request.getSession().setAttribute("error", e.getMessage());
             return forward;
         }

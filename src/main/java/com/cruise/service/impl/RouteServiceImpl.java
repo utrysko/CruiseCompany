@@ -10,10 +10,13 @@ import com.cruise.service.RouteService;
 import com.cruise.utils.ConvertorUtil;
 import com.cruise.utils.ValidationUtil;
 import com.cruise.utils.constants.Regex;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class RouteServiceImpl implements RouteService {
+
 
     private final RouteDAO routeDao;
 

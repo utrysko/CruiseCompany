@@ -16,13 +16,13 @@ import javax.servlet.jsp.jstl.core.Config;
  * @author Vasyl Utrysko
  */
 public class I18NCommand implements Command {
-    private static final Logger LOG = LogManager.getLogger(SecurityFilter.class);
+    private static final Logger LOG = LogManager.getLogger(I18NCommand.class);
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();
         String language = request.getParameter("language");
         String page = request.getParameter("localePage");
-        System.out.println(page);
+
 
         String fmtLocale = "javax.servlet.jsp.jstl.fmt.locale";
         String defaultLocale = "defaultLocale";

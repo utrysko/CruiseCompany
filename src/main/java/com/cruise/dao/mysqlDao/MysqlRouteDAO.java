@@ -4,6 +4,8 @@ import com.cruise.connection.DataSource;
 import com.cruise.exceptions.DAOException;
 import com.cruise.dao.RouteDAO;
 import com.cruise.model.Route;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;

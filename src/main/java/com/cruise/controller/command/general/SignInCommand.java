@@ -7,12 +7,16 @@ import com.cruise.dto.UserDTO;
 import com.cruise.exceptions.ServiceException;
 import com.cruise.model.Role;
 import com.cruise.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 public class SignInCommand implements Command {
+
+    private static final Logger LOG = LogManager.getLogger(SignInCommand.class);
     UserService service;
     public SignInCommand(){
         service = AppContext.getInstance().getUserService();
@@ -33,6 +37,7 @@ public class SignInCommand implements Command {
         try {
            userDTO = service.signIn(login, password);
         } catch (ServiceException e) {
+            LOG.error(e.getMessage());
             session.setAttribute("error", e.getMessage());
             return forward;
         }

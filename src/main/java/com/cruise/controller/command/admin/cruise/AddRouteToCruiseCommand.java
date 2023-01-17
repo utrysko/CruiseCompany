@@ -9,12 +9,15 @@ import com.cruise.model.Cruise;
 import com.cruise.model.Route;
 import com.cruise.service.CruiseService;
 import com.cruise.service.RouteService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 public class AddRouteToCruiseCommand implements Command {
+    private static final Logger LOG = LogManager.getLogger(AddRouteToCruiseCommand.class);
     private CruiseService cruiseService;
     private RouteService routeService;
     public AddRouteToCruiseCommand(){
@@ -33,6 +36,7 @@ public class AddRouteToCruiseCommand implements Command {
                 Cruise cruise = cruiseService.findById(cruiseId);
                 cruiseService.addRouteToCruise(route, cruise);
             } catch (ServiceException e) {
+                LOG.error(e.getMessage());
                 req.setAttribute("error", e.getMessage());
             }
             return AllPath.CRUISES_COMMAND;
@@ -49,6 +53,7 @@ public class AddRouteToCruiseCommand implements Command {
             pages = PaginationUtil.getPages(amount, limit);
             routes = routeService.getRoutesInOrderAndLimit(orderBy, limit, offset);
         } catch (ServiceException e) {
+            LOG.error(e.getMessage());
             req.setAttribute("error", e.getMessage());
             return forward;
         }

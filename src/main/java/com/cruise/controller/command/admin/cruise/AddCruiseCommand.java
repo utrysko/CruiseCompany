@@ -6,12 +6,15 @@ import com.cruise.controller.command.Command;
 import com.cruise.dto.CruiseDTO;
 import com.cruise.exceptions.ServiceException;
 import com.cruise.service.CruiseService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 
 public class AddCruiseCommand implements Command {
+    private static final Logger LOG = LogManager.getLogger(AddCruiseCommand.class);
     private CruiseService cruiseService;
     public AddCruiseCommand(){
         cruiseService = AppContext.getInstance().getCruiseService();
@@ -23,6 +26,7 @@ public class AddCruiseCommand implements Command {
         try {
             cruiseService.create(cruiseDTO);
         } catch (ServiceException e){
+            LOG.error(e.getMessage());
             req.getSession().setAttribute("error", e.getMessage());
         }
         return forward;

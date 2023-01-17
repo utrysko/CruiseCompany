@@ -6,12 +6,15 @@ import com.cruise.dao.DAOFactory;
 import com.cruise.dao.StaffDAO;
 import com.cruise.model.CruiseShip;
 import com.cruise.model.Staff;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MysqlStaffDAO implements StaffDAO {
+
 
     private DataSource dataSource;
 

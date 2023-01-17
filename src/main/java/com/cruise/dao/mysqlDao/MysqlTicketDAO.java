@@ -8,6 +8,8 @@ import com.cruise.model.Cruise;
 import com.cruise.model.CruiseShip;
 import com.cruise.model.Ticket;
 import com.cruise.model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.*;
 import java.sql.*;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MysqlTicketDAO implements TicketDAO {
+
 
     private DataSource dataSource;
 

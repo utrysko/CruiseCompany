@@ -1,12 +1,15 @@
 package com.cruise.dao.mysqlDao;
 
 import com.cruise.connection.DataSource;
+import com.cruise.controller.listener.ContextListener;
 import com.cruise.dao.CruiseDAO;
 import com.cruise.dao.DAOFactory;
 import com.cruise.exceptions.DAOException;
 import com.cruise.model.Cruise;
 import com.cruise.model.CruiseShip;
 import com.cruise.model.Route;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;

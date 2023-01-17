@@ -10,10 +10,13 @@ import com.cruise.model.Cruise;
 import com.cruise.model.Ticket;
 import com.cruise.model.User;
 import com.cruise.service.TicketService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
 public class TicketServiceImpl implements TicketService {
+
     private TicketDAO ticketDAO;
     private UserDAO userDAO;
     private CruiseDAO cruiseDAO;
@@ -38,7 +41,13 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket findByUserAndCruiseShip(User user, Cruise cruise) throws ServiceException {
-        return null;
+        Ticket ticket;
+        try {
+            ticket = ticketDAO.findByUserAndCruiseShip(user, cruise);
+        } catch (DAOException e) {
+            throw new ServiceException(e.getMessage());
+        }
+        return ticket;
     }
 
     @Override
@@ -54,7 +63,13 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public List<Ticket> findByAllByCruise(Cruise cruise) throws ServiceException {
-        return null;
+        List<Ticket> tickets;
+        try {
+            tickets = ticketDAO.findByAllByCruise(cruise);
+        } catch (DAOException e){
+            throw new ServiceException(e.getMessage());
+        }
+        return tickets;
     }
 
     @Override
@@ -101,12 +116,20 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public void update(Ticket ticket) throws ServiceException {
-
+        try {
+            ticketDAO.update(ticket);
+        } catch (DAOException e){
+            throw new ServiceException(e.getMessage());
+        }
     }
 
     @Override
     public void delete(Ticket ticket) throws ServiceException {
-
+        try {
+            ticketDAO.delete(ticket);
+        } catch (DAOException e){
+            throw new ServiceException(e.getMessage());
+        }
     }
 
     @Override

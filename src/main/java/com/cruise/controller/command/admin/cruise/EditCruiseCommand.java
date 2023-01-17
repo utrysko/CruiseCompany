@@ -8,6 +8,8 @@ import com.cruise.exceptions.ServiceException;
 import com.cruise.model.Cruise;
 import com.cruise.service.CruiseService;
 import com.cruise.service.CruiseShipService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 
 public class EditCruiseCommand implements Command {
+
+    private static final Logger LOG = LogManager.getLogger(EditCruiseCommand.class);
     private CruiseService cruiseService;
     private CruiseShipService cruiseShipService;
     public EditCruiseCommand(){
@@ -30,6 +34,7 @@ public class EditCruiseCommand implements Command {
             cruiseService.update(cruiseDTO);
             cruiseShipService.changeAvailableDate(cruise.getCruiseShip(), cruiseDTO.getEnd());
         } catch (ServiceException e){
+            LOG.error(e.getMessage());
             req.getSession().setAttribute("error", e.getMessage());
         }
         return forward;

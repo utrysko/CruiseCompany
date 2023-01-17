@@ -6,11 +6,14 @@ import com.cruise.controller.command.Command;
 import com.cruise.exceptions.ServiceException;
 import com.cruise.model.CruiseShip;
 import com.cruise.service.CruiseShipService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class CruiseShipChangeStatusCommand implements Command {
+    private static final Logger LOG = LogManager.getLogger(CruiseShipChangeStatusCommand.class);
     private CruiseShipService cruiseShipService;
     public CruiseShipChangeStatusCommand(){
         this.cruiseShipService = AppContext.getInstance().getCruiseShipService();
@@ -22,6 +25,7 @@ public class CruiseShipChangeStatusCommand implements Command {
             CruiseShip cruiseShip = cruiseShipService.findById(Integer.parseInt(req.getParameter("cruiseShipId")));
             cruiseShipService.changeStatus(cruiseShip, req.getParameter("status"));
         } catch (ServiceException e){
+            LOG.error(e.getMessage());
             req.getSession().setAttribute("error", e.getMessage());
         }
         return forward;

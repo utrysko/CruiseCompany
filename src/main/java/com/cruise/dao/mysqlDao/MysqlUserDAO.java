@@ -5,12 +5,15 @@ import com.cruise.exceptions.DAOException;
 import com.cruise.dao.DAOFactory;
 import com.cruise.dao.UserDAO;
 import com.cruise.model.User;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class MysqlUserDAO implements UserDAO {
+
 
     private DataSource dataSource;
 

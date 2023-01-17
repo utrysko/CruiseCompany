@@ -7,6 +7,8 @@ import com.cruise.controller.command.Command;
 import com.cruise.exceptions.ServiceException;
 import com.cruise.model.Cruise;
 import com.cruise.service.CruiseService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CruisesCommand implements Command {
+
+    private static final Logger LOG = LogManager.getLogger(CruisesCommand.class);
 
     private CruiseService cruiseService;
     public CruisesCommand(){
@@ -28,6 +32,7 @@ public class CruisesCommand implements Command {
             try {
                 cruises.add(cruiseService.findById(Integer.parseInt(cruiseId)));
             } catch (ServiceException e) {
+                LOG.error(e.getMessage());
                 req.setAttribute("error", e.getMessage());
             }
             req.setAttribute("cruises", cruises);
@@ -40,6 +45,7 @@ public class CruisesCommand implements Command {
         try {
             amount = cruiseService.getAllCruise().size();
         } catch (ServiceException e) {
+            LOG.error(e.getMessage());
             req.setAttribute("error", e.getMessage());
             return forward;
         }
@@ -48,6 +54,7 @@ public class CruisesCommand implements Command {
             cruiseService.checkAllCruise();
             cruises = cruiseService.getCruisesInOrderAndLimit(orderBy, limit, offset);
         } catch (ServiceException e) {
+            LOG.error(e.getMessage());
             req.setAttribute("error", e.getMessage());
             return forward;
         }
