@@ -19,6 +19,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class CruiseShipServiceImpl implements CruiseShipService {
+
+    private static final Logger LOG = LogManager.getLogger(CruiseShipServiceImpl.class);
     private final CruiseShipDAO cruiseShipDAO;
 
     public CruiseShipServiceImpl(CruiseShipDAO cruiseShipDAO) {
@@ -28,9 +30,11 @@ public class CruiseShipServiceImpl implements CruiseShipService {
     @Override
     public CruiseShip findById(int id) throws ServiceException{
         CruiseShip cruiseShip;
+        ValidationUtil.validateAllDigitCruiseFields(id);
         try {
             cruiseShip = cruiseShipDAO.findById(id);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return cruiseShip;
@@ -42,6 +46,7 @@ public class CruiseShipServiceImpl implements CruiseShipService {
         try {
             cruiseShip = cruiseShipDAO.findByName(name);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return cruiseShip;
@@ -50,13 +55,14 @@ public class CruiseShipServiceImpl implements CruiseShipService {
     public void create(CruiseShipDTO cruiseShipDTO) throws ServiceException {
         CruiseShip ship = findByName(cruiseShipDTO.getName());
         if (ship != null){
-            throw new ServiceException("name already in use");
+            throw new ServiceException("name already used");
         }
         validateCruiseShip(cruiseShipDTO);
         CruiseShip cruiseShip = ConvertorUtil.convertDTOtoCruiseShip(cruiseShipDTO);
         try {
             cruiseShipDAO.create(cruiseShip);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
@@ -66,10 +72,24 @@ public class CruiseShipServiceImpl implements CruiseShipService {
         List<CruiseShip> cruiseShips;
         try {
             cruiseShips = cruiseShipDAO.getAllCruiseShip();
+            checkShips(cruiseShips);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return cruiseShips;
+    }
+
+    @Override
+    public int countAll() throws ServiceException {
+        int amount;
+        try {
+            amount = cruiseShipDAO.countAll();
+        } catch (DAOException e){
+            LOG.error(e.getMessage());
+            throw new ServiceException(e.getMessage());
+        }
+        return amount;
     }
 
     @Override
@@ -77,7 +97,9 @@ public class CruiseShipServiceImpl implements CruiseShipService {
         List<CruiseShip> cruiseShips;
         try {
             cruiseShips = cruiseShipDAO.getFreeCruiseShip(cruise);
+            checkShips(cruiseShips);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return cruiseShips;
@@ -88,7 +110,9 @@ public class CruiseShipServiceImpl implements CruiseShipService {
         List<CruiseShip> cruiseShips;
         try {
             cruiseShips = cruiseShipDAO.getCruiseShipsInOrderAndLimit(orderBy, limit, offset);
+            checkShips(cruiseShips);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return cruiseShips;
@@ -98,25 +122,26 @@ public class CruiseShipServiceImpl implements CruiseShipService {
     @Override
     public void update(CruiseShipDTO cruiseShipDTO) throws ServiceException {
         CruiseShip ship = findByName(cruiseShipDTO.getName());
-        if (ship != null){
-            if (cruiseShipDTO.getId() != ship.getId()){
-                throw new ServiceException("name already in use");
-            }
+        if (ship != null && cruiseShipDTO.getId() != ship.getId()){
+            throw new ServiceException("name already used");
         }
         validateCruiseShip(cruiseShipDTO);
         CruiseShip cruiseShip = ConvertorUtil.convertDTOtoCruiseShip(cruiseShipDTO);
         try {
             cruiseShipDAO.update(cruiseShip);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
 
     @Override
     public void delete(CruiseShip cruiseShip) throws ServiceException {
+        if (cruiseShip.getStatus().equals("Used")) throw new ServiceException("Ship is used");
         try {
             cruiseShipDAO.delete(cruiseShip);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
@@ -126,6 +151,7 @@ public class CruiseShipServiceImpl implements CruiseShipService {
         try {
             cruiseShipDAO.changeFreeSpaces(cruiseShip, freeSpaces);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
@@ -135,6 +161,7 @@ public class CruiseShipServiceImpl implements CruiseShipService {
         try {
             cruiseShipDAO.changeStatus(cruiseShip, status);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
@@ -144,18 +171,20 @@ public class CruiseShipServiceImpl implements CruiseShipService {
         try {
             cruiseShipDAO.changeAvailableDate(cruiseShip, date);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
 
-    @Override
-    public void checkAllShips() throws ServiceException {
-        List<CruiseShip> ships = getAllCruiseShip();
+
+    private void checkShips(List<CruiseShip> ships) throws ServiceException {
         for(CruiseShip ship : ships){
             if (ship.getAvailableFrom().after(Date.valueOf(LocalDate.now())) && !ship.getStatus().equals("Used")){
+                cruiseShipDAO.changeStatus(ship, "Used");
                 changeStatus(ship, "Used");
             }
             if (!ship.getAvailableFrom().after(Date.valueOf(LocalDate.now())) && ship.getStatus().equals("Used")){
+                cruiseShipDAO.changeStatus(ship, "Available");
                 changeStatus(ship, "Available");
             }
         }

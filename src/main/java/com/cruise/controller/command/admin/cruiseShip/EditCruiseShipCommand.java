@@ -7,12 +7,16 @@ import com.cruise.dto.CruiseShipDTO;
 import com.cruise.exceptions.ServiceException;
 import com.cruise.model.CruiseShip;
 import com.cruise.service.CruiseShipService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class EditCruiseShipCommand implements Command {
-    private CruiseShipService cruiseShipService;
+
+    private static final Logger LOG = LogManager.getLogger(EditCruiseShipCommand.class);
+    private final CruiseShipService cruiseShipService;
     public EditCruiseShipCommand(){
         this.cruiseShipService = AppContext.getInstance().getCruiseShipService();
     }
@@ -24,6 +28,7 @@ public class EditCruiseShipCommand implements Command {
             cruiseShipDTO = getCruiseShipDTO(req);
             cruiseShipService.update(cruiseShipDTO);
         } catch (ServiceException e){
+            LOG.error(e.getMessage());
             req.getSession().setAttribute("error", e.getMessage());
         }
         return forward;

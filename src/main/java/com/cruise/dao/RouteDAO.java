@@ -9,6 +9,7 @@ public interface RouteDAO {
 
     Route findById(int id) throws DAOException;
     List<Route> getAllRoutes() throws DAOException;
+    int countAll() throws DAOException;
     List<Route> getRoutesInOrderAndLimit(int orderBy, int limit, int offset) throws DAOException;
     void create(Route route) throws DAOException;
     void update(Route route) throws DAOException;

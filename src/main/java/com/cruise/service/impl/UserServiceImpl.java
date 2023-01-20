@@ -16,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
+
+    private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
     private final UserDAO userDAO;
 
     public UserServiceImpl(UserDAO userDAO){
@@ -25,9 +27,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(int id) throws ServiceException {
         User user;
+        ValidationUtil.validateAllDigitCruiseFields(id);
         try {
             user = userDAO.findById(id);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return user;
@@ -39,6 +43,7 @@ public class UserServiceImpl implements UserService {
         try {
             user = userDAO.findByLogin(login);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         if (user == null){
@@ -67,9 +72,22 @@ public class UserServiceImpl implements UserService {
         try {
             users = userDAO.getAllUsers();
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return users;
+    }
+
+    @Override
+    public int countAll() throws ServiceException {
+        int amount;
+        try {
+            amount = userDAO.countAll();
+        } catch (DAOException e){
+            LOG.error(e.getMessage());
+            throw new ServiceException(e.getMessage());
+        }
+        return amount;
     }
 
     @Override
@@ -82,6 +100,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDAO.create(user);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
@@ -93,6 +112,7 @@ public class UserServiceImpl implements UserService {
             User user = ConvertorUtil.convertUserDTOtoUser(userDTO);
             userDAO.update(user);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
 
@@ -103,6 +123,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDAO.delete(user);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
 
@@ -116,6 +137,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDAO.changePassword(user, SCryptUtil.scrypt(password, 16384, 8, 1));
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
@@ -125,6 +147,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDAO.changeBalance(user, balance);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }

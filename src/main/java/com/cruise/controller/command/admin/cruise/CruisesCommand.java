@@ -19,7 +19,7 @@ public class CruisesCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(CruisesCommand.class);
 
-    private CruiseService cruiseService;
+    private final CruiseService cruiseService;
     public CruisesCommand(){
         cruiseService = AppContext.getInstance().getCruiseService();
     }
@@ -29,29 +29,16 @@ public class CruisesCommand implements Command {
         String cruiseId = req.getParameter("findCruiseId");
         List<Cruise> cruises = new ArrayList<>();
         if (cruiseId != null){
-            try {
-                cruises.add(cruiseService.findById(Integer.parseInt(cruiseId)));
-            } catch (ServiceException e) {
-                LOG.error(e.getMessage());
-                req.setAttribute("error", e.getMessage());
-            }
-            req.setAttribute("cruises", cruises);
-            return forward;
+            return findById(req, forward, cruiseId, cruises);
         }
         int orderBy = PaginationUtil.getSortBy(req);
         int limit = PaginationUtil.getLimit(req);
         int offset = PaginationUtil.getPage(req) * limit;
         int amount;
+        int pages;
         try {
-            amount = cruiseService.getAllCruise().size();
-        } catch (ServiceException e) {
-            LOG.error(e.getMessage());
-            req.setAttribute("error", e.getMessage());
-            return forward;
-        }
-        int pages = PaginationUtil.getPages(amount, limit);
-        try {
-            cruiseService.checkAllCruise();
+            amount = cruiseService.countAll();
+            pages = PaginationUtil.getPages(amount, limit);
             cruises = cruiseService.getCruisesInOrderAndLimit(orderBy, limit, offset);
         } catch (ServiceException e) {
             LOG.error(e.getMessage());
@@ -59,6 +46,17 @@ public class CruisesCommand implements Command {
             return forward;
         }
         req.setAttribute("pages", pages);
+        req.setAttribute("cruises", cruises);
+        return forward;
+    }
+
+    private String findById(HttpServletRequest req, String forward, String cruiseId, List<Cruise> cruises) {
+        try {
+            cruises.add(cruiseService.findById(Integer.parseInt(cruiseId)));
+        } catch (ServiceException e) {
+            LOG.error(e.getMessage());
+            req.setAttribute("error", e.getMessage());
+        }
         req.setAttribute("cruises", cruises);
         return forward;
     }

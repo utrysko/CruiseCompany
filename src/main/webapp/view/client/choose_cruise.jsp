@@ -90,7 +90,7 @@
                 <td><c:out value="${cruise.cruiseShip.name}"/></td>
                 <td><c:out value="${cruise.route.endPort}"/></td>
                 <td><c:out value="${cruise.cruiseShip.freeSpaces}"/></td>
-                <td><c:if test="${cruise.status != 'Started' && cruise.status != 'Ended'}">
+                <td><c:if test="${cruise.status != 'Started' && cruise.status != 'Ended' && cruise.cruiseShip.freeSpaces != 0}">
                     <button value="${cruise}" type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                             data-bs-target="#buy${cruise.id}">
                         <fmt:message key="chooseCruise.button.buyTicket"/>

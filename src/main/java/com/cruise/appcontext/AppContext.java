@@ -24,9 +24,9 @@ public class AppContext {
     private final UserService userService = new UserServiceImpl(userDao);
     private final CruiseShipService cruiseShipService = new CruiseShipServiceImpl(cruiseShipDao);
     private final CruiseService cruiseService = new CruiseServiceImpl(cruiseDAO, cruiseShipDao);
-    private final RouteService routeService = new RouteServiceImpl(routeDao);
+    private final RouteService routeService = new RouteServiceImpl(routeDao, cruiseDAO);
     private final StaffService staffService = new StaffServiceImpl(staffDao);
-    private final TicketService ticketService = new TicketServiceImpl(ticketDAO, cruiseShipDao, cruiseDAO, userDao);
+    private final TicketService ticketService = new TicketServiceImpl(ticketDAO, cruiseDAO, userDao);
 
     public static AppContext getInstance() {
         return appContext;

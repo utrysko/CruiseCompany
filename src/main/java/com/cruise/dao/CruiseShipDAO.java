@@ -1,7 +1,6 @@
 package com.cruise.dao;
 
 import com.cruise.exceptions.DAOException;
-import com.cruise.exceptions.ServiceException;
 import com.cruise.model.Cruise;
 import com.cruise.model.CruiseShip;
 
@@ -14,6 +13,7 @@ public interface CruiseShipDAO {
     CruiseShip findByName(String name) throws DAOException;
     void create(CruiseShip cruiseShip) throws DAOException;
     List<CruiseShip> getAllCruiseShip() throws DAOException;
+    int countAll() throws DAOException;
     List<CruiseShip> getFreeCruiseShip(Cruise cruise) throws DAOException;
     List<CruiseShip> getCruiseShipsInOrderAndLimit(int orderBy, int limit, int offset) throws DAOException;
     void update(CruiseShip cruiseShip) throws DAOException;

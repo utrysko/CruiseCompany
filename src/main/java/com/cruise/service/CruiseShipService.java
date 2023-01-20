@@ -1,7 +1,6 @@
 package com.cruise.service;
 
 import com.cruise.dto.CruiseShipDTO;
-import com.cruise.exceptions.DAOException;
 import com.cruise.exceptions.ServiceException;
 import com.cruise.model.Cruise;
 import com.cruise.model.CruiseShip;
@@ -19,6 +18,7 @@ public interface CruiseShipService {
     CruiseShip findByName(String name) throws ServiceException;
     void create(CruiseShipDTO cruiseShipDTO) throws ServiceException;
     List<CruiseShip> getAllCruiseShip() throws ServiceException;
+    int countAll() throws ServiceException;
     List<CruiseShip> getAllFreeCruiseShip(Cruise cruise) throws ServiceException;
     List<CruiseShip> getCruiseShipsInOrderAndLimit(int orderBy, int limit, int offset) throws ServiceException;
     void update(CruiseShipDTO cruiseShipDTO) throws ServiceException;
@@ -26,5 +26,4 @@ public interface CruiseShipService {
     void changeFreeSpaces(CruiseShip cruiseShip, int freeSpaces) throws ServiceException;
     void changeStatus(CruiseShip cruiseShip, String status) throws ServiceException;
     void changeAvailableDate(CruiseShip cruiseShip, Date date) throws ServiceException;
-    void checkAllShips() throws ServiceException;
 }

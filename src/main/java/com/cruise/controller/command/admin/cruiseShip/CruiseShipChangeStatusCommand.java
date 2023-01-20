@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class CruiseShipChangeStatusCommand implements Command {
     private static final Logger LOG = LogManager.getLogger(CruiseShipChangeStatusCommand.class);
-    private CruiseShipService cruiseShipService;
+    private final CruiseShipService cruiseShipService;
     public CruiseShipChangeStatusCommand(){
         this.cruiseShipService = AppContext.getInstance().getCruiseShipService();
     }

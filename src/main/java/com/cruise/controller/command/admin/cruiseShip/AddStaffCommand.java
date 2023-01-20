@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public class AddStaffCommand implements Command {
     private static final Logger LOG = LogManager.getLogger(AddStaffCommand.class);
-    private StaffService staffService;
+    private final StaffService staffService;
     public AddStaffCommand(){
         staffService = AppContext.getInstance().getStaffService();
     }

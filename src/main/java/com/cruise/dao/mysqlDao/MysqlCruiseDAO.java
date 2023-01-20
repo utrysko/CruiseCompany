@@ -1,15 +1,12 @@
 package com.cruise.dao.mysqlDao;
 
 import com.cruise.connection.DataSource;
-import com.cruise.controller.listener.ContextListener;
 import com.cruise.dao.CruiseDAO;
 import com.cruise.dao.DAOFactory;
 import com.cruise.exceptions.DAOException;
 import com.cruise.model.Cruise;
 import com.cruise.model.CruiseShip;
 import com.cruise.model.Route;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,7 +14,7 @@ import java.util.List;
 
 public class MysqlCruiseDAO implements CruiseDAO {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public MysqlCruiseDAO(DataSource dataSource){
         this.dataSource = dataSource;
@@ -27,6 +24,10 @@ public class MysqlCruiseDAO implements CruiseDAO {
             "SELECT * FROM cruises WHERE id = ?";
     private static final String SQL_GET_ALL_CRUISE_ORDER_BY_ID =
             "SELECT * FROM cruises ORDER BY id";
+    private static final String SQL_COUNT_ALL =
+            "SELECT COUNT(id) AS total FROM cruises";
+    private static final String SQL_CHECK_ROUTE =
+            "SELECT COUNT(id) AS total FROM cruises WHERE route_id = ?";
     private static final String SQL_CRUISES_IN_ORDER_AND_LIMIT =
             "SELECT * FROM cruises ORDER BY ? LIMIT ? OFFSET ?";
     private static final String SQL_INSERT =
@@ -101,6 +102,19 @@ public class MysqlCruiseDAO implements CruiseDAO {
             throw new DAOException(e.getMessage());
         }
         return cruises;
+    }
+
+    @Override
+    public int countAll() throws DAOException {
+        int count = 0;
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pst = con.prepareStatement(SQL_COUNT_ALL)){
+            ResultSet resultSet = pst.executeQuery();
+            if (resultSet.next()) count = resultSet.getInt("total");
+        } catch (SQLException e){
+            throw new DAOException(e.getMessage());
+        }
+        return count;
     }
 
     @Override
@@ -219,6 +233,21 @@ public class MysqlCruiseDAO implements CruiseDAO {
         } catch (SQLException e) {
             throw new DAOException(e.getMessage());
         }
+    }
+
+    @Override
+    public boolean cruiseUsedRoute(int idRoute) throws DAOException {
+        int count = 0;
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pst = con.prepareStatement(SQL_CHECK_ROUTE)){
+            int k = 0;
+            pst.setInt(++k, idRoute);
+            ResultSet resultSet = pst.executeQuery();
+            if (resultSet.next()) count = resultSet.getInt("total");
+        } catch (SQLException e){
+            throw new DAOException(e.getMessage());
+        }
+        return count != 0;
     }
 
     private Cruise map(ResultSet resultSet) throws SQLException{

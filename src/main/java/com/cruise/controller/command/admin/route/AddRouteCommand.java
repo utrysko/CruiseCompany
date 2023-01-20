@@ -6,6 +6,8 @@ import com.cruise.controller.command.Command;
 import com.cruise.dto.RouteDTO;
 import com.cruise.service.RouteService;
 import com.cruise.exceptions.ServiceException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,7 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddRouteCommand implements Command {
-    private RouteService routeService;
+
+    private static final Logger LOG = LogManager.getLogger(AddRouteCommand.class);
+    private final RouteService routeService;
     public AddRouteCommand(){
         this.routeService = AppContext.getInstance().getRouteService();
     }
@@ -37,6 +41,7 @@ public class AddRouteCommand implements Command {
         try {
             routeService.create(routeDTO);
         } catch (ServiceException e){
+            LOG.error(e.getMessage());
             session.setAttribute("error", e.getMessage());
         }
         return forward;

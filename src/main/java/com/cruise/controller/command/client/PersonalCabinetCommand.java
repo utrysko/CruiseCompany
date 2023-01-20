@@ -7,12 +7,16 @@ import com.cruise.dto.UserDTO;
 import com.cruise.exceptions.ServiceException;
 import com.cruise.model.User;
 import com.cruise.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class PersonalCabinetCommand implements Command {
-    private UserService userService;
+
+    private static final Logger LOG = LogManager.getLogger(PersonalCabinetCommand.class);
+    private final UserService userService;
     public PersonalCabinetCommand(){
         userService = AppContext.getInstance().getUserService();
     }
@@ -24,6 +28,7 @@ public class PersonalCabinetCommand implements Command {
         try {
             user = userService.findById(userDTO.getId());
         } catch (ServiceException e){
+            LOG.error(e.getMessage());
             req.setAttribute("error", e.getMessage());
             return AllPath.CLIENT_MENU;
         }

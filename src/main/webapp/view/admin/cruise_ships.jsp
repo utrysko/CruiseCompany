@@ -91,10 +91,12 @@
                 <td><c:out value="${cruiseShip.status}"/></td>
                 <td><c:out value="${cruiseShip.availableFrom}"/></td>
                 <td>
+                    <c:if test="${cruiseShip.status != 'Used'}">
                     <button value="${cruiseShip}" type="button" class="btn btn-sm btn-primary"
                             data-bs-toggle="modal" data-bs-target="#edit${cruiseShip.name}">
                         <fmt:message key="cruiseShips.button.editShip"/>
                     </button>
+                    </c:if>
                 </td>
                 <td>
                     <button value="${cruiseShip}" type="button" class="btn btn-sm btn-primary"
@@ -107,10 +109,12 @@
                        class="btn btn-sm btn-primary"><fmt:message key="cruiseShips.button.editStaff"/></a>
                 </td>
                 <td>
+                    <c:if test="${cruiseShip.status != 'Used'}">
                     <button value="${cruiseShip}" type="button" class="btn btn-sm btn-primary"
                             data-bs-toggle="modal" data-bs-target="#delete${cruiseShip.name}">
                         <fmt:message key="cruiseShips.button.deleteShip"/>
                     </button>
+                    </c:if>
                 </td>
             </tr>
             <!-- Modal Edit-->

@@ -13,14 +13,12 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 public class AddShipToCruiseCommand implements Command {
     private static final Logger LOG = LogManager.getLogger(AddShipToCruiseCommand.class);
-    private CruiseService cruiseService;
-    private CruiseShipService cruiseShipService;
+    private final CruiseService cruiseService;
+    private final CruiseShipService cruiseShipService;
     public AddShipToCruiseCommand(){
         cruiseService = AppContext.getInstance().getCruiseService();
         cruiseShipService = AppContext.getInstance().getCruiseShipService();
@@ -30,22 +28,7 @@ public class AddShipToCruiseCommand implements Command {
         String forward = AllPath.ADD_SHIP_TO_CRUISE_PAGE;
         List<CruiseShip> cruiseShips;
         if (req.getParameter("cruiseShipId") != null){
-            int cruiseShipId = Integer.parseInt(req.getParameter("cruiseShipId"));
-            int cruiseId = Integer.parseInt(req.getParameter("cruiseId"));
-            try {
-                Cruise cruise = cruiseService.findById(cruiseId);
-                CruiseShip cruiseShipOld = cruise.getCruiseShip();
-                CruiseShip cruiseShipNew = cruiseShipService.findById(cruiseShipId);
-                cruiseService.addShipToCruise(cruiseShipNew, cruise);
-                cruiseShipService.changeAvailableDate(cruiseShipNew, cruise.getEnd());
-                if (cruiseShipOld != null){
-                    cruiseShipService.changeAvailableDate(cruiseShipOld, Date.valueOf(LocalDate.now()));
-                }
-            } catch (ServiceException e) {
-                LOG.error(e.getMessage());
-                req.setAttribute("error", e.getMessage());
-            }
-            return AllPath.CRUISES_COMMAND;
+            return addShipToCruise(req);
         }
         try {
             int cruiseId = Integer.parseInt(req.getParameter("cruiseId"));
@@ -59,5 +42,19 @@ public class AddShipToCruiseCommand implements Command {
         req.setAttribute("cruiseShips", cruiseShips);
         req.setAttribute("cruiseId", req.getParameter("cruiseId"));
         return forward;
+    }
+
+    private String addShipToCruise(HttpServletRequest req) {
+        int cruiseShipId = Integer.parseInt(req.getParameter("cruiseShipId"));
+        int cruiseId = Integer.parseInt(req.getParameter("cruiseId"));
+        try {
+            Cruise cruise = cruiseService.findById(cruiseId);
+            CruiseShip cruiseShip = cruiseShipService.findById(cruiseShipId);
+            cruiseService.addShipToCruise(cruiseShip, cruise);
+        } catch (ServiceException e) {
+            LOG.error(e.getMessage());
+            req.setAttribute("error", e.getMessage());
+        }
+        return AllPath.CRUISES_COMMAND;
     }
 }

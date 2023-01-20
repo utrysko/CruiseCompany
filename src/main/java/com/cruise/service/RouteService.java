@@ -14,6 +14,7 @@ import java.util.List;
 public interface RouteService {
      Route findById(int id) throws ServiceException;
      List<Route> getAllRoutes() throws ServiceException;
+     int countAll() throws ServiceException;
      List<Route> getRoutesInOrderAndLimit(int orderBy, int limit, int offset) throws ServiceException;
      void create(RouteDTO routeDTO) throws ServiceException;
      void update(RouteDTO routeDTO) throws ServiceException;

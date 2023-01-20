@@ -4,8 +4,6 @@ import com.cruise.connection.DataSource;
 import com.cruise.exceptions.DAOException;
 import com.cruise.dao.RouteDAO;
 import com.cruise.model.Route;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -14,7 +12,7 @@ import java.util.List;
 
 public class MysqlRouteDAO implements RouteDAO {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public MysqlRouteDAO(DataSource dataSource){
         this.dataSource = dataSource;
@@ -23,6 +21,8 @@ public class MysqlRouteDAO implements RouteDAO {
             "SELECT * FROM route WHERE id = ?";
     private static final String SQL_GET_ALL_ROUTE_ORDER_BY_ID =
             "SELECT * FROM route ORDER BY id";
+    private static final String SQL_COUNT_ALL =
+            "SELECT COUNT(id) AS total FROM cruises";
     private static final String SQL_ROUTES_IN_ORDER_AND_LIMIT =
             "SELECT * FROM route ORDER BY ? LIMIT ? OFFSET ?";
     private static final String SQL_INSERT =
@@ -64,6 +64,18 @@ public class MysqlRouteDAO implements RouteDAO {
             throw new DAOException(e.getMessage());
         }
         return routes;
+    }
+    @Override
+    public int countAll() throws DAOException {
+        int count = 0;
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pst = con.prepareStatement(SQL_COUNT_ALL)){
+            ResultSet resultSet = pst.executeQuery();
+            if (resultSet.next()) count = resultSet.getInt("total");
+        } catch (SQLException e){
+            throw new DAOException(e.getMessage());
+        }
+        return count;
     }
 
     @Override

@@ -6,6 +6,8 @@ import com.cruise.controller.command.Command;
 import com.cruise.exceptions.ServiceException;
 import com.cruise.model.Ticket;
 import com.cruise.service.TicketService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +17,9 @@ import java.sql.SQLException;
 
 
 public class ShowDocumentCommand implements Command {
-    private TicketService ticketService;
+
+    private static final Logger LOG = LogManager.getLogger(ShowDocumentCommand.class);
+    private final TicketService ticketService;
     public ShowDocumentCommand(){
         ticketService = AppContext.getInstance().getTicketService();
     }
@@ -26,6 +30,7 @@ public class ShowDocumentCommand implements Command {
         try {
             ticket = ticketService.findById(Integer.parseInt(req.getParameter("ticketId")));
         } catch (ServiceException e) {
+            LOG.error(e.getMessage());
             req.setAttribute("error", e.getMessage());
             return forward;
         }
@@ -37,6 +42,7 @@ public class ShowDocumentCommand implements Command {
             os.flush();
             os.close();
         } catch (IOException | SQLException e) {
+            LOG.error(e.getMessage());
             req.setAttribute("error", e.getMessage());
             return forward;
         }

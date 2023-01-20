@@ -116,7 +116,7 @@
                     </c:if>
                 </td>
                 <td>
-                    <c:if test="${cruise.status != 'Started' && cruise.status != 'Ended'}">
+                    <c:if test="${cruise.status != 'Started'}">
                     <button value="${cruiseShip}" type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                             data-bs-target="#delete${cruise.id}">
                         <fmt:message key="cruises.button.deleteCruise"/>

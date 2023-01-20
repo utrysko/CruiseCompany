@@ -1,7 +1,6 @@
 package com.cruise.controller.command.general;
 
 import com.cruise.controller.command.Command;
-import com.cruise.controller.filter.SecurityFilter;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,16 +22,17 @@ public class I18NCommand implements Command {
         String language = request.getParameter("language");
         String page = request.getParameter("localePage");
 
-
         String fmtLocale = "javax.servlet.jsp.jstl.fmt.locale";
         String defaultLocale = "defaultLocale";
 
         if (language.equals("ua")) {
             Config.set(session, fmtLocale, "ua");
             session.setAttribute(defaultLocale, "ua");
+            LOG.debug("locale change to ua");
         } else {
             Config.set(session, fmtLocale, "en");
             session.setAttribute(defaultLocale, "en");
+            LOG.debug("locale change to en");
         }
         return page;
     }

@@ -18,30 +18,19 @@ import java.util.List;
 
 public class AddRouteToCruiseCommand implements Command {
     private static final Logger LOG = LogManager.getLogger(AddRouteToCruiseCommand.class);
-    private CruiseService cruiseService;
-    private RouteService routeService;
+    private final CruiseService cruiseService;
+    private final RouteService routeService;
     public AddRouteToCruiseCommand(){
         cruiseService = AppContext.getInstance().getCruiseService();
         routeService = AppContext.getInstance().getRouteService();
     }
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
+        if (req.getParameter("routeId") != null){
+            return addRouteToCruise(req);
+        }
         String forward = AllPath.ADD_ROUTE_TO_CRUISE_PAGE;
         List<Route> routes;
-        if (req.getParameter("routeId") != null){
-            int routeId = Integer.parseInt(req.getParameter("routeId"));
-            int cruiseId = Integer.parseInt(req.getParameter("cruiseId"));
-            try {
-                Route route = routeService.findById(routeId);
-                Cruise cruise = cruiseService.findById(cruiseId);
-                cruiseService.addRouteToCruise(route, cruise);
-            } catch (ServiceException e) {
-                LOG.error(e.getMessage());
-                req.setAttribute("error", e.getMessage());
-            }
-            return AllPath.CRUISES_COMMAND;
-        }
-
         int orderBy = PaginationUtil.getSortBy(req);
         int limit = PaginationUtil.getLimit(req);
         int offset = PaginationUtil.getPage(req) * limit;
@@ -49,7 +38,7 @@ public class AddRouteToCruiseCommand implements Command {
         int pages;
         int cruiseId = Integer.parseInt(req.getParameter("cruiseId"));
         try {
-            amount = routeService.getAllRoutes().size();
+            amount = routeService.countAll();
             pages = PaginationUtil.getPages(amount, limit);
             routes = routeService.getRoutesInOrderAndLimit(orderBy, limit, offset);
         } catch (ServiceException e) {
@@ -61,5 +50,19 @@ public class AddRouteToCruiseCommand implements Command {
         req.setAttribute("pages", pages);
         req.setAttribute("routes", routes);
         return forward;
+    }
+
+    private String addRouteToCruise(HttpServletRequest req) {
+        int routeId = Integer.parseInt(req.getParameter("routeId"));
+        int cruiseId = Integer.parseInt(req.getParameter("cruiseId"));
+        try {
+            Route route = routeService.findById(routeId);
+            Cruise cruise = cruiseService.findById(cruiseId);
+            cruiseService.addRouteToCruise(route, cruise);
+        } catch (ServiceException e) {
+            LOG.error(e.getMessage());
+            req.setAttribute("error", e.getMessage());
+        }
+        return AllPath.CRUISES_COMMAND;
     }
 }

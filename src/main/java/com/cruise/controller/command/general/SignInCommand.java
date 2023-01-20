@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 public class SignInCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(SignInCommand.class);
-    UserService service;
+    private final UserService service;
     public SignInCommand(){
         service = AppContext.getInstance().getUserService();
     }

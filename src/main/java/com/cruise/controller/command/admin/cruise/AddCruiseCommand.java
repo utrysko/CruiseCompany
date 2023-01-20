@@ -15,7 +15,7 @@ import java.sql.Date;
 
 public class AddCruiseCommand implements Command {
     private static final Logger LOG = LogManager.getLogger(AddCruiseCommand.class);
-    private CruiseService cruiseService;
+    private final CruiseService cruiseService;
     public AddCruiseCommand(){
         cruiseService = AppContext.getInstance().getCruiseService();
     }

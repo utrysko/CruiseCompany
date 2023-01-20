@@ -16,6 +16,7 @@ public interface UserService {
      User findByLogin(String login) throws ServiceException;
      UserDTO signIn(String login, String password) throws ServiceException;
      List<User> findAllUsers() throws ServiceException;
+     int countAll() throws ServiceException;
      void register(UserDTO userDTO, String password) throws ServiceException;
      void update(UserDTO userDTO) throws ServiceException;
      void remove(User user) throws ServiceException;

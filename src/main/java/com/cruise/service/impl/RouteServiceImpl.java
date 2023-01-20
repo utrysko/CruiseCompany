@@ -1,5 +1,6 @@
 package com.cruise.service.impl;
 
+import com.cruise.dao.CruiseDAO;
 import com.cruise.dao.RouteDAO;
 import com.cruise.dto.RouteDTO;
 import com.cruise.exceptions.DAOException;
@@ -16,19 +17,23 @@ import org.apache.logging.log4j.Logger;
 import java.util.List;
 
 public class RouteServiceImpl implements RouteService {
-
+    private static final Logger LOG = LogManager.getLogger(RouteServiceImpl.class);
 
     private final RouteDAO routeDao;
+    private final CruiseDAO cruiseDAO;
 
-    public RouteServiceImpl(RouteDAO routeDao) {
+    public RouteServiceImpl(RouteDAO routeDao, CruiseDAO cruiseDAO) {
         this.routeDao = routeDao;
+        this.cruiseDAO = cruiseDAO;
     }
     @Override
     public Route findById(int id) throws ServiceException {
         Route route;
+        ValidationUtil.validateAllDigitCruiseFields(id);
         try {
             route = routeDao.findById(id);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return route;
@@ -40,9 +45,22 @@ public class RouteServiceImpl implements RouteService {
         try {
             routes = routeDao.getAllRoutes();
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return routes;
+    }
+
+    @Override
+    public int countAll() throws ServiceException {
+        int amount;
+        try {
+            amount = routeDao.countAll();
+        } catch (DAOException e){
+            LOG.error(e.getMessage());
+            throw new ServiceException(e.getMessage());
+        }
+        return amount;
     }
 
     @Override
@@ -51,6 +69,7 @@ public class RouteServiceImpl implements RouteService {
         try {
             routes = routeDao.getRoutesInOrderAndLimit(orderBy, limit, offset);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return routes;
@@ -64,6 +83,7 @@ public class RouteServiceImpl implements RouteService {
         try {
             routeDao.create(route);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
@@ -75,16 +95,19 @@ public class RouteServiceImpl implements RouteService {
         try {
             routeDao.update(route);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
 
     @Override
     public void delete(int routeId) throws ServiceException{
+        if (cruiseDAO.cruiseUsedRoute(routeId)) throw new ServiceException("route is used");
         try {
             Route route = routeDao.findById(routeId);
             routeDao.delete(route);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }

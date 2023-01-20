@@ -5,8 +5,6 @@ import com.cruise.exceptions.DAOException;
 import com.cruise.dao.DAOFactory;
 import com.cruise.dao.UserDAO;
 import com.cruise.model.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,7 +13,7 @@ import java.util.List;
 public class MysqlUserDAO implements UserDAO {
 
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public MysqlUserDAO(DataSource dataSource){
         this.dataSource = dataSource;
@@ -27,6 +25,8 @@ public class MysqlUserDAO implements UserDAO {
             "SELECT id, login, first_name, last_name, email, password, role_id, balance FROM user WHERE login = ?";
     private static final String SQL_GET_ALL_USER_ORDER_BY_ID =
             "SELECT id, login, first_name, last_name, email, password, role_id, balance FROM user ORDER BY id";
+    private static final String SQL_COUNT_ALL =
+            "SELECT COUNT(id) AS total FROM cruises";
     private static final String SQL_INSERT =
             "INSERT INTO user (login, first_name, last_name, email, password, role_id, balance) VALUES (?, ? ,?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE =
@@ -90,6 +90,19 @@ public class MysqlUserDAO implements UserDAO {
             throw new DAOException(e.getMessage());
         }
         return users;
+    }
+
+    @Override
+    public int countAll() throws DAOException {
+        int count = 0;
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pst = con.prepareStatement(SQL_COUNT_ALL)){
+            ResultSet resultSet = pst.executeQuery();
+            if (resultSet.next()) count = resultSet.getInt("total");
+        } catch (SQLException e){
+            throw new DAOException(e.getMessage());
+        }
+        return count;
     }
 
     @Override

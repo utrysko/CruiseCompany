@@ -9,13 +9,16 @@ import com.cruise.model.User;
 import com.cruise.service.TicketService;
 import com.cruise.service.UserService;
 import com.cruise.utils.TicketBuilder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class TicketDownloadCommand implements Command {
-    private UserService userService;
-    private TicketService ticketService;
+    private static final Logger LOG = LogManager.getLogger(TicketDownloadCommand.class);
+    private final UserService userService;
+    private final TicketService ticketService;
     public TicketDownloadCommand(){
         userService = AppContext.getInstance().getUserService();
         ticketService = AppContext.getInstance().getTicketService();
@@ -28,6 +31,7 @@ public class TicketDownloadCommand implements Command {
             User user = userService.findById(ticket.getClientId());
             TicketBuilder.ticketPdf(response, user, ticket.getCruise(), ticket);
         } catch (ServiceException e){
+            LOG.error(e.getMessage());
             request.setAttribute("error", e.getMessage());
         }
         return forward;

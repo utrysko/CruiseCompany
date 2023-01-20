@@ -1,6 +1,5 @@
 package com.cruise.service;
 
-import com.cruise.exceptions.DAOException;
 import com.cruise.exceptions.ServiceException;
 import com.cruise.model.Cruise;
 import com.cruise.model.Ticket;
@@ -18,6 +17,7 @@ public interface TicketService {
     Ticket findByUserAndCruiseShip(User user, Cruise cruise) throws ServiceException;
     List<Ticket> findAllByUser(User user) throws ServiceException;
     List<Ticket> findByAllByCruise(Cruise cruise) throws ServiceException;
+    int countAll() throws ServiceException;
     List<Ticket> getAllTickets() throws ServiceException;
     List<Ticket> getTicketsInOrderAndLimit(int orderBy,int limit,int offset) throws ServiceException;
     void create(Ticket ticket) throws ServiceException;

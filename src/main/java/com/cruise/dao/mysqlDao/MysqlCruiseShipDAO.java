@@ -6,8 +6,6 @@ import com.cruise.exceptions.DAOException;
 import com.cruise.dao.DAOFactory;
 import com.cruise.model.Cruise;
 import com.cruise.model.CruiseShip;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,7 +13,7 @@ import java.util.List;
 
 public class MysqlCruiseShipDAO implements CruiseShipDAO {
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public MysqlCruiseShipDAO(DataSource dataSource){
         this.dataSource = dataSource;
@@ -28,6 +26,8 @@ public class MysqlCruiseShipDAO implements CruiseShipDAO {
             "SELECT * FROM cruise_ship WHERE name = ?";
     private static final String SQL_GET_ALL_CRUISE_SHIPS_ORDER_BY_ID =
             "SELECT * FROM cruise_ship ORDER BY id";
+    private static final String SQL_COUNT_ALL =
+            "SELECT COUNT(id) AS total FROM cruise_ship";
     private static final String SQL_GET_ALL_FREE_SHIPS_BY_DATE =
             "SELECT * FROM cruise_ship WHERE available_from < ? ORDER BY id";
     private static final String SQL_ROUTES_IN_ORDER_AND_LIMIT =
@@ -124,6 +124,19 @@ public class MysqlCruiseShipDAO implements CruiseShipDAO {
             throw new DAOException(e.getMessage());
         }
         return cruiseShips;
+    }
+
+    @Override
+    public int countAll() throws DAOException {
+        int count = 0;
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pst = con.prepareStatement(SQL_COUNT_ALL)){
+            ResultSet resultSet = pst.executeQuery();
+            if (resultSet.next()) count = resultSet.getInt("total");
+        } catch (SQLException e){
+            throw new DAOException(e.getMessage());
+        }
+        return count;
     }
 
     @Override

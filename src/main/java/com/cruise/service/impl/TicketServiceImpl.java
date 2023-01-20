@@ -1,7 +1,6 @@
 package com.cruise.service.impl;
 
 import com.cruise.dao.CruiseDAO;
-import com.cruise.dao.CruiseShipDAO;
 import com.cruise.dao.TicketDAO;
 import com.cruise.dao.UserDAO;
 import com.cruise.exceptions.DAOException;
@@ -10,6 +9,7 @@ import com.cruise.model.Cruise;
 import com.cruise.model.Ticket;
 import com.cruise.model.User;
 import com.cruise.service.TicketService;
+import com.cruise.utils.ValidationUtil;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,13 +17,13 @@ import java.util.List;
 
 public class TicketServiceImpl implements TicketService {
 
-    private TicketDAO ticketDAO;
-    private UserDAO userDAO;
-    private CruiseDAO cruiseDAO;
-    private CruiseShipDAO cruiseShipDAO;
-    public TicketServiceImpl(TicketDAO ticketDAO, CruiseShipDAO cruiseShipDAO, CruiseDAO cruiseDAO, UserDAO userDAO){
+    private static final Logger LOG = LogManager.getLogger(TicketServiceImpl.class);
+
+    private final TicketDAO ticketDAO;
+    private final UserDAO userDAO;
+    private final CruiseDAO cruiseDAO;
+    public TicketServiceImpl(TicketDAO ticketDAO, CruiseDAO cruiseDAO, UserDAO userDAO){
         this.ticketDAO = ticketDAO;
-        this.cruiseShipDAO = cruiseShipDAO;
         this.cruiseDAO = cruiseDAO;
         this.userDAO = userDAO;
     }
@@ -31,9 +31,11 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket findById(int id) throws ServiceException {
         Ticket ticket;
+        ValidationUtil.validateAllDigitCruiseFields(id);
         try {
             ticket = ticketDAO.findById(id);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return ticket;
@@ -45,6 +47,7 @@ public class TicketServiceImpl implements TicketService {
         try {
             ticket = ticketDAO.findByUserAndCruiseShip(user, cruise);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return ticket;
@@ -56,6 +59,7 @@ public class TicketServiceImpl implements TicketService {
         try {
             tickets = ticketDAO.findAllByUser(user);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return tickets;
@@ -67,6 +71,7 @@ public class TicketServiceImpl implements TicketService {
         try {
             tickets = ticketDAO.findByAllByCruise(cruise);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return tickets;
@@ -78,9 +83,22 @@ public class TicketServiceImpl implements TicketService {
         try {
             tickets = ticketDAO.getAllTickets();
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return tickets;
+    }
+
+    @Override
+    public int countAll() throws ServiceException {
+        int amount;
+        try {
+            amount = ticketDAO.countAll();
+        } catch (DAOException e){
+            LOG.error(e.getMessage());
+            throw new ServiceException(e.getMessage());
+        }
+        return amount;
     }
 
     @Override
@@ -89,6 +107,7 @@ public class TicketServiceImpl implements TicketService {
         try {
             tickets = ticketDAO.getTicketsInOrderAndLimit(orderBy, limit, offset);
         } catch (DAOException e) {
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
         return tickets;
@@ -99,17 +118,9 @@ public class TicketServiceImpl implements TicketService {
         try {
             Cruise cruise = cruiseDAO.findById(ticket.getCruiseId());
             User user = userDAO.findById(ticket.getClientId());
-            int freeSpaces = cruise.getCruiseShip().getFreeSpaces();
-            if (freeSpaces == 0){
-                throw new ServiceException("Don't have free space");
-            }
-            if (user.getBalance() < cruise.getTicketPrice()){
-                throw new ServiceException("Balance less then ticket price");
-            }
-            cruiseShipDAO.changeFreeSpaces(cruise.getCruiseShip(), cruise.getCruiseShip().getFreeSpaces() - 1);
-            userDAO.changeBalance(user, user.getBalance() - cruise.getTicketPrice());
-            ticketDAO.create(ticket);
+            ticketDAO.create(ticket, user, cruise);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
@@ -119,6 +130,7 @@ public class TicketServiceImpl implements TicketService {
         try {
             ticketDAO.update(ticket);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
@@ -128,6 +140,7 @@ public class TicketServiceImpl implements TicketService {
         try {
             ticketDAO.delete(ticket);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }
@@ -137,6 +150,7 @@ public class TicketServiceImpl implements TicketService {
         try {
             ticketDAO.changeStatus(ticket, status);
         } catch (DAOException e){
+            LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
     }

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RegisterCommand implements Command {
     private static final Logger LOG = LogManager.getLogger(RegisterCommand.class);
 
-    UserService service;
+    private final UserService service;
     public RegisterCommand(){
         service = AppContext.getInstance().getUserService();
     }
@@ -29,12 +29,8 @@ public class RegisterCommand implements Command {
             return forward;
         }
 
-        UserDTO userDTO = new UserDTO();
-        userDTO.setLogin(login);
-        userDTO.setFirstName(request.getParameter("firstName"));
-        userDTO.setLastName(request.getParameter("lastName"));
-        userDTO.setEmail(request.getParameter("email"));
         try {
+            UserDTO userDTO = getUserDTO(request, login);
             service.register(userDTO, password);
         } catch (ServiceException e) {
             LOG.error(e.getMessage());
@@ -42,5 +38,14 @@ public class RegisterCommand implements Command {
             return forward;
         }
         return AllPath.PAGE_INDEX;
+    }
+
+    private static UserDTO getUserDTO(HttpServletRequest request, String login) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setLogin(login);
+        userDTO.setFirstName(request.getParameter("firstName"));
+        userDTO.setLastName(request.getParameter("lastName"));
+        userDTO.setEmail(request.getParameter("email"));
+        return userDTO;
     }
 }

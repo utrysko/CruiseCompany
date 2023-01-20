@@ -18,7 +18,7 @@ import java.util.List;
 public class CruiseShipsCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(CruiseShipsCommand.class);
-    private CruiseShipService cruiseShipService;
+    private final CruiseShipService cruiseShipService;
     public CruiseShipsCommand(){
         cruiseShipService = AppContext.getInstance().getCruiseShipService();
     }
@@ -28,29 +28,16 @@ public class CruiseShipsCommand implements Command {
         String cruiseShipId = req.getParameter("findCruiseShipId");
         List<CruiseShip> cruiseShips = new ArrayList<>();
         if (cruiseShipId != null){
-            try {
-                cruiseShips.add(cruiseShipService.findById(Integer.parseInt(cruiseShipId)));
-            } catch (ServiceException e) {
-                LOG.error(e.getMessage());
-                req.setAttribute("error", e.getMessage());
-            }
-            req.setAttribute("cruiseShips", cruiseShips);
-            return forward;
+            return getByID(req, forward, cruiseShipId, cruiseShips);
         }
         int orderBy = PaginationUtil.getSortBy(req);
         int limit = PaginationUtil.getLimit(req);
         int offset = PaginationUtil.getPage(req) * limit;
         int amount;
+        int pages;
         try {
-            amount = cruiseShipService.getAllCruiseShip().size();
-        } catch (ServiceException e) {
-            LOG.error(e.getMessage());
-            req.setAttribute("error", e.getMessage());
-            return forward;
-        }
-        int pages = PaginationUtil.getPages(amount, limit);
-        try {
-            cruiseShipService.checkAllShips();
+            amount = cruiseShipService.countAll();
+            pages = PaginationUtil.getPages(amount, limit);
             cruiseShips = cruiseShipService.getCruiseShipsInOrderAndLimit(orderBy, limit, offset);
         } catch (ServiceException e) {
             LOG.error(e.getMessage());
@@ -58,6 +45,17 @@ public class CruiseShipsCommand implements Command {
             return forward;
         }
         req.setAttribute("pages", pages);
+        req.setAttribute("cruiseShips", cruiseShips);
+        return forward;
+    }
+
+    private String getByID(HttpServletRequest req, String forward, String cruiseShipId, List<CruiseShip> cruiseShips) {
+        try {
+            cruiseShips.add(cruiseShipService.findById(Integer.parseInt(cruiseShipId)));
+        } catch (ServiceException e) {
+            LOG.error(e.getMessage());
+            req.setAttribute("error", e.getMessage());
+        }
         req.setAttribute("cruiseShips", cruiseShips);
         return forward;
     }

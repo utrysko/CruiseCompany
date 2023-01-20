@@ -2,12 +2,8 @@ package com.cruise.dao.mysqlDao;
 
 import com.cruise.connection.DataSource;
 import com.cruise.exceptions.DAOException;
-import com.cruise.dao.DAOFactory;
 import com.cruise.dao.StaffDAO;
-import com.cruise.model.CruiseShip;
 import com.cruise.model.Staff;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -16,7 +12,7 @@ import java.util.List;
 public class MysqlStaffDAO implements StaffDAO {
 
 
-    private DataSource dataSource;
+    private final DataSource dataSource;
 
     public MysqlStaffDAO(DataSource dataSource){
         this.dataSource = dataSource;
@@ -24,6 +20,8 @@ public class MysqlStaffDAO implements StaffDAO {
 
     private static final String SQL_FIND_BY_ID =
             "SELECT * FROM staff WHERE id = ?";
+    private static final String SQL_COUNT_ALL =
+            "SELECT COUNT(id) AS total FROM cruises WHERE cruise_ship_id = ?";
     private static final String SQL_FIND_ALL_BY_CRUISE_ID =
             "SELECT * FROM staff WHERE cruise_ship_id = ?";
     private static final String SQL_STAFF_IN_ORDER_AND_LIMIT =
@@ -73,6 +71,20 @@ public class MysqlStaffDAO implements StaffDAO {
             throw new DAOException(e.getMessage());
         }
         return staff;
+    }
+    @Override
+    public int countAll(int cruiseShipId) throws DAOException {
+        int count = 0;
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pst = con.prepareStatement(SQL_COUNT_ALL)){
+            int k = 0;
+            pst.setInt(++k, cruiseShipId);
+            ResultSet resultSet = pst.executeQuery();
+            if (resultSet.next()) count = resultSet.getInt("total");
+        } catch (SQLException e){
+            throw new DAOException(e.getMessage());
+        }
+        return count;
     }
 
     @Override

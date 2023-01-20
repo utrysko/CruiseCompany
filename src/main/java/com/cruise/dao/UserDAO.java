@@ -10,6 +10,7 @@ public interface UserDAO {
     User findById(int id) throws DAOException;
     User findByLogin(String login) throws DAOException;
     List<User> getAllUsers() throws DAOException;
+    int countAll() throws DAOException;
     void create(User user) throws DAOException;
     void update(User user) throws DAOException;
     void delete(User user) throws DAOException;

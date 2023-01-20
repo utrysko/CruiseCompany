@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS `cruise`.`cruise_ship` (
   `capacity` INT UNSIGNED NOT NULL,
   `free_spaces` INT UNSIGNED NOT NULL,
   `status` VARCHAR(45) NOT NULL,
+  `available_from` DATE NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE)
 ENGINE = InnoDB
@@ -53,7 +54,7 @@ CREATE TABLE IF NOT EXISTS `cruise`.`user` (
   `email` VARCHAR(255) NOT NULL,
   `password` VARCHAR(255) NOT NULL,
   `role_id` INT NOT NULL,
-  `balance` DOUBLE NULL DEFAULT NULL,
+  `balance` DOUBLE UNSIGNED NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
   UNIQUE INDEX `login_UNIQUE` (`login` ASC) VISIBLE,
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `cruise`.`user` (
   CONSTRAINT `fk_user_role1`
     FOREIGN KEY (`role_id`)
     REFERENCES `cruise`.`role` (`id`)
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB
 AUTO_INCREMENT = 11
@@ -73,6 +74,7 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cruise`.`route` (
   `id` INT NOT NULL AUTO_INCREMENT,
+  `number_of_ports` INT UNSIGNED NOT NULL,
   `start_port` VARCHAR(45) NOT NULL,
   `middle_ports` VARCHAR(45) NOT NULL,
   `end_port` VARCHAR(45) NOT NULL,
@@ -86,25 +88,24 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `cruise`.`cruises` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `number_of_ports` INT NOT NULL,
   `start` DATE NOT NULL,
   `end` DATE NOT NULL,
   `status` VARCHAR(45) NOT NULL,
-  `ticket_price` DOUBLE NOT NULL,
-  `cruise_ship_id` INT NOT NULL,
-  `route_id` INT NOT NULL,
+  `ticket_price` DOUBLE UNSIGNED NOT NULL,
+  `cruise_ship_id` INT NULL,
+  `route_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_cruises_cruise_ship1_idx` (`cruise_ship_id` ASC) VISIBLE,
   INDEX `fk_cruises_route1_idx` (`route_id` ASC) VISIBLE,
   CONSTRAINT `fk_cruises_cruise_ship1`
     FOREIGN KEY (`cruise_ship_id`)
     REFERENCES `cruise`.`cruise_ship` (`id`)
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
     ON UPDATE CASCADE,
   CONSTRAINT `fk_cruises_route1`
     FOREIGN KEY (`route_id`)
     REFERENCES `cruise`.`route` (`id`)
-    ON DELETE CASCADE
+    ON DELETE RESTRICT
     ON UPDATE CASCADE)
 ENGINE = InnoDB;
 
@@ -117,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `cruise`.`ticket` (
   `user_id` INT NOT NULL,
   `cruises_id` INT NOT NULL,
   `status` VARCHAR(45) NOT NULL,
-  `document_path` VARCHAR(255) NOT NULL,
+  `document` LONGBLOB NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_cruise_ship_has_user_user1_idx` (`user_id` ASC) VISIBLE,
   UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
