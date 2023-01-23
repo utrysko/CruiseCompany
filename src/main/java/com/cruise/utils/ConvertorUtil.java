@@ -33,7 +33,6 @@ public final class ConvertorUtil {
         cruiseShip.setId(cruiseShipDTO.getId());
         cruiseShip.setName(cruiseShipDTO.getName());
         cruiseShip.setCapacity(cruiseShipDTO.getCapacity());
-        cruiseShip.setFreeSpaces(cruiseShipDTO.getFreeSpaces());
         cruiseShip.setStatus(cruiseShipDTO.getStatus());
         cruiseShip.setAvailableFrom(cruiseShipDTO.getAvailableFrom());
         return cruiseShip;
@@ -44,7 +43,6 @@ public final class ConvertorUtil {
         cruiseShipDTO.setId(cruiseShip.getId());
         cruiseShipDTO.setName(cruiseShip.getName());
         cruiseShipDTO.setCapacity(cruiseShip.getCapacity());
-        cruiseShipDTO.setFreeSpaces(cruiseShip.getFreeSpaces());
         cruiseShipDTO.setStatus(cruiseShip.getStatus());
         cruiseShipDTO.setStaff(cruiseShip.getStaff());
         return cruiseShipDTO;
@@ -73,6 +71,7 @@ public final class ConvertorUtil {
         cruise.setStart(cruiseDTO.getStart());
         cruise.setEnd(cruiseDTO.getEnd());
         cruise.setStatus(cruiseDTO.getStatus());
+        cruise.setFreeSpaces(cruiseDTO.getFreeSpaces());
         cruise.setTicketPrice(cruiseDTO.getTicketPrice());
         cruise.setCruiseShip(cruiseDTO.getCruiseShip());
         cruise.setRoute(cruiseDTO.getRoute());

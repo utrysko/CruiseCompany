@@ -74,7 +74,7 @@
                 <th scope="col"><fmt:message key="cruises.table.ticketPrice"/></th>
                 <th scope="col"><fmt:message key="cruiseShips.table.name"/></th>
                 <th scope="col"><fmt:message key="cruises.table.duration"/></th>
-                <th scope="col"><fmt:message key="cruiseShips.table.freeSpaces"/></th>
+                <th scope="col"><fmt:message key="cruises.table.freeSpaces"/></th>
                 <th scope="col"><fmt:message key="common.table.action"/></th>
             </tr>
             </thead>
@@ -89,8 +89,8 @@
                 <td><c:out value="${cruise.ticketPrice}"/></td>
                 <td><c:out value="${cruise.cruiseShip.name}"/></td>
                 <td><c:out value="${cruise.route.endPort}"/></td>
-                <td><c:out value="${cruise.cruiseShip.freeSpaces}"/></td>
-                <td><c:if test="${cruise.status != 'Started' && cruise.status != 'Ended' && cruise.cruiseShip.freeSpaces != 0}">
+                <td><c:out value="${cruise.freeSpaces}"/></td>
+                <td><c:if test="${cruise.status != 'Started' && cruise.status != 'Ended' && cruise.freeSpaces != 0}">
                     <button value="${cruise}" type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                             data-bs-target="#buy${cruise.id}">
                         <fmt:message key="chooseCruise.button.buyTicket"/>

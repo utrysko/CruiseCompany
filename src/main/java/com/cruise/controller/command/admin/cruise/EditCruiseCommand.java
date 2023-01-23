@@ -41,6 +41,7 @@ public class EditCruiseCommand implements Command {
         String startDate = req.getParameter("startDate");
         String endDate = req.getParameter("endDate");
         String ticketPrice = req.getParameter("ticketPrice");
+        String freeSpaces = req.getParameter("freeSpaces");
         cruiseDTO.setStart(cruise.getStart());
         if (startDate != null && !startDate.isEmpty()){
             cruiseDTO.setStart(Date.valueOf(startDate));
@@ -53,6 +54,10 @@ public class EditCruiseCommand implements Command {
         cruiseDTO.setTicketPrice(cruise.getTicketPrice());
         if (ticketPrice != null && !ticketPrice.isEmpty()){
             cruiseDTO.setTicketPrice(Double.parseDouble(ticketPrice));
+        }
+        cruiseDTO.setFreeSpaces(cruise.getFreeSpaces());
+        if (freeSpaces != null && !freeSpaces.isEmpty()){
+            cruiseDTO.setFreeSpaces(Integer.parseInt(freeSpaces));
         }
         return cruiseDTO;
     }

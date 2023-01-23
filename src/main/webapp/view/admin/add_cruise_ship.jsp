@@ -19,8 +19,6 @@
            placeholder="<fmt:message key="addCruiseShip.placeholder.name"/>" required>
     <input type="text" name="capacity" class="form-control"
            placeholder="<fmt:message key="addCruiseShip.placeholder.capacity"/>" required>
-    <input type="text" name="freeSpaces" class="form-control"
-           placeholder="<fmt:message key="addCruiseShip.placeholder.free.spaces"/>" required>
     <input type="text" name="status" class="form-control"
            placeholder="<fmt:message key="addCruiseShip.placeholder.status"/>" required>
     <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message

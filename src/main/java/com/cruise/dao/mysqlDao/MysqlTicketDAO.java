@@ -44,7 +44,7 @@ public class MysqlTicketDAO implements TicketDAO {
     private static final String SQL_CHANGE_STATUS =
             "UPDATE ticket SET status = ? WHERE id = ?";
     private static final String SQL_CHANGE_FREE_SPACES =
-            "UPDATE cruise_ship SET free_spaces = ? WHERE id = ?";
+            "UPDATE cruises SET free_spaces = ? WHERE id = ?";
     private static final String SQL_CHANGE_BALANCE =
             "UPDATE user SET balance = ? WHERE id = ?";
 
@@ -304,7 +304,7 @@ public class MysqlTicketDAO implements TicketDAO {
     private void changeFreeSpace(Cruise cruise, Connection con) throws SQLException {
         try (PreparedStatement pst = con.prepareStatement(SQL_CHANGE_FREE_SPACES)) {
             int k = 0;
-            pst.setInt(++k, cruise.getCruiseShip().getFreeSpaces() - 1);
+            pst.setInt(++k, cruise.getFreeSpaces() - 1);
             pst.setInt(++k, cruise.getCruiseShip().getId());
             int affectedRowsFreeSpaces = pst.executeUpdate();
             if (affectedRowsFreeSpaces == 0) {

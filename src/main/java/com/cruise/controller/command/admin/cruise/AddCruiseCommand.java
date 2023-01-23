@@ -37,6 +37,7 @@ public class AddCruiseCommand implements Command {
         cruiseDTO.setEnd(Date.valueOf(req.getParameter("endDate")));
         cruiseDTO.setStatus(req.getParameter("status"));
         cruiseDTO.setTicketPrice(Double.parseDouble(req.getParameter("ticketPrice")));
+        cruiseDTO.setFreeSpaces(Integer.parseInt(req.getParameter("freeSpaces")));
         return cruiseDTO;
     }
 }

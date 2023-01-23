@@ -39,12 +39,14 @@ class CruiseServiceImplTest {
         testCruiseDTO.setStart(Date.valueOf(LocalDate.now().plusDays(1)));
         testCruiseDTO.setEnd(Date.valueOf(LocalDate.now().plusDays(6)));
         testCruiseDTO.setTicketPrice(45.0);
+        testCruiseDTO.setFreeSpaces(50);
         testCruiseDTO.setStatus("Available");
         testCruise = ConvertorUtil.convertDTOtoCruise(testCruiseDTO);
         testRoute = new Route();
         testRoute.setId(6);
         testCruiseShip = new CruiseShip();
         testCruiseShip.setId(9);
+        testCruiseShip.setCapacity(50);
         testCruise.setCruiseShip(testCruiseShip);
         mockCruiseDao = mock(CruiseDAO.class);
         mockCruiseShipDAO = mock(CruiseShipDAO.class);
@@ -65,7 +67,7 @@ class CruiseServiceImplTest {
         doNothing().when(mockCruiseDao).changeStatus(any(Cruise.class), anyString());
         doNothing().when(mockCruiseDao).addShipToCruise(any(CruiseShip.class), any(Cruise.class));
         doNothing().when(mockCruiseDao).addRouteToCruise(any(Route.class), any(Cruise.class));
-        doNothing().when(mockCruiseShipDAO).changeFreeSpaces(any(CruiseShip.class), anyInt());
+        doNothing().when(mockCruiseDao).changeFreeSpaces(any(Cruise.class), anyInt());
         doNothing().when(mockCruiseShipDAO).changeAvailableDate(any(CruiseShip.class), any(Date.class));
         when(mockCruiseDao.countAll()).thenReturn(1);
     }
@@ -86,6 +88,7 @@ class CruiseServiceImplTest {
         cruiseDTO.setStart(Date.valueOf(LocalDate.now().minusDays(2)));
         cruiseDTO.setEnd(Date.valueOf(LocalDate.now().minusDays(3)));
         cruiseDTO.setTicketPrice(0);
+        cruiseDTO.setFreeSpaces(50);
 
         verify(mockCruiseDao, times(1)).create(any(Cruise.class));
 
@@ -131,6 +134,7 @@ class CruiseServiceImplTest {
         cruiseDTO.setStart(Date.valueOf(LocalDate.now().minusDays(2)));
         cruiseDTO.setEnd(Date.valueOf(LocalDate.now().minusDays(3)));
         cruiseDTO.setTicketPrice(0);
+        cruiseDTO.setFreeSpaces(50);
 
         verify(mockCruiseDao, times(1)).update(any(Cruise.class));
 
@@ -143,7 +147,6 @@ class CruiseServiceImplTest {
 
         verify(mockCruiseDao, times(1)).delete(any(Cruise.class));
         verify(mockCruiseShipDAO, times(1)).changeAvailableDate(any(CruiseShip.class), any(Date.class));
-
     }
 
     @Test
@@ -173,6 +176,6 @@ class CruiseServiceImplTest {
         testCruise.setCruiseShip(testCruiseShip);
         cruiseService.changeFreeSpaces(testCruise, 25);
 
-        verify(mockCruiseShipDAO, times(1)).changeFreeSpaces(any(CruiseShip.class), anyInt());
+        verify(mockCruiseDao, times(1)).changeFreeSpaces(any(Cruise.class), anyInt());
     }
 }

@@ -147,16 +147,6 @@ public class CruiseShipServiceImpl implements CruiseShipService {
     }
 
     @Override
-    public void changeFreeSpaces(CruiseShip cruiseShip, int freeSpaces) throws ServiceException {
-        try {
-            cruiseShipDAO.changeFreeSpaces(cruiseShip, freeSpaces);
-        } catch (DAOException e) {
-            LOG.error(e.getMessage());
-            throw new ServiceException(e.getMessage());
-        }
-    }
-
-    @Override
     public void changeStatus(CruiseShip cruiseShip, String status) throws ServiceException {
         try {
             cruiseShipDAO.changeStatus(cruiseShip, status);
@@ -193,6 +183,5 @@ public class CruiseShipServiceImpl implements CruiseShipService {
     private void validateCruiseShip(CruiseShipDTO cruiseShipDTO) throws ServiceException {
         ValidationUtil.validateField(cruiseShipDTO.getName(), Regex.PORT_REGEX, ExceptionMessage.ERROR_SHIP_NAME);
         ValidationUtil.validateAllDigitCruiseFields(cruiseShipDTO.getCapacity());
-        ValidationUtil.validateCruiseFreeSpaces(cruiseShipDTO.getCapacity(), cruiseShipDTO.getFreeSpaces());
     }
 }

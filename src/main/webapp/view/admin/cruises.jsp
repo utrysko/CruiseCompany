@@ -76,6 +76,7 @@
                 <th scope="col"><fmt:message key="cruises.table.startDate"/></th>
                 <th scope="col"><fmt:message key="cruises.table.endDate"/></th>
                 <th scope="col"><fmt:message key="common.table.status"/></th>
+                <th scope="col"><fmt:message key="cruises.table.freeSpaces"/></th>
                 <th scope="col"><fmt:message key="cruises.table.ticketPrice"/></th>
                 <th scope="col"><fmt:message key="cruises.table.shipName"/></th>
                 <th scope="col"><fmt:message key="cruises.table.duration"/></th>
@@ -90,6 +91,7 @@
                 <td><c:out value="${cruise.start}"/></td>
                 <td><c:out value="${cruise.end}"/></td>
                 <td><c:out value="${cruise.status}"/></td>
+                <td><c:out value="${cruise.freeSpaces}"/></td>
                 <td><c:out value="${cruise.ticketPrice}"/></td>
                 <td><c:if test="${cruise.cruiseShip == null}">
                     <a href="controller?action=add_ship_to_cruise&cruiseId=${cruise.id}"
@@ -142,6 +144,8 @@
                                 <input type="date" name="endDate" class="form-control">
                                 <fmt:message key="cruises.editForm.ticketPrice"/>
                                 <input type="number" name="ticketPrice" class="form-control">
+                                <fmt:message key="cruises.editForm.freeSpaces"/>
+                                <input type="number" name="freeSpaces" class="form-control">
                                 <br/>
                                 <button class="btn btn-md btn-primary btn-block" type="submit"><fmt:message
                                         key="common.button.confirm"/></button>
@@ -241,6 +245,8 @@
                     <input type="date" name="startDate" class="form-control" required>
                     <fmt:message key="cruises.addForm.endDate"/>
                     <input type="date" name="endDate" class="form-control" required>
+                    <fmt:message key="cruises.addForm.freeSpaces"/>
+                    <input type="number" name="freeSpaces" class="form-control" required>
                     <fmt:message key="cruises.addForm.status"/>
                     <select name="status" class="form-select" required>
                         <option value="Available">Available</option>

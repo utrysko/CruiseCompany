@@ -21,7 +21,6 @@
         <th scope="col">Id</th>
         <th scope="col"><fmt:message key="cruiseShips.table.name"/></th>
         <th scope="col"><fmt:message key="cruiseShips.table.capacity"/></th>
-        <th scope="col"><fmt:message key="cruiseShips.table.freeSpaces"/></th>
         <th scope="col"><fmt:message key="common.table.status"/></th>
         <th scope="col"><fmt:message key="common.table.action"/></th>
       </tr>
@@ -33,7 +32,6 @@
         <th scope="row"><c:out value="${cruiseShip.id}"/></th>
         <td><c:out value="${cruiseShip.name}"/></td>
         <td><c:out value="${cruiseShip.capacity}"/></td>
-        <td><c:out value="${cruiseShip.freeSpaces}"/></td>
         <td><c:out value="${cruiseShip.status}"/></td>
         <td><button value="${cruiseShip}" type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#addShip${cruiseShip.name}">
           <fmt:message key="cruiseShips.button.addRouteToCruise"/>

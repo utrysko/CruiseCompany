@@ -12,7 +12,6 @@ public class CruiseShipDTO implements Serializable {
     private int id;
     private String name;
     private int capacity;
-    private int freeSpaces;
     private String status;
     private Date availableFrom;
     private List<Staff> staff;
@@ -41,13 +40,6 @@ public class CruiseShipDTO implements Serializable {
         this.capacity = capacity;
     }
 
-    public int getFreeSpaces() {
-        return freeSpaces;
-    }
-
-    public void setFreeSpaces(int freeSpaces) {
-        this.freeSpaces = freeSpaces;
-    }
 
     public String getStatus() {
         return status;

@@ -48,7 +48,6 @@
                         <option value="1">Id</option>
                         <option value="2"><fmt:message key="cruiseShips.table.name"/></option>
                         <option value="3"><fmt:message key="cruiseShips.table.capacity"/></option>
-                        <option value="4"><fmt:message key="cruiseShips.table.freeSpaces"/></option>
                     </select>
                 </div>
                 <div class="col-auto">
@@ -74,7 +73,6 @@
                 <th scope="col">Id</th>
                 <th scope="col"><fmt:message key="cruiseShips.table.name"/></th>
                 <th scope="col"><fmt:message key="cruiseShips.table.capacity"/></th>
-                <th scope="col"><fmt:message key="cruiseShips.table.freeSpaces"/></th>
                 <th scope="col"><fmt:message key="common.table.status"/></th>
                 <th scope="col"><fmt:message key="cruiseShips.table.dateFrom"/></th>
                 <th scope="col"><fmt:message key="common.table.action"/></th>
@@ -87,7 +85,6 @@
                 <th scope="row"><c:out value="${cruiseShip.id}"/></th>
                 <td><c:out value="${cruiseShip.name}"/></td>
                 <td><c:out value="${cruiseShip.capacity}"/></td>
-                <td><c:out value="${cruiseShip.freeSpaces}"/></td>
                 <td><c:out value="${cruiseShip.status}"/></td>
                 <td><c:out value="${cruiseShip.availableFrom}"/></td>
                 <td>
@@ -134,8 +131,6 @@
                                 <input type="text" name="name" class="form-control">
                                 <fmt:message key="cruiseShips.editForm.capacity"/>
                                 <input type="number" name="capacity" class="form-control">
-                                <fmt:message key="cruiseShips.editForm.freeSpaces"/>
-                                <input type="number" name="freeSpaces" class="form-control">
                                 <br/>
                                 <button class="btn btn-md btn-primary btn-block" type="submit"><fmt:message
                                         key="common.button.confirm"/></button>
@@ -235,8 +230,6 @@
                     <input type="text" name="name" class="form-control">
                     <fmt:message key="cruiseShips.addForm.capacity"/>
                     <input type="text" name="capacity" class="form-control">
-                    <fmt:message key="cruiseShips.addForm.freeSpaces"/>
-                    <input type="text" name="freeSpaces" class="form-control">
                     <fmt:message key="cruiseShips.addForm.status"/>
                     <select name="status" class="form-select">
                         <option value="Available">Available</option>

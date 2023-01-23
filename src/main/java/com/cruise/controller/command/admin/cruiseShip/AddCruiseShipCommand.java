@@ -37,7 +37,6 @@ public class AddCruiseShipCommand implements Command {
         CruiseShipDTO cruiseShipDTO = new CruiseShipDTO();
         cruiseShipDTO.setName(req.getParameter("name"));
         cruiseShipDTO.setCapacity(Integer.parseInt(req.getParameter("capacity")));
-        cruiseShipDTO.setFreeSpaces(Integer.parseInt(req.getParameter("freeSpaces")));
         cruiseShipDTO.setStatus(req.getParameter("status"));
         cruiseShipDTO.setAvailableFrom(Date.valueOf(LocalDate.now()));
         return cruiseShipDTO;

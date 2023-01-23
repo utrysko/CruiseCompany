@@ -53,7 +53,7 @@ public class AddShipToCruiseCommand implements Command {
             cruiseService.addShipToCruise(cruiseShip, cruise);
         } catch (ServiceException e) {
             LOG.error(e.getMessage());
-            req.setAttribute("error", e.getMessage());
+            req.getSession().setAttribute("error", e.getMessage());
         }
         return AllPath.CRUISES_COMMAND;
     }

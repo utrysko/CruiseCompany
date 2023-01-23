@@ -44,7 +44,6 @@ public class EditCruiseShipCommand implements Command {
         }
         String name = req.getParameter("name");
         String capacity = req.getParameter("capacity");
-        String freeSpaces = req.getParameter("freeSpaces");
 
         CruiseShipDTO cruiseShipDTO = new CruiseShipDTO();
         cruiseShipDTO.setId(Integer.parseInt(cruiseShipId));
@@ -57,11 +56,6 @@ public class EditCruiseShipCommand implements Command {
             cruiseShipDTO.setCapacity(Integer.parseInt(capacity));
         }else {
             cruiseShipDTO.setCapacity(cruiseShip.getCapacity());
-        }
-        if (freeSpaces != null && !freeSpaces.isEmpty()){
-            cruiseShipDTO.setFreeSpaces(Integer.parseInt(freeSpaces));
-        }else {
-            cruiseShipDTO.setFreeSpaces(cruiseShip.getFreeSpaces());
         }
         return cruiseShipDTO;
     }

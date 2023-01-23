@@ -24,10 +24,12 @@ public class CruiseServiceImpl implements CruiseService {
 
     private final CruiseDAO cruiseDAO;
     private final CruiseShipDAO cruiseShipDAO;
-    public CruiseServiceImpl(CruiseDAO cruiseDAO, CruiseShipDAO cruiseShipDAO){
+
+    public CruiseServiceImpl(CruiseDAO cruiseDAO, CruiseShipDAO cruiseShipDAO) {
         this.cruiseShipDAO = cruiseShipDAO;
         this.cruiseDAO = cruiseDAO;
     }
+
     @Override
     public Cruise findById(int id) throws ServiceException {
         Cruise cruise;
@@ -72,7 +74,7 @@ public class CruiseServiceImpl implements CruiseService {
         int amount;
         try {
             amount = cruiseDAO.countAll();
-        } catch (DAOException e){
+        } catch (DAOException e) {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
@@ -84,7 +86,7 @@ public class CruiseServiceImpl implements CruiseService {
         List<CruiseShip> cruiseShips;
         try {
             cruiseShips = cruiseShipDAO.getFreeCruiseShip(cruise);
-        } catch (DAOException e){
+        } catch (DAOException e) {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
@@ -110,8 +112,11 @@ public class CruiseServiceImpl implements CruiseService {
         validateCruise(cruiseDTO);
         Cruise cruise = ConvertorUtil.convertDTOtoCruise(cruiseDTO);
         try {
+            if (cruise.getCruiseShip() != null) {
+                ValidationUtil.validateCruiseFreeSpaces(cruise.getCruiseShip().getCapacity(), cruise.getFreeSpaces());
+                cruiseShipDAO.changeAvailableDate(cruise.getCruiseShip(), cruise.getEnd());
+            }
             cruiseDAO.update(cruise);
-            cruiseShipDAO.changeAvailableDate(cruise.getCruiseShip(), cruise.getEnd());
         } catch (DAOException e) {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
@@ -141,11 +146,12 @@ public class CruiseServiceImpl implements CruiseService {
 
     @Override
     public void addShipToCruise(CruiseShip cruiseShip, Cruise cruise) throws ServiceException {
+        validateAddingShip(cruise, cruiseShip);
         try {
             CruiseShip cruiseShipOld = cruise.getCruiseShip();
             cruiseDAO.addShipToCruise(cruiseShip, cruise);
             cruiseShipDAO.changeAvailableDate(cruiseShip, cruise.getEnd());
-            if (cruiseShipOld != null){
+            if (cruiseShipOld != null) {
                 cruiseShipDAO.changeAvailableDate(cruiseShipOld, Date.valueOf(LocalDate.now()));
             }
         } catch (DAOException e) {
@@ -167,7 +173,7 @@ public class CruiseServiceImpl implements CruiseService {
     @Override
     public void changeFreeSpaces(Cruise cruise, int freeSpaces) throws ServiceException {
         try {
-            cruiseShipDAO.changeFreeSpaces(cruise.getCruiseShip(), freeSpaces);
+            cruiseDAO.changeFreeSpaces(cruise, freeSpaces);
         } catch (DAOException e) {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
@@ -176,21 +182,27 @@ public class CruiseServiceImpl implements CruiseService {
 
 
     private void checkCruises(List<Cruise> cruises) throws ServiceException {
-        for(Cruise cruise : cruises){
-            if (!cruise.getStart().after(Date.valueOf(LocalDate.now())) && !cruise.getStatus().equals("Started")){
+        for (Cruise cruise : cruises) {
+            if (!cruise.getStart().after(Date.valueOf(LocalDate.now())) && !cruise.getStatus().equals("Started")) {
                 cruiseDAO.changeStatus(cruise, "Started");
                 changeStatus(cruise, "Started");
             }
-            if (!cruise.getEnd().after(Date.valueOf(LocalDate.now())) && !cruise.getStatus().equals("Ended")){
+            if (!cruise.getEnd().after(Date.valueOf(LocalDate.now())) && !cruise.getStatus().equals("Ended")) {
                 cruiseDAO.changeStatus(cruise, "Ended");
                 changeStatus(cruise, "Ended");
             }
         }
     }
 
-    private void validateCruise(CruiseDTO cruiseDTO) throws ServiceException{
+    private void validateCruise(CruiseDTO cruiseDTO) throws ServiceException {
         ValidationUtil.validateStartDateCruise(cruiseDTO.getStart());
         ValidationUtil.validateEndDateCruise(cruiseDTO.getEnd(), cruiseDTO.getStart());
+        ValidationUtil.validateAllDigitCruiseFields(cruiseDTO.getFreeSpaces());
         ValidationUtil.validateCruisePrice(cruiseDTO.getTicketPrice());
+    }
+
+    private void validateAddingShip(Cruise cruise, CruiseShip cruiseShip) throws ServiceException {
+        if (cruise.getFreeSpaces() > cruiseShip.getCapacity())
+            throw new ServiceException("Ship capacity less then cruise free spaces");
     }
 }

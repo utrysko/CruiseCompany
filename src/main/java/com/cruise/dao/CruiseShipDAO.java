@@ -18,7 +18,6 @@ public interface CruiseShipDAO {
     List<CruiseShip> getCruiseShipsInOrderAndLimit(int orderBy, int limit, int offset) throws DAOException;
     void update(CruiseShip cruiseShip) throws DAOException;
     void delete(CruiseShip cruiseShip) throws DAOException;
-    void changeFreeSpaces(CruiseShip cruiseShip, int freeSpaces) throws DAOException;
     void changeStatus(CruiseShip cruiseShip, String status) throws DAOException;
     void changeAvailableDate(CruiseShip cruiseShip, Date date) throws DAOException;
 }

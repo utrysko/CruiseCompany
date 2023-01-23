@@ -31,13 +31,15 @@ public class MysqlCruiseDAO implements CruiseDAO {
     private static final String SQL_CRUISES_IN_ORDER_AND_LIMIT =
             "SELECT * FROM cruises ORDER BY ? LIMIT ? OFFSET ?";
     private static final String SQL_INSERT =
-            "INSERT INTO cruises ( start, end, status, ticket_price) VALUES ( ?, ?, ?, ?)";
+            "INSERT INTO cruises ( start, end, status, ticket_price, free_spaces) VALUES ( ?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE =
-            "UPDATE cruises SET start = ?, end = ?, status = ?, ticket_price = ? WHERE id = ?";
+            "UPDATE cruises SET start = ?, end = ?, status = ?, ticket_price = ?, free_spaces = ? WHERE id = ?";
     private static final String SQL_DELETE =
             "DELETE FROM cruises WHERE id = ?";
     private static final String SQL_CHANGE_STATUS =
             "UPDATE cruises SET status = ? WHERE id = ?";
+    private static final String SQL_CHANGE_FREE_SPACES =
+            "UPDATE cruises SET free_spaces = ? WHERE id = ?";
     private static final String SQL_ADD_SHIP_TO_CRUISE =
             "UPDATE cruises SET cruise_ship_id = ? WHERE id = ?";
     private static final String SQL_ADD_ROUTE_TO_CRUISE =
@@ -73,6 +75,7 @@ public class MysqlCruiseDAO implements CruiseDAO {
             pst.setDate(++k, cruise.getEnd());
             pst.setString(++k, cruise.getStatus());
             pst.setDouble(++k, cruise.getTicketPrice());
+            pst.setInt(++k, cruise.getFreeSpaces());
             int affectedRows =pst.executeUpdate();
             if (affectedRows == 0){
                 throw new DAOException("Creating cruise failed, no rows affected.");
@@ -149,6 +152,7 @@ public class MysqlCruiseDAO implements CruiseDAO {
             pst.setDate(++k, cruise.getEnd());
             pst.setString(++k, cruise.getStatus());
             pst.setDouble(++k, cruise.getTicketPrice());
+            pst.setInt(++k, cruise.getFreeSpaces());
             pst.setInt(++k, cruise.getId());
             int affectedRows = pst.executeUpdate();
             if (affectedRows == 0){
@@ -190,6 +194,26 @@ public class MysqlCruiseDAO implements CruiseDAO {
                 throw new DAOException("Changing status failed, no rows affected.");
             }
             cruise.setStatus(status);
+        } catch (SQLException e) {
+            throw new DAOException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void changeFreeSpaces(Cruise cruise, int freeSpaces) throws DAOException {
+        if (cruise.getId() == 0) {
+            throw new DAOException("Cruise is not created yet, the cruise ID is zero");
+        }
+        try (Connection con = dataSource.getConnection();
+             PreparedStatement pst = con.prepareStatement(SQL_CHANGE_FREE_SPACES)) {
+            int k = 0;
+            pst.setInt(++k, freeSpaces);
+            pst.setInt(++k, cruise.getId());
+            int affectedRows = pst.executeUpdate();
+            if (affectedRows == 0) {
+                throw new DAOException("Changing status failed, no rows affected.");
+            }
+            cruise.setFreeSpaces(freeSpaces);
         } catch (SQLException e) {
             throw new DAOException(e.getMessage());
         }
@@ -257,6 +281,7 @@ public class MysqlCruiseDAO implements CruiseDAO {
         cruise.setEnd(resultSet.getDate("end"));
         cruise.setStatus(resultSet.getString("status"));
         cruise.setTicketPrice(resultSet.getDouble("ticket_price"));
+        cruise.setFreeSpaces(resultSet.getInt("free_spaces"));
         cruise.setCruiseShip(DAOFactory.getInstance().getCruiseShipDAO().findById(resultSet.getInt("cruise_ship_id")));
         cruise.setRoute(DAOFactory.getInstance().getRouteDAO().findById(resultSet.getInt("route_id")));
         return cruise;

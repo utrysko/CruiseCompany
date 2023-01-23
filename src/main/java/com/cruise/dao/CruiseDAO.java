@@ -17,6 +17,7 @@ public interface CruiseDAO {
     void update(Cruise cruise) throws DAOException;
     void delete(Cruise cruise) throws DAOException;
     void changeStatus(Cruise cruise, String status) throws DAOException;
+    void changeFreeSpaces(Cruise cruise, int freeSpaces) throws DAOException;
     void addShipToCruise(CruiseShip cruiseShip, Cruise cruise) throws DAOException;
     void addRouteToCruise(Route route, Cruise cruise) throws DAOException;
     boolean cruiseUsedRoute(int idRoute) throws DAOException;

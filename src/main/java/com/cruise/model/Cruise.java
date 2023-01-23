@@ -12,6 +12,7 @@ public class Cruise implements Serializable {
     private Date end;
     private String status;
     private double ticketPrice;
+    private int freeSpaces;
     private CruiseShip cruiseShip;
     private Route route;
 
@@ -54,6 +55,14 @@ public class Cruise implements Serializable {
 
     public void setTicketPrice(double ticketPrice) {
         this.ticketPrice = ticketPrice;
+    }
+
+    public int getFreeSpaces() {
+        return freeSpaces;
+    }
+
+    public void setFreeSpaces(int freeSpaces) {
+        this.freeSpaces = freeSpaces;
     }
 
     public Route getRoute() {

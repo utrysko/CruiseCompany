@@ -45,9 +45,10 @@ class MysqlCruiseDAOTest {
         cruiseId = 15;
         testCruise = new Cruise();
         testCruise.setStart(Date.valueOf(LocalDate.now()));
-        testCruise.setStart(Date.valueOf(LocalDate.now().plusDays(5)));
+        testCruise.setEnd(Date.valueOf(LocalDate.now().plusDays(5)));
         testCruise.setStatus("Status");
         testCruise.setTicketPrice(50.0);
+        testCruise.setFreeSpaces(50);
 
     }
 
@@ -74,6 +75,7 @@ class MysqlCruiseDAOTest {
         when(mockResultSet.getDate("end")).thenReturn(testCruise.getEnd());
         when(mockResultSet.getString("status")).thenReturn(testCruise.getStatus());
         when(mockResultSet.getDouble("ticket_price")).thenReturn(testCruise.getTicketPrice());
+        when(mockResultSet.getInt("free_spaces")).thenReturn(testCruise.getFreeSpaces());
     }
 
     @Test
@@ -99,6 +101,7 @@ class MysqlCruiseDAOTest {
         verify(mockPreparedStmt, times(2)).setDate(anyInt(), any());
         verify(mockPreparedStmt, times(1)).setString(anyInt(), anyString());
         verify(mockPreparedStmt, times(1)).setDouble(anyInt(), anyDouble());
+        verify(mockPreparedStmt, times(1)).setInt(anyInt(), anyInt());
         verify(mockPreparedStmt, times(1)).executeUpdate();
         verify(mockResultSet, times(1)).next();
         verify(mockResultSet, times(1)).getInt(1);
@@ -147,7 +150,7 @@ class MysqlCruiseDAOTest {
         verify(mockPreparedStmt, times(2)).setDate(anyInt(), any());
         verify(mockPreparedStmt, times(1)).setString(anyInt(), anyString());
         verify(mockPreparedStmt, times(1)).setDouble(anyInt(), anyDouble());
-        verify(mockPreparedStmt, times(1)).setInt(anyInt(), anyInt());
+        verify(mockPreparedStmt, times(2)).setInt(anyInt(), anyInt());
         verify(mockPreparedStmt, times(1)).executeUpdate();
 
     }
