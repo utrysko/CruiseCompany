@@ -7,6 +7,8 @@ import java.sql.SQLException;
 
 import com.cruise.connection.DataSource;
 import com.cruise.dao.CruiseDAO;
+import com.cruise.dao.CruiseShipDAO;
+import com.cruise.dao.RouteDAO;
 import com.cruise.model.Cruise;
 import com.cruise.model.CruiseShip;
 import com.cruise.model.Route;
@@ -24,6 +26,8 @@ import static org.mockito.Mockito.*;
 class MysqlCruiseDAOTest {
 
     static CruiseDAO cruiseDAO;
+    static CruiseShipDAO mockCruiseShipDAO;
+    static RouteDAO mockRouteDAO;
 
     static DataSource mockDataSource;
 
@@ -37,11 +41,13 @@ class MysqlCruiseDAOTest {
 
     @BeforeAll
     static public void globalSetUp() throws SQLException{
+        mockRouteDAO = mock(RouteDAO.class);
+        mockCruiseShipDAO = mock(CruiseShipDAO.class);
         mockDataSource = mock(DataSource.class);
         mockConn = mock(Connection.class);
         mockPreparedStmt = mock(PreparedStatement.class);
         mockResultSet = mock(ResultSet.class);
-        cruiseDAO = new MysqlCruiseDAO(mockDataSource);
+        cruiseDAO = new MysqlCruiseDAO(mockDataSource, mockCruiseShipDAO, mockRouteDAO);
         cruiseId = 15;
         testCruise = new Cruise();
         testCruise.setStart(Date.valueOf(LocalDate.now()));
@@ -65,6 +71,8 @@ class MysqlCruiseDAOTest {
         doNothing().when(mockPreparedStmt).setDate(anyInt(), any());
         doNothing().when(mockPreparedStmt).setDouble(anyInt(), anyDouble());
         doNothing().when(mockPreparedStmt).setInt(anyInt(), anyInt());
+        when(mockCruiseShipDAO.findById(anyInt())).thenReturn(new CruiseShip());
+        when(mockRouteDAO.findById(anyInt())).thenReturn(new Route());
         when(mockPreparedStmt.executeUpdate()).thenReturn(1);
         when(mockPreparedStmt.executeQuery()).thenReturn(mockResultSet);
         when(mockPreparedStmt.getGeneratedKeys()).thenReturn(mockResultSet);

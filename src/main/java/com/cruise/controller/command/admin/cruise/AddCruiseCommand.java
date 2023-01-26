@@ -19,6 +19,9 @@ public class AddCruiseCommand implements Command {
     public AddCruiseCommand(){
         cruiseService = AppContext.getInstance().getCruiseService();
     }
+    public AddCruiseCommand(CruiseService cruiseService){
+        this.cruiseService = cruiseService;
+    }
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String forward = AllPath.CRUISES_COMMAND;

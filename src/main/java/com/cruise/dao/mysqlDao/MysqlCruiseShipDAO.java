@@ -2,8 +2,8 @@ package com.cruise.dao.mysqlDao;
 
 import com.cruise.connection.DataSource;
 import com.cruise.dao.CruiseShipDAO;
+import com.cruise.dao.StaffDAO;
 import com.cruise.exceptions.DAOException;
-import com.cruise.dao.DAOFactory;
 import com.cruise.model.Cruise;
 import com.cruise.model.CruiseShip;
 
@@ -14,9 +14,11 @@ import java.util.List;
 public class MysqlCruiseShipDAO implements CruiseShipDAO {
 
     private final DataSource dataSource;
+    private final StaffDAO staffDAO;
 
-    public MysqlCruiseShipDAO(DataSource dataSource){
+    public MysqlCruiseShipDAO(DataSource dataSource, StaffDAO staffDAO){
         this.dataSource = dataSource;
+        this.staffDAO = staffDAO;
     }
 
     private static final String SQL_FIND_BY_ID =
@@ -255,7 +257,7 @@ public class MysqlCruiseShipDAO implements CruiseShipDAO {
         cruiseShip.setCapacity(resultSet.getInt("capacity"));
         cruiseShip.setStatus(resultSet.getString("status"));
         cruiseShip.setAvailableFrom(resultSet.getDate("available_from"));
-        cruiseShip.setStaff(DAOFactory.getInstance().getStaffDAO().getAllByCruiseId(cruiseShip.getId()));
+        cruiseShip.setStaff(staffDAO.getAllByCruiseId(cruiseShip.getId()));
         return cruiseShip;
     }
 }

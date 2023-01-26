@@ -4,16 +4,22 @@ import com.cruise.connection.DataSource;
 import com.cruise.dao.*;
 
 public class MysqlDAOFactory extends DAOFactory {
+
+    private final DataSource dataSource;
     private CruiseShipDAO cruiseShipDAO;
     private CruiseDAO cruiseDAO;
     private UserDAO userDAO;
     private TicketDAO ticketDAO;
     private RouteDAO routeDAO;
     private StaffDAO staffDAO;
+
+    public MysqlDAOFactory(DataSource dataSource){
+        this.dataSource = dataSource;
+    }
     @Override
     public UserDAO getUserDAO() {
         if (userDAO == null){
-            userDAO = new MysqlUserDAO(new DataSource());
+            userDAO = new MysqlUserDAO(dataSource);
         }
         return userDAO;
     }
@@ -21,7 +27,7 @@ public class MysqlDAOFactory extends DAOFactory {
     @Override
     public CruiseShipDAO getCruiseShipDAO() {
         if (cruiseShipDAO == null){
-            cruiseShipDAO = new MysqlCruiseShipDAO(new DataSource());
+            cruiseShipDAO = new MysqlCruiseShipDAO(dataSource, getStaffDAO());
         }
         return cruiseShipDAO;
     }
@@ -29,7 +35,7 @@ public class MysqlDAOFactory extends DAOFactory {
     @Override
     public CruiseDAO getCruiseDAO() {
         if (cruiseDAO == null){
-            cruiseDAO = new MysqlCruiseDAO(new DataSource());
+            cruiseDAO = new MysqlCruiseDAO(dataSource, getCruiseShipDAO(), getRouteDAO());
         }
         return cruiseDAO;
     }
@@ -37,7 +43,7 @@ public class MysqlDAOFactory extends DAOFactory {
     @Override
     public RouteDAO getRouteDAO() {
         if (routeDAO == null){
-            routeDAO = new MysqlRouteDAO(new DataSource());
+            routeDAO = new MysqlRouteDAO(dataSource);
         }
         return routeDAO;
     }
@@ -45,7 +51,7 @@ public class MysqlDAOFactory extends DAOFactory {
     @Override
     public StaffDAO getStaffDAO() {
         if (staffDAO == null){
-            staffDAO = new MysqlStaffDAO(new DataSource());
+            staffDAO = new MysqlStaffDAO(dataSource);
         }
         return staffDAO;
     }
@@ -53,7 +59,7 @@ public class MysqlDAOFactory extends DAOFactory {
     @Override
     public TicketDAO getTicketDAO() {
         if (ticketDAO == null){
-            ticketDAO = new MysqlTicketDAO(new DataSource());
+            ticketDAO = new MysqlTicketDAO(dataSource, getCruiseDAO());
         }
         return ticketDAO;
     }

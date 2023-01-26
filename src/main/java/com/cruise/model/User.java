@@ -15,7 +15,6 @@ public class User implements Serializable {
     private String password;
     private int roleId;
     private double balance;
-    private List<Ticket> tickets;
 
     public User(String login, String firstName, String lastName, String email, String password, int roleId, double balance){
         this.id = 0;
@@ -94,13 +93,6 @@ public class User implements Serializable {
         this.balance = balance;
     }
 
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
     @Override
     public boolean equals(Object o){
         if (o instanceof User){
@@ -121,7 +113,6 @@ public class User implements Serializable {
                 ", password='" + password + '\'' +
                 ", roleId='" + roleId + '\'' +
                 ", balance=" + balance +
-                ", tickets=" + tickets +
                 '}';
     }
 }

@@ -2,7 +2,6 @@ package com.cruise.dao.mysqlDao;
 
 import com.cruise.connection.DataSource;
 import com.cruise.exceptions.DAOException;
-import com.cruise.dao.DAOFactory;
 import com.cruise.dao.UserDAO;
 import com.cruise.model.User;
 
@@ -223,7 +222,6 @@ public class MysqlUserDAO implements UserDAO {
         user.setPassword(resultSet.getString("password"));
         user.setRoleId(resultSet.getInt("role_id"));
         user.setBalance(resultSet.getDouble("balance"));
-        user.setTickets(DAOFactory.getInstance().getTicketDAO().findAllByUser(user));
         return user;
     }
 }

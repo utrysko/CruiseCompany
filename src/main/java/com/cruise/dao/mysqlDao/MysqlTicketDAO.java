@@ -1,6 +1,7 @@
 package com.cruise.dao.mysqlDao;
 
 import com.cruise.connection.DataSource;
+import com.cruise.dao.CruiseDAO;
 import com.cruise.dao.DAOFactory;
 import com.cruise.exceptions.DAOException;
 import com.cruise.dao.TicketDAO;
@@ -16,9 +17,11 @@ public class MysqlTicketDAO implements TicketDAO {
 
 
     private final DataSource dataSource;
+    private final CruiseDAO cruiseDAO;
 
-    public MysqlTicketDAO(DataSource dataSource) {
+    public MysqlTicketDAO(DataSource dataSource, CruiseDAO cruiseDAO) {
         this.dataSource = dataSource;
+        this.cruiseDAO = cruiseDAO;
     }
 
     private static final String SQL_FIND_BY_ID =
@@ -271,7 +274,7 @@ public class MysqlTicketDAO implements TicketDAO {
         ticket.setId(resultSet.getInt("id"));
         ticket.setClientId(resultSet.getInt("user_id"));
         ticket.setCruiseId(resultSet.getInt("cruises_id"));
-        ticket.setCruise(DAOFactory.getInstance().getCruiseDAO().findById(ticket.getCruiseId()));
+        ticket.setCruise(cruiseDAO.findById(ticket.getCruiseId()));
         ticket.setStatus(resultSet.getString("status"));
         ticket.setDocument(resultSet.getBlob("document"));
         return ticket;
@@ -305,7 +308,7 @@ public class MysqlTicketDAO implements TicketDAO {
         try (PreparedStatement pst = con.prepareStatement(SQL_CHANGE_FREE_SPACES)) {
             int k = 0;
             pst.setInt(++k, cruise.getFreeSpaces() - 1);
-            pst.setInt(++k, cruise.getCruiseShip().getId());
+            pst.setInt(++k, cruise.getId());
             int affectedRowsFreeSpaces = pst.executeUpdate();
             if (affectedRowsFreeSpaces == 0) {
                 throw new DAOException("Creating ticket failed, free spaces don't change.");

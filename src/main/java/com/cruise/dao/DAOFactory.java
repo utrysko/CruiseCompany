@@ -1,6 +1,7 @@
 package com.cruise.dao;
 
 
+import com.cruise.connection.DataSource;
 import com.cruise.dao.mysqlDao.MysqlDAOFactory;
 
 public abstract class DAOFactory {
@@ -10,7 +11,7 @@ public abstract class DAOFactory {
 
     public static synchronized DAOFactory getInstance() {
         if (instance == null){
-            instance = new MysqlDAOFactory();
+            instance = new MysqlDAOFactory(new DataSource());
         }
         return instance;
     }

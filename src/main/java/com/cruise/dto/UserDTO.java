@@ -17,7 +17,6 @@ public class UserDTO implements Serializable {
     private String email;
     private int roleId;
     private double balance;
-    private List<Ticket> tickets;
 
     public int getId() {
         return id;
@@ -75,11 +74,4 @@ public class UserDTO implements Serializable {
         this.balance = balance;
     }
 
-    public List<Ticket> getTickets() {
-        return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
-    }
 }

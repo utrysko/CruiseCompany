@@ -2,7 +2,8 @@ package com.cruise.dao.mysqlDao;
 
 import com.cruise.connection.DataSource;
 import com.cruise.dao.CruiseDAO;
-import com.cruise.dao.DAOFactory;
+import com.cruise.dao.CruiseShipDAO;
+import com.cruise.dao.RouteDAO;
 import com.cruise.exceptions.DAOException;
 import com.cruise.model.Cruise;
 import com.cruise.model.CruiseShip;
@@ -15,9 +16,13 @@ import java.util.List;
 public class MysqlCruiseDAO implements CruiseDAO {
 
     private final DataSource dataSource;
+    private final CruiseShipDAO cruiseShipDAO;
+    private final RouteDAO routeDAO;
 
-    public MysqlCruiseDAO(DataSource dataSource){
+    public MysqlCruiseDAO(DataSource dataSource, CruiseShipDAO cruiseShipDAO, RouteDAO routeDAO){
         this.dataSource = dataSource;
+        this.cruiseShipDAO = cruiseShipDAO;
+        this.routeDAO = routeDAO;
     }
 
     private static final String SQL_FIND_BY_ID =
@@ -282,8 +287,8 @@ public class MysqlCruiseDAO implements CruiseDAO {
         cruise.setStatus(resultSet.getString("status"));
         cruise.setTicketPrice(resultSet.getDouble("ticket_price"));
         cruise.setFreeSpaces(resultSet.getInt("free_spaces"));
-        cruise.setCruiseShip(DAOFactory.getInstance().getCruiseShipDAO().findById(resultSet.getInt("cruise_ship_id")));
-        cruise.setRoute(DAOFactory.getInstance().getRouteDAO().findById(resultSet.getInt("route_id")));
+        cruise.setCruiseShip(cruiseShipDAO.findById(resultSet.getInt("cruise_ship_id")));
+        cruise.setRoute(routeDAO.findById(resultSet.getInt("route_id")));
         return cruise;
     }
 }
