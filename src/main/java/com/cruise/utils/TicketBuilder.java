@@ -1,8 +1,8 @@
 package com.cruise.utils;
 
-import com.cruise.model.Cruise;
-import com.cruise.model.Ticket;
-import com.cruise.model.User;
+import com.cruise.model.entities.Cruise;
+import com.cruise.model.entities.Ticket;
+import com.cruise.model.entities.User;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;

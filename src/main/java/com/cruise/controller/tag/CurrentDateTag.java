@@ -5,6 +5,12 @@ import javax.servlet.jsp.tagext.TagSupport;
 import java.io.IOException;
 import java.time.LocalDate;
 
+/**
+ * Custom tag for displaying current data.
+ *
+ * @author Vasyl Utrysko.
+ * @version 1.0
+ */
 public class CurrentDateTag extends TagSupport {
 
     @Override

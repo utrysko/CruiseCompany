@@ -1,10 +1,11 @@
 package com.cruise.service.impl;
 
-import com.cruise.dao.StaffDAO;
+import com.cruise.model.dao.StaffDAO;
 import com.cruise.dto.StaffDTO;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.model.Staff;
-import com.cruise.service.StaffService;
+import com.cruise.model.entities.Staff;
+import com.cruise.model.service.StaffService;
+import com.cruise.model.service.impl.StaffServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

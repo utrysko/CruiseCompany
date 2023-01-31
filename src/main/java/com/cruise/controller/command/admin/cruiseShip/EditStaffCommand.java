@@ -1,14 +1,14 @@
 package com.cruise.controller.command.admin.cruiseShip;
 
-import com.cruise.appcontext.AppContext;
+import com.cruise.controller.appcontext.AppContext;
 import com.cruise.controller.AllPath;
-import com.cruise.controller.PaginationUtil;
+import com.cruise.utils.PaginationUtil;
 import com.cruise.controller.command.Command;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.model.CruiseShip;
-import com.cruise.model.Staff;
-import com.cruise.service.CruiseShipService;
-import com.cruise.service.StaffService;
+import com.cruise.model.entities.CruiseShip;
+import com.cruise.model.entities.Staff;
+import com.cruise.model.service.CruiseShipService;
+import com.cruise.model.service.StaffService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,6 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for edit cruise. Accessible only by admin.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class EditStaffCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(EditStaffCommand.class);
@@ -26,6 +32,13 @@ public class EditStaffCommand implements Command {
         cruiseShipService = AppContext.getInstance().getCruiseShipService();
         staffService = AppContext.getInstance().getStaffService();
     }
+
+    /**
+     * Called from main controller. Tries to get all staff on ship.
+     *
+     * @param req for get ship and staff on ship
+     * @return path to redirect from main controller
+     */
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String forward = AllPath.EDIT_STAFF_PAGE;
@@ -57,6 +70,11 @@ public class EditStaffCommand implements Command {
         return forward;
     }
 
+    /**
+     * Method to get Staff by id.
+     *
+     * @return path to forward from main controller
+     */
     private String getById(HttpServletRequest req, String forward, String cruiseShipId, String staffId, List<Staff> listStaff) {
         CruiseShip cruiseShip = null;
         try {

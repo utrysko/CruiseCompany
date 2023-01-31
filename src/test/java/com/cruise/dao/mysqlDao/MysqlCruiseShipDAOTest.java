@@ -1,12 +1,12 @@
 package com.cruise.dao.mysqlDao;
 
-import com.cruise.connection.DataSource;
-import com.cruise.dao.CruiseShipDAO;
-import com.cruise.dao.StaffDAO;
-import com.cruise.exceptions.ServiceException;
-import com.cruise.model.Cruise;
-import com.cruise.model.CruiseShip;
-import com.cruise.model.Staff;
+import com.cruise.model.connection.DataSource;
+import com.cruise.model.dao.CruiseShipDAO;
+import com.cruise.model.dao.StaffDAO;
+import com.cruise.model.dao.mysqlDao.MysqlCruiseShipDAO;
+import com.cruise.model.entities.Cruise;
+import com.cruise.model.entities.CruiseShip;
+import com.cruise.model.entities.Staff;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

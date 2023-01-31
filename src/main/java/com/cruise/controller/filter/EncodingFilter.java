@@ -14,7 +14,8 @@ import javax.servlet.ServletResponse;
 /**
  * Encoding filter.
  *
- * @author Vasyl Utrysko
+ * @author Vasyl Utrysko.
+ * @version 1.0
  */
 
 public class EncodingFilter implements Filter {

@@ -12,7 +12,7 @@
 </head>
 <body>
 <jsp:include page="/view/templates/admin_navbar.jsp"/>
-<div class="container">
+<div class="container" >
   <div class="text-center">
     <h2><fmt:message key="admin.menu.welcome"/> ${sessionScope.user.firstName}</h2>
     <img src="img/CruiseBanner.jpg">

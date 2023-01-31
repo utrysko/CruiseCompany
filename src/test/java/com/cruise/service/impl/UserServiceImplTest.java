@@ -1,11 +1,12 @@
 package com.cruise.service.impl;
 
-import com.cruise.dao.UserDAO;
+import com.cruise.model.dao.UserDAO;
 import com.cruise.dto.UserDTO;
 import com.cruise.exceptions.InvalidFormatException;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.model.User;
-import com.cruise.service.UserService;
+import com.cruise.model.entities.User;
+import com.cruise.model.service.UserService;
+import com.cruise.model.service.impl.UserServiceImpl;
 import com.lambdaworks.crypto.SCryptUtil;
 import org.junit.jupiter.api.*;
 

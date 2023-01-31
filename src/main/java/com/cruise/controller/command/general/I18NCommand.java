@@ -13,6 +13,7 @@ import javax.servlet.jsp.jstl.core.Config;
  * Internationalization controller command.
  *
  * @author Vasyl Utrysko
+ * @version 1.0
  */
 public class I18NCommand implements Command {
     private static final Logger LOG = LogManager.getLogger(I18NCommand.class);

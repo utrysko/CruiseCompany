@@ -2,7 +2,14 @@ package com.cruise.dto;
 
 import java.io.Serializable;
 
+/**
+ * StaffDTO class. Fields are similar to Staff entity.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class StaffDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private int id;

@@ -16,6 +16,7 @@ import javax.servlet.ServletContextListener;
  * Context listener.
  *
  * @author Vasyl Utrysko.
+ * @version 1.0
  */
 public class ContextListener implements ServletContextListener {
     private static final Logger LOG = LogManager.getLogger(ContextListener.class);

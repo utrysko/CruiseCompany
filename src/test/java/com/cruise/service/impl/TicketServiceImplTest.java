@@ -1,13 +1,14 @@
 package com.cruise.service.impl;
 
-import com.cruise.dao.CruiseDAO;
-import com.cruise.dao.TicketDAO;
-import com.cruise.dao.UserDAO;
+import com.cruise.model.dao.CruiseDAO;
+import com.cruise.model.dao.TicketDAO;
+import com.cruise.model.dao.UserDAO;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.model.Cruise;
-import com.cruise.model.Ticket;
-import com.cruise.model.User;
-import com.cruise.service.TicketService;
+import com.cruise.model.entities.Cruise;
+import com.cruise.model.entities.Ticket;
+import com.cruise.model.entities.User;
+import com.cruise.model.service.TicketService;
+import com.cruise.model.service.impl.TicketServiceImpl;
 import com.mysql.cj.jdbc.Blob;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

@@ -2,7 +2,7 @@ package com.cruise.controller.command.admin.cruise;
 
 import com.cruise.dto.CruiseDTO;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.service.CruiseService;
+import com.cruise.model.service.CruiseService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

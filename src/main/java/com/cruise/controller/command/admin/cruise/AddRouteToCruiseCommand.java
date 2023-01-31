@@ -1,14 +1,14 @@
 package com.cruise.controller.command.admin.cruise;
 
-import com.cruise.appcontext.AppContext;
+import com.cruise.controller.appcontext.AppContext;
 import com.cruise.controller.AllPath;
-import com.cruise.controller.PaginationUtil;
+import com.cruise.utils.PaginationUtil;
 import com.cruise.controller.command.Command;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.model.Cruise;
-import com.cruise.model.Route;
-import com.cruise.service.CruiseService;
-import com.cruise.service.RouteService;
+import com.cruise.model.entities.Cruise;
+import com.cruise.model.entities.Route;
+import com.cruise.model.service.CruiseService;
+import com.cruise.model.service.RouteService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,6 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Class for adding route to cruise.Accessible only by admin.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class AddRouteToCruiseCommand implements Command {
     private static final Logger LOG = LogManager.getLogger(AddRouteToCruiseCommand.class);
     private final CruiseService cruiseService;
@@ -24,6 +30,13 @@ public class AddRouteToCruiseCommand implements Command {
         cruiseService = AppContext.getInstance().getCruiseService();
         routeService = AppContext.getInstance().getRouteService();
     }
+
+    /**
+     * Called from main controller. Tries to add route to cruise.
+     *
+     * @param req for choose route from database
+     * @return path to redirect from main controller
+     */
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         if (req.getParameter("routeId") != null){
@@ -52,6 +65,12 @@ public class AddRouteToCruiseCommand implements Command {
         return forward;
     }
 
+    /**
+     * Method to get Cruise and Route from request and add route to cruise.
+     *
+     * @param req to get Cruise and Route
+     * @return path to redirect from main controller
+     */
     private String addRouteToCruise(HttpServletRequest req) {
         int routeId = Integer.parseInt(req.getParameter("routeId"));
         int cruiseId = Integer.parseInt(req.getParameter("cruiseId"));

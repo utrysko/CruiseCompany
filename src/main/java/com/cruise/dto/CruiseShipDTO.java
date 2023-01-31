@@ -1,11 +1,17 @@
 package com.cruise.dto;
 
-import com.cruise.model.Staff;
+import com.cruise.model.entities.Staff;
 
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
+/**
+ * CruiseShipDTO class. Fields are similar to CruiseShip entity.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class CruiseShipDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 

@@ -1,15 +1,16 @@
 package com.cruise.dao.mysqlDao;
 
-import com.cruise.dao.CruiseDAO;
-import com.cruise.dao.TicketDAO;
-import com.cruise.model.Cruise;
-import com.cruise.model.Ticket;
-import com.cruise.model.User;
+import com.cruise.model.dao.CruiseDAO;
+import com.cruise.model.dao.TicketDAO;
+import com.cruise.model.dao.mysqlDao.MysqlTicketDAO;
+import com.cruise.model.entities.Cruise;
+import com.cruise.model.entities.Ticket;
+import com.cruise.model.entities.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.cruise.connection.DataSource;
+import com.cruise.model.connection.DataSource;
 
 import java.sql.*;
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.cruise.controller.filter;
 
 import com.cruise.controller.AllPath;
-import com.cruise.model.Role;
+import com.cruise.model.entities.Role;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +14,8 @@ import java.util.*;
 /**
  * Security filter.
  *
- * @author Vasyl Utrysko
+ * @author Vasyl Utrysko.
+ * @version 1.0
  */
 
 public class SecurityFilter implements Filter {

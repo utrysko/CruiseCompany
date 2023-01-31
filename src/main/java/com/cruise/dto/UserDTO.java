@@ -1,11 +1,13 @@
 package com.cruise.dto;
 
-import com.cruise.model.Ticket;
-import com.cruise.model.User;
-
 import java.io.Serializable;
-import java.util.List;
 
+/**
+ * UserDTO class. Fields are similar to User entity.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class UserDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;

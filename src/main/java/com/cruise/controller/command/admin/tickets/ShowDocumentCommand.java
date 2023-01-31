@@ -1,11 +1,11 @@
 package com.cruise.controller.command.admin.tickets;
 
-import com.cruise.appcontext.AppContext;
+import com.cruise.controller.appcontext.AppContext;
 import com.cruise.controller.AllPath;
 import com.cruise.controller.command.Command;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.model.Ticket;
-import com.cruise.service.TicketService;
+import com.cruise.model.entities.Ticket;
+import com.cruise.model.service.TicketService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +15,12 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
 
-
+/**
+ * Class for getting client document. Accessible only by admin.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class ShowDocumentCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(ShowDocumentCommand.class);
@@ -23,6 +28,13 @@ public class ShowDocumentCommand implements Command {
     public ShowDocumentCommand(){
         ticketService = AppContext.getInstance().getTicketService();
     }
+
+    /**
+     * Called from main controller. Tries to show client document.
+     *
+     * @param req for get ticket id
+     * @return path to redirect from main controller
+     */
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String forward = AllPath.MANAGE_TICKETS_COMMAND;

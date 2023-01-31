@@ -1,7 +1,7 @@
 package com.cruise.utils;
 
 import com.cruise.dto.*;
-import com.cruise.model.*;
+import com.cruise.model.entities.*;
 
 
 public final class ConvertorUtil {

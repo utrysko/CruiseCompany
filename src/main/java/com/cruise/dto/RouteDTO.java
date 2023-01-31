@@ -3,7 +3,14 @@ package com.cruise.dto;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * RouteDTO class. Fields are similar to Route entity.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class RouteDTO implements Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private int id;

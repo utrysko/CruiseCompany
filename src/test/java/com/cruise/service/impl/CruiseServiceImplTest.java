@@ -1,14 +1,15 @@
 package com.cruise.service.impl;
 
-import com.cruise.dao.CruiseDAO;
-import com.cruise.dao.CruiseShipDAO;
+import com.cruise.model.dao.CruiseDAO;
+import com.cruise.model.dao.CruiseShipDAO;
 import com.cruise.dto.CruiseDTO;
 import com.cruise.exceptions.InvalidFormatException;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.model.Cruise;
-import com.cruise.model.CruiseShip;
-import com.cruise.model.Route;
-import com.cruise.service.CruiseService;
+import com.cruise.model.entities.Cruise;
+import com.cruise.model.entities.CruiseShip;
+import com.cruise.model.entities.Route;
+import com.cruise.model.service.CruiseService;
+import com.cruise.model.service.impl.CruiseServiceImpl;
 import com.cruise.utils.ConvertorUtil;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;

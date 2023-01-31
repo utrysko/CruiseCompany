@@ -1,11 +1,12 @@
 package com.cruise.service.impl;
 
-import com.cruise.dao.CruiseDAO;
-import com.cruise.dao.RouteDAO;
+import com.cruise.model.dao.CruiseDAO;
+import com.cruise.model.dao.RouteDAO;
 import com.cruise.dto.RouteDTO;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.model.Route;
-import com.cruise.service.RouteService;
+import com.cruise.model.entities.Route;
+import com.cruise.model.service.RouteService;
+import com.cruise.model.service.impl.RouteServiceImpl;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

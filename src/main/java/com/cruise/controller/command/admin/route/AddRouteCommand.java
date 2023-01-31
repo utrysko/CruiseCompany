@@ -1,10 +1,10 @@
 package com.cruise.controller.command.admin.route;
 
-import com.cruise.appcontext.AppContext;
+import com.cruise.controller.appcontext.AppContext;
 import com.cruise.controller.AllPath;
 import com.cruise.controller.command.Command;
 import com.cruise.dto.RouteDTO;
-import com.cruise.service.RouteService;
+import com.cruise.model.service.RouteService;
 import com.cruise.exceptions.ServiceException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +15,12 @@ import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for adding new Route. Accessible only by admin.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class AddRouteCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(AddRouteCommand.class);
@@ -22,6 +28,13 @@ public class AddRouteCommand implements Command {
     public AddRouteCommand(){
         this.routeService = AppContext.getInstance().getRouteService();
     }
+
+    /**
+     * Called from main controller. Tries to add new route.
+     *
+     * @param req to get RouteDTO instance
+     * @return path to redirect from main controller
+     */
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String forward = AllPath.ADD_ROUTE_PAGE;
@@ -46,6 +59,12 @@ public class AddRouteCommand implements Command {
         }
         return forward;
     }
+
+    /**
+     * Method to get RouteDTO from request
+     * @param req to get routeDTO
+     * @return RouteDTO
+     */
     private RouteDTO getRouteDTO(HttpServletRequest req){
         RouteDTO routeDTO = new RouteDTO();
         List<String> middlePorts = new ArrayList<>();

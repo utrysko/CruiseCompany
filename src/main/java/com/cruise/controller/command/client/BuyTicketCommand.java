@@ -1,11 +1,11 @@
 package com.cruise.controller.command.client;
 
-import com.cruise.appcontext.AppContext;
+import com.cruise.controller.appcontext.AppContext;
 import com.cruise.controller.AllPath;
 import com.cruise.controller.command.Command;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.model.Ticket;
-import com.cruise.service.TicketService;
+import com.cruise.model.entities.Ticket;
+import com.cruise.model.service.TicketService;
 import com.mysql.cj.jdbc.Blob;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -17,6 +17,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
+/**
+ * Class for buy ticket. Accessible only by an authorized client.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class BuyTicketCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(BuyTicketCommand.class);
@@ -24,6 +30,13 @@ public class BuyTicketCommand implements Command {
     public BuyTicketCommand(){
         ticketService = AppContext.getInstance().getTicketService();
     }
+
+    /**
+     * Called from main controller. Tries to create new ticket.
+     *
+     * @param req to get ticket instance
+     * @return path to redirect from main controller
+     */
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String forward = AllPath.CHOOSE_CRUISE_COMMAND;
@@ -36,6 +49,11 @@ public class BuyTicketCommand implements Command {
         }
         return forward;
     }
+    /**
+     * Method to get Ticket from request
+     * @param req to get ticket
+     * @return Ticket
+     */
     private Ticket getTicket(HttpServletRequest req) throws ServiceException{
         Ticket ticket = new Ticket();
         ticket.setClientId(Integer.parseInt(req.getParameter("clientId")));

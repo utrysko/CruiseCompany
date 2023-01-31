@@ -1,8 +1,9 @@
 package com.cruise.dao.mysqlDao;
 
-import com.cruise.connection.DataSource;
-import com.cruise.dao.UserDAO;
-import com.cruise.model.User;
+import com.cruise.model.connection.DataSource;
+import com.cruise.model.dao.UserDAO;
+import com.cruise.model.dao.mysqlDao.MysqlUserDAO;
+import com.cruise.model.entities.User;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

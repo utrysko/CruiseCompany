@@ -1,18 +1,24 @@
 package com.cruise.controller.command.client;
 
-import com.cruise.appcontext.AppContext;
+import com.cruise.controller.appcontext.AppContext;
 import com.cruise.controller.AllPath;
 import com.cruise.controller.command.Command;
 import com.cruise.dto.UserDTO;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.model.User;
-import com.cruise.service.UserService;
+import com.cruise.model.entities.User;
+import com.cruise.model.service.UserService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * Class for edit cruise. Accessible only by an authorized client.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class EditProfileCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(EditProfileCommand.class);
@@ -20,6 +26,13 @@ public class EditProfileCommand implements Command {
     public EditProfileCommand (){
         userService = AppContext.getInstance().getUserService();
     }
+
+    /**
+     * Called from main controller. Tries to edit user.
+     *
+     * @param req for get userDTO
+     * @return path to redirect from main controller
+     */
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String forward = AllPath.PERSONAL_CABINET_COMMAND;
@@ -33,7 +46,11 @@ public class EditProfileCommand implements Command {
         }
         return forward;
     }
-
+    /**
+     * Method to get UserDTO from request
+     * @param req to get userDTO
+     * @return UserDTO
+     */
     private UserDTO getUserDTO(HttpServletRequest req) throws ServiceException {
         String userId = req.getParameter("userId");
         User user = userService.findById(Integer.parseInt(userId));

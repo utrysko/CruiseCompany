@@ -1,11 +1,17 @@
 package com.cruise.dto;
 
-import com.cruise.model.CruiseShip;
-import com.cruise.model.Route;
+import com.cruise.model.entities.CruiseShip;
+import com.cruise.model.entities.Route;
 
 import java.io.Serializable;
 import java.sql.Date;
 
+/**
+ * CruiseDTO class. Fields are similar to Cruise entity.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class CruiseDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;

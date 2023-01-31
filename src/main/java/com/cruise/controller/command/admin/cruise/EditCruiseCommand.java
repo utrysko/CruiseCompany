@@ -1,12 +1,12 @@
 package com.cruise.controller.command.admin.cruise;
 
-import com.cruise.appcontext.AppContext;
+import com.cruise.controller.appcontext.AppContext;
 import com.cruise.controller.AllPath;
 import com.cruise.controller.command.Command;
 import com.cruise.dto.CruiseDTO;
 import com.cruise.exceptions.ServiceException;
-import com.cruise.model.Cruise;
-import com.cruise.service.CruiseService;
+import com.cruise.model.entities.Cruise;
+import com.cruise.model.service.CruiseService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,6 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 
+/**
+ * Class for edit cruise. Accessible only by admin.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class EditCruiseCommand implements Command {
 
     private static final Logger LOG = LogManager.getLogger(EditCruiseCommand.class);
@@ -22,6 +28,13 @@ public class EditCruiseCommand implements Command {
     public EditCruiseCommand(){
         cruiseService = AppContext.getInstance().getCruiseService();
     }
+
+    /**
+     * Called from main controller. Tries to change cruise.
+     *
+     * @param req for get cruiseDTO
+     * @return path to redirect from main controller
+     */
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String forward = AllPath.CRUISES_COMMAND;
@@ -35,6 +48,12 @@ public class EditCruiseCommand implements Command {
         }
         return forward;
     }
+
+    /**
+     * Method to get CruiseDTO from request
+     * @param req to get cruiseDTO
+     * @return CruiseDTO
+     */
     private CruiseDTO getCruiseDTO(HttpServletRequest req, Cruise cruise){
         CruiseDTO cruiseDTO = new CruiseDTO();
         cruiseDTO.setId(cruise.getId());

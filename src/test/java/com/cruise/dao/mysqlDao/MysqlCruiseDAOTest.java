@@ -5,13 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.cruise.connection.DataSource;
-import com.cruise.dao.CruiseDAO;
-import com.cruise.dao.CruiseShipDAO;
-import com.cruise.dao.RouteDAO;
-import com.cruise.model.Cruise;
-import com.cruise.model.CruiseShip;
-import com.cruise.model.Route;
+import com.cruise.model.connection.DataSource;
+import com.cruise.model.dao.CruiseDAO;
+import com.cruise.model.dao.CruiseShipDAO;
+import com.cruise.model.dao.RouteDAO;
+import com.cruise.model.dao.mysqlDao.MysqlCruiseDAO;
+import com.cruise.model.entities.Cruise;
+import com.cruise.model.entities.CruiseShip;
+import com.cruise.model.entities.Route;
 import org.junit.jupiter.api.*;
 
 
