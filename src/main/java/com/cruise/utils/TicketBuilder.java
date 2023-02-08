@@ -14,15 +14,25 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 /**
- * PDF builder util. Generates pdf-files for tickets.
+ * PDF builder util. Generates tickets in pdf format.
  *
  * @author Vasyl Utrysko.
+ * @version 1.0
  */
-
 public class TicketBuilder {
+
+    private TicketBuilder(){}
     private static final String TICKET_PDF_TITLE = "Ticket #";
     private static final String TICKET_PDF_PASSENGER_INFO = "Passenger info:";
 
+    /**
+     * Creates and put into response tickets in pdf format
+     *
+     * @param response - HttpResponse
+     * @param user - user instance
+     * @param cruise - cruise instance
+     * @param ticket - ticket instance
+     */
     public static void ticketPdf(HttpServletResponse response, User user, Cruise cruise, Ticket ticket) {
         Document document = new Document(PageSize.A4, 50, 50, 50, 50);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -96,6 +106,13 @@ public class TicketBuilder {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Opens ticket in browser
+     *
+     * @param response - HttpResponse
+     * @param baos - ByteArrayOutputStream
+     */
     private static void openInBrowser(HttpServletResponse response, ByteArrayOutputStream baos) {
         // setting some response headers
         response.setHeader("Expires", "0");
@@ -106,7 +123,7 @@ public class TicketBuilder {
         // the content length
         response.setContentLength(baos.size());
         // write ByteArrayOutputStream to the ServletOutputStream
-        OutputStream os = null;
+        OutputStream os;
         try {
             os = response.getOutputStream();
             baos.writeTo(os);

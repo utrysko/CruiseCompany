@@ -13,6 +13,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Class represents implementation of StaffService interface.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class StaffServiceImpl implements StaffService {
 
     private static final Logger LOG = LogManager.getLogger(StaffServiceImpl.class);
@@ -25,7 +31,7 @@ public class StaffServiceImpl implements StaffService {
     @Override
     public Staff findById(int id) throws ServiceException{
         Staff staff;
-        ValidationUtil.validateAllDigitCruiseFields(id);
+        ValidationUtil.validateDigitField(id);
         try {
             staff = staffDao.findById(id);
         } catch (DAOException e){

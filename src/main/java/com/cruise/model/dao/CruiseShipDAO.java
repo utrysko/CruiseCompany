@@ -76,6 +76,7 @@ public interface CruiseShipDAO {
      * @param cruiseShip - instance of CruiseShip
      */
     void update(CruiseShip cruiseShip) throws DAOException;
+
     /**
      * Delete cruiseShip from database
      *

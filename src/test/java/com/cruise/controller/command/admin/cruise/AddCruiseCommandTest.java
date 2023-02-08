@@ -1,5 +1,6 @@
 package com.cruise.controller.command.admin.cruise;
 
+import com.cruise.controller.AllPath;
 import com.cruise.dto.CruiseDTO;
 import com.cruise.exceptions.ServiceException;
 import com.cruise.model.service.CruiseService;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.Date;
 import java.time.LocalDate;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class AddCruiseCommandTest {
@@ -45,8 +47,9 @@ class AddCruiseCommandTest {
 
     @Test
     void execute() throws ServiceException{
-        addCruiseCommand.execute(mockReq, mockResp);
-        //verify
+        String path = addCruiseCommand.execute(mockReq, mockResp);
+        //verify and assert
+        assertEquals(AllPath.CRUISES_COMMAND, path);
         verify(mockCruiseService, times(1)).create(any(CruiseDTO.class));
         verify(mockReq, times(1)).getParameter("startDate");
         verify(mockReq, times(1)).getParameter("endDate");

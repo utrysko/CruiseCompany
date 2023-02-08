@@ -29,13 +29,9 @@ class MysqlCruiseDAOTest {
     static CruiseDAO cruiseDAO;
     static CruiseShipDAO mockCruiseShipDAO;
     static RouteDAO mockRouteDAO;
-
     static DataSource mockDataSource;
-
     static Connection mockConn;
-
     static PreparedStatement mockPreparedStmt;
-
     static ResultSet mockResultSet;
     static Cruise testCruise;
     static int cruiseId;

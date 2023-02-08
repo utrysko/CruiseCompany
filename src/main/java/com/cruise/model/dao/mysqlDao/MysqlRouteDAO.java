@@ -10,6 +10,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Implementation of RouteDAO interface for MySQL
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class MysqlRouteDAO implements RouteDAO {
 
     private final DataSource dataSource;

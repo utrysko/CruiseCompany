@@ -3,9 +3,22 @@ package com.cruise.utils;
 import com.cruise.dto.*;
 import com.cruise.model.entities.*;
 
+/**
+ * Util class for converting entity to DTO and vise versa
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
+public class ConvertorUtil {
 
-public final class ConvertorUtil {
+    private ConvertorUtil(){}
 
+    /**
+     * Convert UserDTO to User
+     *
+     * @param userDTO - instance of UserDTO
+     * @return User
+     */
     public static User convertUserDTOtoUser(UserDTO userDTO){
         User user = new User();
         user.setId(userDTO.getId());
@@ -17,6 +30,13 @@ public final class ConvertorUtil {
         user.setBalance(userDTO.getBalance());
         return user;
     }
+
+    /**
+     * Convert User to UserDTO
+     *
+     * @param user - instance of User
+     * @return UserDTO
+     */
     public static UserDTO convertUserToDTO(User user){
         UserDTO userDTO = new UserDTO();
         userDTO.setId(user.getId());
@@ -28,6 +48,13 @@ public final class ConvertorUtil {
         userDTO.setBalance(user.getBalance());
         return userDTO;
     }
+
+    /**
+     * Convert CruiseShipDTO to CruiseShip
+     *
+     * @param cruiseShipDTO - instance of CruiseShipDTO
+     * @return CruiseShip
+     */
     public static CruiseShip convertDTOtoCruiseShip(CruiseShipDTO cruiseShipDTO){
         CruiseShip cruiseShip = new CruiseShip();
         cruiseShip.setId(cruiseShipDTO.getId());
@@ -38,6 +65,12 @@ public final class ConvertorUtil {
         return cruiseShip;
     }
 
+    /**
+     * Convert CruiseShip to CruiseShipDTO
+     *
+     * @param cruiseShip - instance of CruiseShip
+     * @return CruiseShipDTO
+     */
     public static CruiseShipDTO convertCruiseShipToDTO(CruiseShip cruiseShip){
         CruiseShipDTO cruiseShipDTO = new CruiseShipDTO();
         cruiseShipDTO.setId(cruiseShip.getId());
@@ -47,6 +80,13 @@ public final class ConvertorUtil {
         cruiseShipDTO.setStaff(cruiseShip.getStaff());
         return cruiseShipDTO;
     }
+
+    /**
+     * Convert RouteDTO to Route
+     *
+     * @param routeDTO - instance of RouteDTO
+     * @return Route
+     */
     public static Route convertDTOtoRoute(RouteDTO routeDTO){
         Route route = new Route();
         route.setId(routeDTO.getId());
@@ -56,6 +96,13 @@ public final class ConvertorUtil {
         route.setEndPort(routeDTO.getEndPort());
         return route;
     }
+
+    /**
+     * Convert Route to RouteDTO
+     *
+     * @param route - instance of Route
+     * @return RouteDTO
+     */
     public static RouteDTO convertRouteToDTO(Route route){
         RouteDTO routeDTO = new RouteDTO();
         routeDTO.setId(route.getId());
@@ -65,6 +112,13 @@ public final class ConvertorUtil {
         routeDTO.setEndPort(route.getEndPort());
         return routeDTO;
     }
+
+    /**
+     * Convert CruiseDTO to Cruise
+     *
+     * @param cruiseDTO - instance of CruiseDTO
+     * @return Cruise
+     */
     public static Cruise convertDTOtoCruise(CruiseDTO cruiseDTO){
         Cruise cruise = new Cruise();
         cruise.setId(cruiseDTO.getId());
@@ -77,6 +131,13 @@ public final class ConvertorUtil {
         cruise.setRoute(cruiseDTO.getRoute());
         return cruise;
     }
+
+    /**
+     * Convert Cruise to CruiseDTO
+     *
+     * @param cruise - instance of Cruise
+     * @return CruiseDTO
+     */
     public static CruiseDTO convertCruiseToDTO(Cruise cruise){
         CruiseDTO cruiseDTO = new CruiseDTO();
         cruiseDTO.setId(cruise.getId());
@@ -88,6 +149,13 @@ public final class ConvertorUtil {
         cruiseDTO.setRoute(cruise.getRoute());
         return cruiseDTO;
     }
+
+    /**
+     * Convert StaffDTO to Staff
+     *
+     * @param staffDTO - instance of StaffDTO
+     * @return Staff
+     */
     public static Staff convertDTOtoStaff(StaffDTO staffDTO){
         Staff staff = new Staff();
         staff.setFirstName(staffDTO.getFirstName());

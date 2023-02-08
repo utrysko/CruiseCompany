@@ -26,6 +26,9 @@ public class ChangeCruiseStatusCommand implements Command {
     public ChangeCruiseStatusCommand(){
         cruiseService = AppContext.getInstance().getCruiseService();
     }
+    public ChangeCruiseStatusCommand(CruiseService cruiseService){
+        this.cruiseService = cruiseService;
+    }
 
     /**
      * Called from main controller. Tries to change cruise status.

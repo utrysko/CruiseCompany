@@ -15,6 +15,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Class represents implementation of TicketService interface.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class TicketServiceImpl implements TicketService {
 
     private static final Logger LOG = LogManager.getLogger(TicketServiceImpl.class);
@@ -31,7 +37,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public Ticket findById(int id) throws ServiceException {
         Ticket ticket;
-        ValidationUtil.validateAllDigitCruiseFields(id);
+        ValidationUtil.validateDigitField(id);
         try {
             ticket = ticketDAO.findById(id);
         } catch (DAOException e) {
@@ -118,6 +124,9 @@ public class TicketServiceImpl implements TicketService {
         try {
             Cruise cruise = cruiseDAO.findById(ticket.getCruiseId());
             User user = userDAO.findById(ticket.getClientId());
+            if (cruise.getFreeSpaces() < 1 || user.getBalance() < cruise.getTicketPrice()){
+                throw new ServiceException("Cruise don't have free spaces or your balance is less then ticket price");
+            }
             ticketDAO.create(ticket, user, cruise);
         } catch (DAOException e){
             LOG.error(e.getMessage());

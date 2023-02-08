@@ -16,6 +16,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Class represents implementation of RouteService interface.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class RouteServiceImpl implements RouteService {
     private static final Logger LOG = LogManager.getLogger(RouteServiceImpl.class);
 
@@ -29,7 +35,7 @@ public class RouteServiceImpl implements RouteService {
     @Override
     public Route findById(int id) throws ServiceException {
         Route route;
-        ValidationUtil.validateAllDigitCruiseFields(id);
+        ValidationUtil.validateDigitField(id);
         try {
             route = routeDao.findById(id);
         } catch (DAOException e){
@@ -112,10 +118,10 @@ public class RouteServiceImpl implements RouteService {
         }
     }
     private void validateRoute(RouteDTO routeDTO) throws ServiceException{
-        ValidationUtil.validateField(routeDTO.getStartPort(), Regex.PORT_REGEX, ExceptionMessage.ERROR_PORT_NAME);
-        ValidationUtil.validateField(routeDTO.getEndPort(), Regex.PORT_REGEX, ExceptionMessage.ERROR_PORT_NAME);
+        ValidationUtil.validateStringField(routeDTO.getStartPort(), Regex.PORT_REGEX, ExceptionMessage.ERROR_PORT_NAME);
+        ValidationUtil.validateStringField(routeDTO.getEndPort(), Regex.PORT_REGEX, ExceptionMessage.ERROR_PORT_NAME);
         for (String middlePort : routeDTO.getMiddlePorts()){
-            ValidationUtil.validateField(middlePort, Regex.PORT_REGEX, ExceptionMessage.ERROR_PORT_NAME);
+            ValidationUtil.validateStringField(middlePort, Regex.PORT_REGEX, ExceptionMessage.ERROR_PORT_NAME);
         }
     }
 }

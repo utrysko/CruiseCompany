@@ -18,6 +18,12 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ * Class represents implementation of CruiseShipService interface.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class CruiseShipServiceImpl implements CruiseShipService {
 
     private static final Logger LOG = LogManager.getLogger(CruiseShipServiceImpl.class);
@@ -30,7 +36,7 @@ public class CruiseShipServiceImpl implements CruiseShipService {
     @Override
     public CruiseShip findById(int id) throws ServiceException{
         CruiseShip cruiseShip;
-        ValidationUtil.validateAllDigitCruiseFields(id);
+        ValidationUtil.validateDigitField(id);
         try {
             cruiseShip = cruiseShipDAO.findById(id);
         } catch (DAOException e) {
@@ -181,7 +187,7 @@ public class CruiseShipServiceImpl implements CruiseShipService {
     }
 
     private void validateCruiseShip(CruiseShipDTO cruiseShipDTO) throws ServiceException {
-        ValidationUtil.validateField(cruiseShipDTO.getName(), Regex.PORT_REGEX, ExceptionMessage.ERROR_SHIP_NAME);
-        ValidationUtil.validateAllDigitCruiseFields(cruiseShipDTO.getCapacity());
+        ValidationUtil.validateStringField(cruiseShipDTO.getName(), Regex.PORT_REGEX, ExceptionMessage.ERROR_SHIP_NAME);
+        ValidationUtil.validateDigitField(cruiseShipDTO.getCapacity());
     }
 }

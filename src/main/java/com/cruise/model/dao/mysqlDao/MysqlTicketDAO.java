@@ -12,6 +12,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of TicketDAO interface for MySQL
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class MysqlTicketDAO implements TicketDAO {
 
 

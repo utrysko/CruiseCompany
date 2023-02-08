@@ -31,6 +31,11 @@ public class AddRouteToCruiseCommand implements Command {
         routeService = AppContext.getInstance().getRouteService();
     }
 
+    public AddRouteToCruiseCommand(CruiseService cruiseService, RouteService routeService){
+        this.cruiseService = cruiseService;
+        this.routeService = routeService;
+    }
+
     /**
      * Called from main controller. Tries to add route to cruise.
      *

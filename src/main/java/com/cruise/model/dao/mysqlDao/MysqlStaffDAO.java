@@ -9,6 +9,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of StaffDAO interface for MySQL
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class MysqlStaffDAO implements StaffDAO {
 
 

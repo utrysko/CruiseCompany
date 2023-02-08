@@ -25,6 +25,9 @@ public class ChangePasswordCommand implements Command {
     public ChangePasswordCommand(){
         userService = AppContext.getInstance().getUserService();
     }
+    public ChangePasswordCommand(UserService userService){
+        this.userService = userService;
+    }
 
     /**
      * Called from main controller. Tries to change user password.

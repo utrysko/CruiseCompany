@@ -28,6 +28,8 @@ class TicketServiceImplTest {
     static int ticketId;
     static Ticket testTicket;
     static Blob mockBlob;
+    static Cruise testCruise;
+    static User testUser;
 
     @BeforeAll
     static public void globalSetUp() {
@@ -42,6 +44,11 @@ class TicketServiceImplTest {
         testTicket.setStatus("Payed");
         testTicket.setDocument(mockBlob);
         ticketService = new TicketServiceImpl(mockTicketDAO, mockCruiseDAO, mockUserDAO);
+        testCruise = new Cruise();
+        testCruise.setFreeSpaces(50);
+        testCruise.setTicketPrice(25.0);
+        testUser = new User();
+        testUser.setBalance(30.0);
     }
     @BeforeEach
     public void setUp() {
@@ -56,8 +63,8 @@ class TicketServiceImplTest {
         when(mockTicketDAO.getTicketsInOrderAndLimit(anyInt(), anyInt(), anyInt())).thenReturn(List.of(testTicket));
         when(mockTicketDAO.countAll()).thenReturn(1);
         doNothing().when(mockTicketDAO).create(any(Ticket.class), any(User.class), any(Cruise.class));
-        when(mockCruiseDAO.findById(anyInt())).thenReturn(new Cruise());
-        when(mockUserDAO.findById(anyInt())).thenReturn(new User());
+        when(mockCruiseDAO.findById(anyInt())).thenReturn(testCruise);
+        when(mockUserDAO.findById(anyInt())).thenReturn(testUser);
     }
 
 

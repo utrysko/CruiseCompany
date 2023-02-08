@@ -15,6 +15,12 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
+/**
+ * Class represents implementation of UserService interface.
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class UserServiceImpl implements UserService {
 
     private static final Logger LOG = LogManager.getLogger(UserServiceImpl.class);
@@ -27,7 +33,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(int id) throws ServiceException {
         User user;
-        ValidationUtil.validateAllDigitCruiseFields(id);
+        ValidationUtil.validateDigitField(id);
         try {
             user = userDAO.findById(id);
         } catch (DAOException e){
@@ -157,8 +163,8 @@ public class UserServiceImpl implements UserService {
         if (user != null && !userDTO.getLogin().equals(user.getLogin())){
             throw new InvalidFormatException(ExceptionMessage.ERROR_LOGIN_IS_USED);
         }
-        ValidationUtil.validateField(userDTO.getEmail(), Regex.EMAIL_REGEX, ExceptionMessage.ERROR_EMAIL);
-        ValidationUtil.validateField(userDTO.getFirstName(), Regex.NAME_REGEX, ExceptionMessage.ERROR_FIRST_NAME);
-        ValidationUtil.validateField(userDTO.getFirstName(), Regex.NAME_REGEX, ExceptionMessage.ERROR_LAST_NAME);
+        ValidationUtil.validateStringField(userDTO.getEmail(), Regex.EMAIL_REGEX, ExceptionMessage.ERROR_EMAIL);
+        ValidationUtil.validateStringField(userDTO.getFirstName(), Regex.NAME_REGEX, ExceptionMessage.ERROR_FIRST_NAME);
+        ValidationUtil.validateStringField(userDTO.getFirstName(), Regex.NAME_REGEX, ExceptionMessage.ERROR_LAST_NAME);
     }
 }

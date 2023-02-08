@@ -13,12 +13,17 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implementation of CruiseDAO interface for MySQL
+ *
+ * @author Vasyl Utrysko
+ * @version 1.0
+ */
 public class MysqlCruiseDAO implements CruiseDAO {
 
     private final DataSource dataSource;
     private final CruiseShipDAO cruiseShipDAO;
     private final RouteDAO routeDAO;
-
     public MysqlCruiseDAO(DataSource dataSource, CruiseShipDAO cruiseShipDAO, RouteDAO routeDAO){
         this.dataSource = dataSource;
         this.cruiseShipDAO = cruiseShipDAO;
