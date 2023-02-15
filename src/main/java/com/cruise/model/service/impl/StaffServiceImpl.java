@@ -1,5 +1,6 @@
 package com.cruise.model.service.impl;
 
+import com.cruise.exceptions.StaffCantFindException;
 import com.cruise.model.dao.StaffDAO;
 import com.cruise.dto.StaffDTO;
 import com.cruise.exceptions.DAOException;
@@ -12,6 +13,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class represents implementation of StaffService interface.
@@ -30,7 +32,7 @@ public class StaffServiceImpl implements StaffService {
 
     @Override
     public Staff findById(int id) throws ServiceException{
-        Staff staff;
+        Optional<Staff> staff;
         ValidationUtil.validateDigitField(id);
         try {
             staff = staffDao.findById(id);
@@ -38,7 +40,8 @@ public class StaffServiceImpl implements StaffService {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
-        return staff;
+        if (staff.isEmpty()) throw new StaffCantFindException();
+        return staff.get();
     }
 
     @Override

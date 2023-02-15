@@ -1,5 +1,6 @@
 package com.cruise.model.service.impl;
 
+import com.cruise.exceptions.CruiseShipCantFindException;
 import com.cruise.model.dao.CruiseShipDAO;
 import com.cruise.dto.CruiseShipDTO;
 import com.cruise.exceptions.DAOException;
@@ -17,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class represents implementation of CruiseShipService interface.
@@ -35,7 +37,7 @@ public class CruiseShipServiceImpl implements CruiseShipService {
 
     @Override
     public CruiseShip findById(int id) throws ServiceException{
-        CruiseShip cruiseShip;
+        Optional<CruiseShip> cruiseShip;
         ValidationUtil.validateDigitField(id);
         try {
             cruiseShip = cruiseShipDAO.findById(id);
@@ -43,26 +45,26 @@ public class CruiseShipServiceImpl implements CruiseShipService {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
-        return cruiseShip;
+        if (cruiseShip.isEmpty()) throw new CruiseShipCantFindException();
+        return cruiseShip.get();
     }
 
     @Override
     public CruiseShip findByName(String name) throws ServiceException {
-        CruiseShip cruiseShip;
+        Optional<CruiseShip> cruiseShip;
         try {
             cruiseShip = cruiseShipDAO.findByName(name);
         } catch (DAOException e) {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
-        return cruiseShip;
+        if (cruiseShip.isEmpty()) throw new CruiseShipCantFindException();
+        return cruiseShip.get();
     }
 
     public void create(CruiseShipDTO cruiseShipDTO) throws ServiceException {
-        CruiseShip ship = findByName(cruiseShipDTO.getName());
-        if (ship != null){
-            throw new ServiceException("name already used");
-        }
+        Optional<CruiseShip> ship = cruiseShipDAO.findByName(cruiseShipDTO.getName());
+        if (ship.isPresent()) throw new ServiceException("name already used");
         validateCruiseShip(cruiseShipDTO);
         CruiseShip cruiseShip = ConvertorUtil.convertDTOtoCruiseShip(cruiseShipDTO);
         try {
@@ -127,10 +129,8 @@ public class CruiseShipServiceImpl implements CruiseShipService {
 
     @Override
     public void update(CruiseShipDTO cruiseShipDTO) throws ServiceException {
-        CruiseShip ship = findByName(cruiseShipDTO.getName());
-        if (ship != null && cruiseShipDTO.getId() != ship.getId()){
-            throw new ServiceException("name already used");
-        }
+        Optional<CruiseShip> ship = cruiseShipDAO.findByName(cruiseShipDTO.getName());
+        if (ship.isPresent() && cruiseShipDTO.getId() != ship.get().getId()) throw new ServiceException("name already used");
         validateCruiseShip(cruiseShipDTO);
         CruiseShip cruiseShip = ConvertorUtil.convertDTOtoCruiseShip(cruiseShipDTO);
         try {

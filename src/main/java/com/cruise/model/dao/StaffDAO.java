@@ -4,6 +4,7 @@ import com.cruise.exceptions.DAOException;
 import com.cruise.model.entities.Staff;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Staff DAO interface.
@@ -19,7 +20,7 @@ public interface StaffDAO {
      * @param id - staff id
      * @return Staff
      */
-    Staff findById(int id) throws DAOException;
+    Optional<Staff> findById(int id) throws DAOException;
 
     /**
      *Obtains staff in required order

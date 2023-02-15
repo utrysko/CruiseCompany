@@ -6,6 +6,7 @@ import com.cruise.model.entities.CruiseShip;
 import com.cruise.model.entities.Route;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Cruise DAO interface.
@@ -21,7 +22,7 @@ public interface CruiseDAO {
      * @param id - cruise id
      * @return Cruise
      */
-    Cruise findById(int id) throws DAOException;
+    Optional<Cruise> findById(int id) throws DAOException;
 
     /**
      * Insert cruise in database

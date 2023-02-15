@@ -8,6 +8,7 @@ import com.cruise.model.entities.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of UserDAO interface for MySQL
@@ -46,15 +47,15 @@ public class MysqlUserDAO implements UserDAO {
 
 
     @Override
-    public User findById(int id) throws DAOException {
-        User user = null;
+    public Optional<User> findById(int id) throws DAOException {
+        Optional<User> user = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_ID)){
             int k = 0;
             pst.setInt(++k, id);
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()){
-                user = map(resultSet);
+                user = Optional.of(map(resultSet));
             }
             resultSet.close();
         } catch (SQLException e) {
@@ -63,15 +64,15 @@ public class MysqlUserDAO implements UserDAO {
         return user;
     }
     @Override
-    public User findByLogin(String login) throws DAOException {
-        User user = null;
+    public Optional<User> findByLogin(String login) throws DAOException {
+        Optional<User> user = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_LOGIN)){
             int k = 0;
             pst.setString(++k, login);
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()){
-                user = map(resultSet);
+                user = Optional.of(map(resultSet));
             }
             resultSet.close();
         } catch (SQLException e) {

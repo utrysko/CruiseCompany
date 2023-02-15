@@ -31,6 +31,10 @@ public class MyTicketsCommand implements Command {
         ticketService = AppContext.getInstance().getTicketService();
         userService = AppContext.getInstance().getUserService();
     }
+    public MyTicketsCommand(TicketService ticketService, UserService userService){
+        this.ticketService = ticketService;
+        this.userService = userService;
+    }
 
     /**
      * Called from main controller. Tries to get client tickets in some order.

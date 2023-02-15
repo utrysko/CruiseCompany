@@ -14,6 +14,7 @@ import com.cruise.model.connection.DataSource;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -62,7 +63,7 @@ class MysqlTicketDAOTest {
         when(mockDataSource.getConnection()).thenReturn(mockConn);
         when(mockConn.prepareStatement(anyString(), anyInt())).thenReturn(mockPreparedStmt);
         when(mockConn.prepareStatement(anyString())).thenReturn(mockPreparedStmt);
-        when(mockCruiseDAO.findById(anyInt())).thenReturn(new Cruise());
+        when(mockCruiseDAO.findById(anyInt())).thenReturn(Optional.of(new Cruise()));
         doNothing().when(mockPreparedStmt).setInt(anyInt(), anyInt());
         doNothing().when(mockPreparedStmt).setString(anyInt(), anyString());
         doNothing().when(mockPreparedStmt).setBlob(anyInt(), any(Blob.class));
@@ -107,28 +108,28 @@ class MysqlTicketDAOTest {
 
     @Test
     void findById() throws SQLException {
-        Ticket ticket = ticketDAO.findById(ticketId);
+        Optional<Ticket> ticket = ticketDAO.findById(ticketId);
         //verify and assert
         verify(mockConn, times(1)).prepareStatement(anyString());
         verify(mockPreparedStmt, times(1)).setInt(anyInt(), anyInt());
         verify(mockPreparedStmt, times(1)).executeQuery();
         verify(mockResultSet, times(1)).next();
 
-        assertEquals(testTicket.getClientId(), ticket.getClientId());
-        assertEquals(testTicket.getCruiseId(), ticket.getCruiseId());
+        assertEquals(testTicket.getClientId(), ticket.get().getClientId());
+        assertEquals(testTicket.getCruiseId(), ticket.get().getCruiseId());
     }
 
     @Test
     void findByUserAndCruiseShip() throws SQLException{
-        Ticket ticket = ticketDAO.findByUserAndCruiseShip(testUser, testCruise);
+        Optional<Ticket> ticket = ticketDAO.findByUserAndCruiseShip(testUser, testCruise);
         //verify and assert
         verify(mockConn, times(1)).prepareStatement(anyString());
         verify(mockPreparedStmt, times(2)).setInt(anyInt(), anyInt());
         verify(mockPreparedStmt, times(1)).executeQuery();
         verify(mockResultSet, times(1)).next();
 
-        assertEquals(testTicket.getClientId(), ticket.getClientId());
-        assertEquals(testTicket.getCruiseId(), ticket.getCruiseId());
+        assertEquals(testTicket.getClientId(), ticket.get().getClientId());
+        assertEquals(testTicket.getCruiseId(), ticket.get().getCruiseId());
     }
 
     @Test

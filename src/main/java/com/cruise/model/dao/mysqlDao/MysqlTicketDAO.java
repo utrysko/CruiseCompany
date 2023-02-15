@@ -11,6 +11,7 @@ import com.cruise.model.entities.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of TicketDAO interface for MySQL
@@ -94,15 +95,15 @@ public class MysqlTicketDAO implements TicketDAO {
     }
 
     @Override
-    public Ticket findById(int id) throws DAOException {
-        Ticket ticket = null;
+    public Optional<Ticket> findById(int id) throws DAOException {
+        Optional<Ticket> ticket = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_ID)) {
             int k = 0;
             pst.setInt(++k, id);
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()) {
-                ticket = map(resultSet);
+                ticket = Optional.of(map(resultSet));
             }
             resultSet.close();
         } catch (SQLException e) {
@@ -112,8 +113,8 @@ public class MysqlTicketDAO implements TicketDAO {
     }
 
     @Override
-    public Ticket findByUserAndCruiseShip(User user, Cruise cruise) throws DAOException {
-        Ticket ticket = null;
+    public Optional<Ticket> findByUserAndCruiseShip(User user, Cruise cruise) throws DAOException {
+        Optional<Ticket> ticket = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_USER_AND_CRUISE)) {
             int k = 0;
@@ -121,7 +122,7 @@ public class MysqlTicketDAO implements TicketDAO {
             pst.setInt(++k, cruise.getId());
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()) {
-                ticket = map(resultSet);
+                ticket = Optional.of(map(resultSet));
             }
             resultSet.close();
         } catch (SQLException e) {
@@ -279,7 +280,8 @@ public class MysqlTicketDAO implements TicketDAO {
         ticket.setId(resultSet.getInt("id"));
         ticket.setClientId(resultSet.getInt("user_id"));
         ticket.setCruiseId(resultSet.getInt("cruises_id"));
-        ticket.setCruise(cruiseDAO.findById(ticket.getCruiseId()));
+        Optional<Cruise> cruise = cruiseDAO.findById(ticket.getCruiseId());
+        cruise.ifPresent(ticket::setCruise);
         ticket.setStatus(resultSet.getString("status"));
         ticket.setDocument(resultSet.getBlob("document"));
         return ticket;

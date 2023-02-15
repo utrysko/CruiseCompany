@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class represents implementation of UserService interface.
@@ -32,39 +33,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findById(int id) throws ServiceException {
-        User user;
         ValidationUtil.validateDigitField(id);
+        Optional<User> user;
         try {
             user = userDAO.findById(id);
         } catch (DAOException e){
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
-        return user;
+        if (user.isEmpty()) throw new UserCantFindException();
+        return user.get();
     }
 
     @Override
     public User findByLogin(String login) throws ServiceException{
-        User user;
+        Optional<User> user;
         try {
             user = userDAO.findByLogin(login);
         } catch (DAOException e){
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
-        if (user == null){
-            throw new UserNotRegisterException();
-        }
-        return user;
+        if (user.isEmpty()) throw new UserNotRegisterException();
+        return user.get();
     }
 
     @Override
     public UserDTO signIn(String login, String password) throws ServiceException {
         UserDTO userDTO;
         User user = findByLogin(login);
-        if (user == null){
-            throw new UserNotRegisterException();
-        }
         if(!SCryptUtil.check(password, user.getPassword())){
             throw new PasswordDontMatchException();
         }
@@ -158,9 +155,9 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    private void validateUser(UserDTO userDTO) throws InvalidFormatException{
-        User user = userDAO.findByLogin(userDTO.getLogin());
-        if (user != null && !userDTO.getLogin().equals(user.getLogin())){
+    private void validateUser(UserDTO userDTO) throws ServiceException{
+        Optional<User> user = userDAO.findByLogin(userDTO.getLogin());
+        if (user.isPresent()){
             throw new InvalidFormatException(ExceptionMessage.ERROR_LOGIN_IS_USED);
         }
         ValidationUtil.validateStringField(userDTO.getEmail(), Regex.EMAIL_REGEX, ExceptionMessage.ERROR_EMAIL);

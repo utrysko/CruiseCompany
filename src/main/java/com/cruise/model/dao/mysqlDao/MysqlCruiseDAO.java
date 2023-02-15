@@ -12,6 +12,7 @@ import com.cruise.model.entities.Route;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of CruiseDAO interface for MySQL
@@ -56,15 +57,15 @@ public class MysqlCruiseDAO implements CruiseDAO {
             "UPDATE cruises SET route_id = ? WHERE id = ?";
 
     @Override
-    public Cruise findById(int id) throws DAOException {
-        Cruise cruise = null;
+    public Optional<Cruise> findById(int id) throws DAOException {
+        Optional<Cruise> cruise = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_ID)){
             int k = 0;
             pst.setInt(++k, id);
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()){
-                cruise = map(resultSet);
+                cruise = Optional.of(map(resultSet));
             }
             resultSet.close();
         } catch (SQLException e) {
@@ -292,8 +293,10 @@ public class MysqlCruiseDAO implements CruiseDAO {
         cruise.setStatus(resultSet.getString("status"));
         cruise.setTicketPrice(resultSet.getDouble("ticket_price"));
         cruise.setFreeSpaces(resultSet.getInt("free_spaces"));
-        cruise.setCruiseShip(cruiseShipDAO.findById(resultSet.getInt("cruise_ship_id")));
-        cruise.setRoute(routeDAO.findById(resultSet.getInt("route_id")));
+        Optional<CruiseShip> cruiseShip = cruiseShipDAO.findById(resultSet.getInt("cruise_ship_id"));
+        cruiseShip.ifPresent(cruise::setCruiseShip);
+        Optional<Route> route = routeDAO.findById(resultSet.getInt("route_id"));
+        route.ifPresent(cruise::setRoute);
         return cruise;
     }
 }

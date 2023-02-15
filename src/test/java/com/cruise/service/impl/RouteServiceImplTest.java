@@ -12,6 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -38,7 +39,7 @@ class RouteServiceImplTest {
     public void setUp() {
         reset(mockCruiseDAO);
         reset(mockRouteDAO);
-        when(mockRouteDAO.findById(routeId)).thenReturn(testRoute);
+        when(mockRouteDAO.findById(routeId)).thenReturn(Optional.of(testRoute));
         when(mockRouteDAO.getAllRoutes()).thenReturn(List.of(testRoute));
         when(mockRouteDAO.countAll()).thenReturn(1);
         when(mockRouteDAO.getRoutesInOrderAndLimit(anyInt(), anyInt(), anyInt())).thenReturn(List.of(testRoute));

@@ -6,6 +6,7 @@ import com.cruise.model.entities.CruiseShip;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * CruiseShip DAO interface.
@@ -21,7 +22,7 @@ public interface CruiseShipDAO {
      * @param id - cruiseShip id
      * @return CruiseShip
      */
-    CruiseShip findById(int id) throws DAOException;
+    Optional<CruiseShip> findById(int id) throws DAOException;
 
     /**
      * Obtains cruiseShip instance from database
@@ -29,7 +30,7 @@ public interface CruiseShipDAO {
      * @param name - cruiseShip name
      * @return CruiseShip
      */
-    CruiseShip findByName(String name) throws DAOException;
+    Optional<CruiseShip> findByName(String name) throws DAOException;
 
     /**
      * Insert cruiseShip in database

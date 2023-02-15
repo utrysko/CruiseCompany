@@ -4,6 +4,7 @@ import com.cruise.exceptions.DAOException;
 import com.cruise.model.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * User DAO interface.
@@ -19,7 +20,7 @@ public interface UserDAO {
      * @param id - user id
      * @return User
      */
-    User findById(int id) throws DAOException;
+    Optional<User> findById(int id) throws DAOException;
 
     /**
      * Obtains user instance from database
@@ -27,7 +28,7 @@ public interface UserDAO {
      * @param login - user login
      * @return User
      */
-    User findByLogin(String login) throws DAOException;
+    Optional<User> findByLogin(String login) throws DAOException;
 
     /**
      * Obtains all users instances from database

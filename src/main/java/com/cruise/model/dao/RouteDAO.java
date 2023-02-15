@@ -4,6 +4,7 @@ import com.cruise.exceptions.DAOException;
 import com.cruise.model.entities.Route;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Route DAO interface.
@@ -19,7 +20,7 @@ public interface RouteDAO {
      * @param id - route id
      * @return Route
      */
-    Route findById(int id) throws DAOException;
+    Optional<Route> findById(int id) throws DAOException;
 
     /**
      * Obtains all routes instances from database

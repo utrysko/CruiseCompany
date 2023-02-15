@@ -18,6 +18,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -58,7 +59,7 @@ class CruiseServiceImplTest {
     public void setUp() {
         reset(mockCruiseDao);
         reset(mockCruiseShipDAO);
-        when(mockCruiseDao.findById(cruiseId)).thenReturn(testCruise);
+        when(mockCruiseDao.findById(cruiseId)).thenReturn(Optional.of(testCruise));
         doNothing().when(mockCruiseDao).create(any(Cruise.class));
         when(mockCruiseDao.getAllCruise()).thenReturn(List.of(testCruise));
         when(mockCruiseShipDAO.getFreeCruiseShip(any(Cruise.class))).thenReturn(List.of(testCruiseShip));

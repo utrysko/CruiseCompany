@@ -15,6 +15,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -55,16 +56,16 @@ class TicketServiceImplTest {
         reset(mockCruiseDAO);
         reset(mockTicketDAO);
         reset(mockUserDAO);
-        when(mockTicketDAO.findById(ticketId)).thenReturn(testTicket);
-        when(mockTicketDAO.findByUserAndCruiseShip(any(User.class), any(Cruise.class))).thenReturn(testTicket);
+        when(mockTicketDAO.findById(ticketId)).thenReturn(Optional.of(testTicket));
+        when(mockTicketDAO.findByUserAndCruiseShip(any(User.class), any(Cruise.class))).thenReturn(Optional.of(testTicket));
         when(mockTicketDAO.findAllByUser(any(User.class))).thenReturn(List.of(testTicket));
         when(mockTicketDAO.findByAllByCruise(any(Cruise.class))).thenReturn(List.of(testTicket));
         when(mockTicketDAO.getAllTickets()).thenReturn(List.of(testTicket));
         when(mockTicketDAO.getTicketsInOrderAndLimit(anyInt(), anyInt(), anyInt())).thenReturn(List.of(testTicket));
         when(mockTicketDAO.countAll()).thenReturn(1);
         doNothing().when(mockTicketDAO).create(any(Ticket.class), any(User.class), any(Cruise.class));
-        when(mockCruiseDAO.findById(anyInt())).thenReturn(testCruise);
-        when(mockUserDAO.findById(anyInt())).thenReturn(testUser);
+        when(mockCruiseDAO.findById(anyInt())).thenReturn(Optional.of(testCruise));
+        when(mockUserDAO.findById(anyInt())).thenReturn(Optional.of(testUser));
     }
 
 

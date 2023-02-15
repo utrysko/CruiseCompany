@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of RouteDAO interface for MySQL
@@ -39,15 +40,15 @@ public class MysqlRouteDAO implements RouteDAO {
             "DELETE FROM route WHERE id = ?";
 
     @Override
-    public Route findById(int id) throws DAOException {
-        Route route = null;
+    public Optional<Route> findById(int id) throws DAOException {
+        Optional<Route> route = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_ID)){
             int k = 0;
             pst.setInt(++k, id);
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()){
-                route = map(resultSet);
+                route = Optional.of(map(resultSet));
             }
             resultSet.close();
         } catch (SQLException e) {

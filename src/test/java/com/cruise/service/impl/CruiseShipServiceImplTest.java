@@ -16,6 +16,7 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -44,8 +45,8 @@ class CruiseShipServiceImplTest {
     @BeforeEach
     public void setUp() {
         reset(mockCruiseShipDAO);
-        when(mockCruiseShipDAO.findById(cruiseShipId)).thenReturn(testCruiseShip);
-        when(mockCruiseShipDAO.findByName(testCruiseShip.getName())).thenReturn(testCruiseShip);
+        when(mockCruiseShipDAO.findById(cruiseShipId)).thenReturn(Optional.of(testCruiseShip));
+        when(mockCruiseShipDAO.findByName(testCruiseShip.getName())).thenReturn(Optional.of(testCruiseShip));
         doNothing().when(mockCruiseShipDAO).create(any(CruiseShip.class));
         when(mockCruiseShipDAO.getAllCruiseShip()).thenReturn(List.of(testCruiseShip));
         when(mockCruiseShipDAO.countAll()).thenReturn(1);

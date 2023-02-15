@@ -28,6 +28,7 @@ class ChangePasswordCommandTest {
         mockReq = mock(HttpServletRequest.class);
         mockResp = mock(HttpServletResponse.class);
         mockUserService = mock(UserService.class);
+        mockSession = mock(HttpSession.class);
         changePasswordCommand = new ChangePasswordCommand(mockUserService);
     }
 

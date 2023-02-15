@@ -8,6 +8,7 @@ import com.cruise.model.entities.Staff;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of StaffDAO interface for MySQL
@@ -41,15 +42,15 @@ public class MysqlStaffDAO implements StaffDAO {
 
 
     @Override
-    public Staff findById(int id) throws DAOException {
-        Staff staff = null;
+    public Optional<Staff> findById(int id) throws DAOException {
+        Optional<Staff> staff = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_ID)){
             int k = 0;
             pst.setInt(++k, id);
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()){
-                staff = map(resultSet);
+                staff = Optional.of(map(resultSet));
             }
             resultSet.close();
         } catch (SQLException e) {

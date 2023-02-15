@@ -1,5 +1,6 @@
 package com.cruise.model.service.impl;
 
+import com.cruise.exceptions.TicketCantFindException;
 import com.cruise.model.dao.CruiseDAO;
 import com.cruise.model.dao.TicketDAO;
 import com.cruise.model.dao.UserDAO;
@@ -14,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class represents implementation of TicketService interface.
@@ -36,7 +38,7 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public Ticket findById(int id) throws ServiceException {
-        Ticket ticket;
+        Optional<Ticket> ticket;
         ValidationUtil.validateDigitField(id);
         try {
             ticket = ticketDAO.findById(id);
@@ -44,19 +46,21 @@ public class TicketServiceImpl implements TicketService {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
-        return ticket;
+        if (ticket.isEmpty()) throw new TicketCantFindException();
+        return ticket.get();
     }
 
     @Override
     public Ticket findByUserAndCruiseShip(User user, Cruise cruise) throws ServiceException {
-        Ticket ticket;
+        Optional<Ticket> ticket;
         try {
             ticket = ticketDAO.findByUserAndCruiseShip(user, cruise);
         } catch (DAOException e) {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
-        return ticket;
+        if (ticket.isEmpty()) throw new TicketCantFindException();
+        return ticket.get();
     }
 
     @Override
@@ -122,8 +126,8 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public void create(Ticket ticket) throws ServiceException {
         try {
-            Cruise cruise = cruiseDAO.findById(ticket.getCruiseId());
-            User user = userDAO.findById(ticket.getClientId());
+            Cruise cruise = cruiseDAO.findById(ticket.getCruiseId()).get();
+            User user = userDAO.findById(ticket.getClientId()).get();
             if (cruise.getFreeSpaces() < 1 || user.getBalance() < cruise.getTicketPrice()){
                 throw new ServiceException("Cruise don't have free spaces or your balance is less then ticket price");
             }

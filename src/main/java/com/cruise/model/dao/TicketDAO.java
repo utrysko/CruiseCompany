@@ -6,6 +6,7 @@ import com.cruise.model.entities.Ticket;
 import com.cruise.model.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Ticket DAO interface.
@@ -21,7 +22,7 @@ public interface TicketDAO {
      * @param id - ticket id
      * @return Ticket
      */
-    Ticket findById(int id) throws DAOException;
+    Optional<Ticket> findById(int id) throws DAOException;
 
     /**
      * Obtains ticket instance from database
@@ -30,7 +31,7 @@ public interface TicketDAO {
      * @param cruise - cruise instance
      * @return Ticket
      */
-    Ticket findByUserAndCruiseShip(User user, Cruise cruise) throws DAOException;
+    Optional<Ticket> findByUserAndCruiseShip(User user, Cruise cruise) throws DAOException;
 
     /**
      * Obtains ticket instance from database

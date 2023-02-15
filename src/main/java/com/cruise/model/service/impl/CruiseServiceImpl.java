@@ -1,5 +1,6 @@
 package com.cruise.model.service.impl;
 
+import com.cruise.exceptions.CruiseCantFindException;
 import com.cruise.model.dao.CruiseDAO;
 import com.cruise.model.dao.CruiseShipDAO;
 import com.cruise.dto.CruiseDTO;
@@ -17,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class represents implementation of CruiseService interface.
@@ -37,15 +39,16 @@ public class CruiseServiceImpl implements CruiseService {
 
     @Override
     public Cruise findById(int id) throws ServiceException {
-        Cruise cruise;
         ValidationUtil.validateDigitField(id);
+        Optional<Cruise> cruise;
         try {
             cruise = cruiseDAO.findById(id);
         } catch (DAOException e) {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
-        return cruise;
+        if (cruise.isEmpty()) throw new CruiseCantFindException();
+        return cruise.get();
     }
 
     @Override

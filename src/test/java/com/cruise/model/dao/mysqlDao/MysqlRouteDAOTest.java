@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -70,15 +71,15 @@ class MysqlRouteDAOTest {
 
     @Test
     void findById() throws SQLException{
-        Route route = routeDAO.findById(routeId);
+        Optional<Route> route = routeDAO.findById(routeId);
         //verify and assert
         verify(mockConn, times(1)).prepareStatement(anyString());
         verify(mockPreparedStmt, times(1)).setInt(anyInt(), anyInt());
         verify(mockPreparedStmt, times(1)).executeQuery();
         verify(mockResultSet, times(1)).next();
 
-        assertEquals(routeId, route.getId());
-        assertEquals(testRoute.getStartPort(), route.getStartPort());
+        assertEquals(routeId, route.get().getId());
+        assertEquals(testRoute.getStartPort(), route.get().getStartPort());
     }
 
     @Test

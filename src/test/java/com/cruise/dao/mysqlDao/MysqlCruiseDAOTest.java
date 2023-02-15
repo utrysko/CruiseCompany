@@ -19,6 +19,7 @@ import org.junit.jupiter.api.*;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
@@ -68,8 +69,8 @@ class MysqlCruiseDAOTest {
         doNothing().when(mockPreparedStmt).setDate(anyInt(), any());
         doNothing().when(mockPreparedStmt).setDouble(anyInt(), anyDouble());
         doNothing().when(mockPreparedStmt).setInt(anyInt(), anyInt());
-        when(mockCruiseShipDAO.findById(anyInt())).thenReturn(new CruiseShip());
-        when(mockRouteDAO.findById(anyInt())).thenReturn(new Route());
+        when(mockCruiseShipDAO.findById(anyInt())).thenReturn(Optional.of(new CruiseShip()));
+        when(mockRouteDAO.findById(anyInt())).thenReturn(Optional.of(new Route()));
         when(mockPreparedStmt.executeUpdate()).thenReturn(1);
         when(mockPreparedStmt.executeQuery()).thenReturn(mockResultSet);
         when(mockPreparedStmt.getGeneratedKeys()).thenReturn(mockResultSet);
@@ -85,7 +86,7 @@ class MysqlCruiseDAOTest {
 
     @Test
     void findById() throws SQLException {
-        Cruise cruise = cruiseDAO.findById(cruiseId);
+        Cruise cruise = cruiseDAO.findById(cruiseId).get();
         //verify and assert
         verify(mockConn, times(1)).prepareStatement(anyString());
         verify(mockPreparedStmt, times(1)).setInt(anyInt(), anyInt());

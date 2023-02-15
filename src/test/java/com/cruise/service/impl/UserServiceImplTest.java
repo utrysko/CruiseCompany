@@ -12,6 +12,7 @@ import org.junit.jupiter.api.*;
 
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -45,8 +46,8 @@ class UserServiceImplTest {
     @BeforeEach
     public void setUp() {
         reset(mockUserDAO);
-        when(mockUserDAO.findById(userId)).thenReturn(testUser);
-        when(mockUserDAO.findByLogin(testUser.getLogin())).thenReturn(testUser);
+        when(mockUserDAO.findById(userId)).thenReturn(Optional.of(testUser));
+        when(mockUserDAO.findByLogin(testUser.getLogin())).thenReturn(Optional.of(testUser));
         when(mockUserDAO.getAllUsers()).thenReturn(List.of(testUser));
         when(mockUserDAO.countAll()).thenReturn(1);
         doNothing().when(mockUserDAO).create(any(User.class));

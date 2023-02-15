@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -36,7 +37,7 @@ class StaffServiceImplTest {
     @BeforeEach
     public void setUp() {
         reset(mockStaffDAO);
-        when(mockStaffDAO.findById(staffId)).thenReturn(testStaff);
+        when(mockStaffDAO.findById(staffId)).thenReturn(Optional.of(testStaff));
         when(mockStaffDAO.getStaffInOrderAndLimit(anyInt(), anyInt(), anyInt(), anyInt()))
                 .thenReturn(List.of(testStaff));
         when(mockStaffDAO.countAll(anyInt())).thenReturn(1);

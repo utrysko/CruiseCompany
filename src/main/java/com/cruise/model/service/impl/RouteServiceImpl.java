@@ -1,5 +1,6 @@
 package com.cruise.model.service.impl;
 
+import com.cruise.exceptions.RouteCantFindException;
 import com.cruise.model.dao.CruiseDAO;
 import com.cruise.model.dao.RouteDAO;
 import com.cruise.dto.RouteDTO;
@@ -15,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Class represents implementation of RouteService interface.
@@ -34,7 +36,7 @@ public class RouteServiceImpl implements RouteService {
     }
     @Override
     public Route findById(int id) throws ServiceException {
-        Route route;
+        Optional<Route> route;
         ValidationUtil.validateDigitField(id);
         try {
             route = routeDao.findById(id);
@@ -42,7 +44,8 @@ public class RouteServiceImpl implements RouteService {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());
         }
-        return route;
+        if (route.isEmpty()) throw new RouteCantFindException();
+        return route.get();
     }
 
     @Override
@@ -110,7 +113,7 @@ public class RouteServiceImpl implements RouteService {
     public void delete(int routeId) throws ServiceException{
         if (cruiseDAO.cruiseUsedRoute(routeId)) throw new ServiceException("route is used");
         try {
-            Route route = routeDao.findById(routeId);
+            Route route = findById(routeId);
             routeDao.delete(route);
         } catch (DAOException e){
             LOG.error(e.getMessage());

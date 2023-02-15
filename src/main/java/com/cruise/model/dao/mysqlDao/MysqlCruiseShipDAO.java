@@ -10,6 +10,7 @@ import com.cruise.model.entities.CruiseShip;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Implementation of CruiseShipDAO interface for MySQL
@@ -53,15 +54,15 @@ public class MysqlCruiseShipDAO implements CruiseShipDAO {
 
 
     @Override
-    public CruiseShip findById(int id) throws DAOException {
-        CruiseShip cruiseShip = null;
+    public Optional<CruiseShip> findById(int id) throws DAOException {
+        Optional<CruiseShip> cruiseShip = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_ID)){
             int k = 0;
             pst.setInt(++k, id);
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()){
-                cruiseShip = map(resultSet);
+                cruiseShip = Optional.of(map(resultSet));
             }
             resultSet.close();
         } catch (SQLException e) {
@@ -71,15 +72,15 @@ public class MysqlCruiseShipDAO implements CruiseShipDAO {
     }
 
     @Override
-    public CruiseShip findByName(String name) throws DAOException {
-        CruiseShip cruiseShip = null;
+    public Optional<CruiseShip> findByName(String name) throws DAOException {
+        Optional<CruiseShip> cruiseShip = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_NAME)){
             int k = 0;
             pst.setString(++k, name);
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()){
-                cruiseShip = map(resultSet);
+                cruiseShip = Optional.of(map(resultSet));
             }
             resultSet.close();
         } catch (SQLException e) {

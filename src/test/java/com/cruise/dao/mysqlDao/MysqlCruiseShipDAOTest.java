@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -74,26 +75,26 @@ class MysqlCruiseShipDAOTest {
 
     @Test
     void findById() throws SQLException{
-        CruiseShip cruiseShip = cruiseShipDAO.findById(cruiseShiId);
+        Optional<CruiseShip> cruiseShip = cruiseShipDAO.findById(cruiseShiId);
         //verify and assert
         verify(mockConn, times(1)).prepareStatement(anyString());
         verify(mockPreparedStmt, times(1)).setInt(anyInt(), anyInt());
         verify(mockPreparedStmt, times(1)).executeQuery();
         verify(mockResultSet, times(1)).next();
 
-        assertEquals(testCruiseShip.getName(), cruiseShip.getName());
+        assertEquals(testCruiseShip.getName(), cruiseShip.get().getName());
     }
 
     @Test
     void findByName() throws SQLException{
-        CruiseShip cruiseShip = cruiseShipDAO.findByName(testCruiseShip.getName());
+        Optional<CruiseShip> cruiseShip = cruiseShipDAO.findByName(testCruiseShip.getName());
         //verify and assert
         verify(mockConn, times(1)).prepareStatement(anyString());
         verify(mockPreparedStmt, times(1)).setString(anyInt(), anyString());
         verify(mockPreparedStmt, times(1)).executeQuery();
         verify(mockResultSet, times(1)).next();
 
-        assertEquals(testCruiseShip.getName(), cruiseShip.getName());
+        assertEquals(testCruiseShip.getName(), cruiseShip.get().getName());
     }
 
     @Test

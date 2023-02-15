@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.*;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyDouble;
@@ -80,7 +81,7 @@ class MysqlUserDAOTest {
 
     @Test
     void findById() throws SQLException{
-        User user = userDAO.findById(userId);
+        Optional<User> user = userDAO.findById(userId);
 
         //verify and assert
         verify(mockConn, times(1)).prepareStatement(anyString());
@@ -88,13 +89,13 @@ class MysqlUserDAOTest {
         verify(mockPreparedStmt, times(1)).executeQuery();
         verify(mockResultSet, times(1)).next();
 
-        assertEquals(userId, user.getId());
-        assertEquals(testUser.getLogin(), user.getLogin());
+        assertEquals(userId, user.get().getId());
+        assertEquals(testUser.getLogin(), user.get().getLogin());
     }
 
     @Test
     void findByLogin() throws SQLException{
-        User user = userDAO.findByLogin(testUser.getLogin());
+        Optional<User> user = userDAO.findByLogin(testUser.getLogin());
 
         //verify and assert
         verify(mockConn, times(1)).prepareStatement(anyString());
@@ -102,8 +103,8 @@ class MysqlUserDAOTest {
         verify(mockPreparedStmt, times(1)).executeQuery();
         verify(mockResultSet, times(1)).next();
 
-        assertEquals(user.getId(), userId);
-        assertEquals(testUser.getLogin(), user.getLogin());
+        assertEquals(user.get().getId(), userId);
+        assertEquals(testUser.getLogin(), user.get().getLogin());
     }
 
     @Test
