@@ -14,7 +14,7 @@
 <body class="text-center">
 <form class="form-signin" method="post" action="controller?action=add_staff">
   <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="staff.form.header"/></h1>
-  <c:if test="${sessionScope.error != null}"><h4 style="color: red"><fmt:message key="${sessionScope.error}"/></h4></c:if>
+  <jsp:include page="/view/templates/display_error.jsp"/>
   <input type="text" name="firstName" class="form-control"
          placeholder="<fmt:message key="staff.form.firstName"/>" required>
   <input type="text" name="lastName" class="form-control"

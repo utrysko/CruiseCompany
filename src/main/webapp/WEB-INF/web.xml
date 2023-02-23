@@ -75,6 +75,7 @@
                 routes add_route delete_route cruise_ships add_cruise_ship add_staff delete_cruise_ship
                 edit_cruise_ship cruise_ship_change_status cruises add_cruise add_route_to_cruise add_ship_to_cruise
                 delete_cruise change_cruise_status edit_cruise edit_staff delete_staff manage_tickets show_document ticket_change_status
+                make_admin
             </param-value>
         </init-param>
         <init-param>

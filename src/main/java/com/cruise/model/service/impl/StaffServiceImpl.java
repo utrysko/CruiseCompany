@@ -31,11 +31,12 @@ public class StaffServiceImpl implements StaffService {
     }
 
     @Override
-    public Staff findById(int id) throws ServiceException{
+    public Staff findById(int id, int cruiseShipId) throws ServiceException{
         Optional<Staff> staff;
         ValidationUtil.validateDigitField(id);
+        ValidationUtil.validateDigitField(cruiseShipId);
         try {
-            staff = staffDao.findById(id);
+            staff = staffDao.findById(id, cruiseShipId);
         } catch (DAOException e){
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());

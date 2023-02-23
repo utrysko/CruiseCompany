@@ -42,17 +42,7 @@
     </header>
 </div>
 <div class="container">
-    <c:if test="${sessionScope.error != null}">
-        <div class="form-control">
-            <h2 style="color: red"><c:out value="${sessionScope.error}"/></h2>
-                ${sessionScope.remove('error')}
-        </div>
-    </c:if>
-    <c:if test="${requestScope.error != null}">
-        <div class="form-control">
-            <h2 style="color: red"><c:out value="${requestScope.error}"/></h2>
-        </div>
-    </c:if>
+    <jsp:include page="/view/templates/display_error.jsp"/>
     <div class="text-center">
         <h1><fmt:message key="index.welcome"/></h1>
         <img src="view/img/CruiseBanner.jpg">

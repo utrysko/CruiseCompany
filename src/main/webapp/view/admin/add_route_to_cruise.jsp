@@ -20,17 +20,17 @@
         <div class="col-auto"><span class="form-control"> <fmt:message key="common.filtering.numberPerPage"/>:</span></div>
         <div class="col-auto">
             <select name="limit" class="form-select">
-                <option value="2">2</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
+                <option value="2" ${requestScope.limit eq '2' ? 'selected' : ''}>2</option>
+                <option value="5" ${requestScope.limit eq '5' ? 'selected' : ''}>5</option>
+                <option value="10" ${requestScope.limit eq '10' ? 'selected' : ''}>10</option>
             </select>
         </div>
         <div class="col-auto"><span class="form-control"><fmt:message key="common.filtering.sortBy"/>:</span></div>
         <div class="col-auto">
             <select name="sortBy" class="form-select">
-                <option value="1">Id</option>
-                <option value="2"><fmt:message key="routes.table.startPort"/></option>
-                <option value="4"><fmt:message key="routes.table.endPort"/></option>
+                <option value="1" ${requestScope.sortBy eq '1' ? 'selected' : ''}>Id</option>
+                <option value="2" ${requestScope.sortBy eq '2' ? 'selected' : ''}><fmt:message key="routes.table.startPort"/></option>
+                <option value="4" ${requestScope.sortBy eq '4' ? 'selected' : ''}><fmt:message key="routes.table.endPort"/></option>
             </select>
         </div>
         <div class="col-auto">

@@ -11,8 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
 import java.sql.SQLException;
 
 /**
@@ -36,7 +35,7 @@ public class ShowDocumentCommand implements Command {
      * @return path to redirect from main controller
      */
     @Override
-    public String execute(HttpServletRequest req, HttpServletResponse resp) {
+    public String execute(HttpServletRequest req, HttpServletResponse resp){
         String forward = AllPath.MANAGE_TICKETS_COMMAND;
         Ticket ticket;
         try {

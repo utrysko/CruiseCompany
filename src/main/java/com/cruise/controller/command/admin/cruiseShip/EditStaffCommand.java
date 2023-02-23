@@ -79,7 +79,7 @@ public class EditStaffCommand implements Command {
         CruiseShip cruiseShip = null;
         try {
             cruiseShip = cruiseShipService.findById(Integer.parseInt(cruiseShipId));
-            listStaff.add(staffService.findById(Integer.parseInt(staffId)));
+            listStaff.add(staffService.findById(Integer.parseInt(staffId), cruiseShip.getId()));
         } catch (ServiceException e) {
             LOG.error(e.getMessage());
             req.setAttribute("error", e.getMessage());

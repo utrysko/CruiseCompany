@@ -15,8 +15,7 @@
 <div class="container">
 <form class="form-signin" method="post" action="controller?action=add_route">
     <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="addRoute.header"/></h1>
-    <c:if test="${sessionScope.error != null}"><h4 style="color: red"><fmt:message key="${sessionScope.error}"/></h4></c:if>
-    ${sessionScope.remove('error')}
+    <jsp:include page="/view/templates/display_error.jsp"/>
     <input type="text" name="startPort" class="form-control"
            placeholder="<fmt:message key="addRoute.placeholder.startPort"/>" required>
     <c:forEach var="i" begin="2" end="${requestScope.numberOfPorts - 1}">

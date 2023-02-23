@@ -1,6 +1,7 @@
 package com.cruise.controller.command;
 
 
+import com.cruise.controller.command.admin.MakeAdminCommand;
 import com.cruise.controller.command.admin.cruise.*;
 import com.cruise.controller.command.admin.cruiseShip.*;
 import com.cruise.controller.command.admin.route.AddRouteCommand;
@@ -74,6 +75,8 @@ public class CommandFactory {
         commands.put("manage_tickets", new ManageTicketsCommand());
         commands.put("show_document", new ShowDocumentCommand());
         commands.put("ticket_change_status", new TicketChangeStatusCommand());
+
+        commands.put("make_admin", new MakeAdminCommand());
 
         // client commands
         commands.put("choose_cruise", new ChooseCruiseCommand());

@@ -4,6 +4,7 @@ import com.cruise.model.dao.UserDAO;
 import com.cruise.dto.UserDTO;
 import com.cruise.exceptions.*;
 import com.cruise.exceptions.constants.ExceptionMessage;
+import com.cruise.model.entities.Role;
 import com.cruise.model.entities.User;
 import com.cruise.model.service.UserService;
 import com.cruise.utils.ConvertorUtil;
@@ -95,10 +96,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(UserDTO userDTO, String password) throws ServiceException {
+        Optional<User> optionalUser = userDAO.findByLogin(userDTO.getLogin());
+        if (optionalUser.isPresent()){
+            throw new InvalidFormatException(ExceptionMessage.ERROR_LOGIN_IS_USED);
+        }
         validateUser(userDTO);
         User user = ConvertorUtil.convertUserDTOtoUser(userDTO);
         user.setPassword(SCryptUtil.scrypt(password, 16384, 8, 1));
-        user.setRoleId(2);
+        user.setRoleId(Role.getRoleId(Role.CLIENT));
         user.setBalance(0.0);
         try {
             userDAO.create(user);
@@ -156,10 +161,6 @@ public class UserServiceImpl implements UserService {
     }
 
     private void validateUser(UserDTO userDTO) throws ServiceException{
-        Optional<User> user = userDAO.findByLogin(userDTO.getLogin());
-        if (user.isPresent()){
-            throw new InvalidFormatException(ExceptionMessage.ERROR_LOGIN_IS_USED);
-        }
         ValidationUtil.validateStringField(userDTO.getEmail(), Regex.EMAIL_REGEX, ExceptionMessage.ERROR_EMAIL);
         ValidationUtil.validateStringField(userDTO.getFirstName(), Regex.NAME_REGEX, ExceptionMessage.ERROR_FIRST_NAME);
         ValidationUtil.validateStringField(userDTO.getFirstName(), Regex.NAME_REGEX, ExceptionMessage.ERROR_LAST_NAME);

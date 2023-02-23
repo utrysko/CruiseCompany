@@ -96,6 +96,26 @@ public class ValidationUtil {
      */
     public static void validateAddingShip(Cruise cruise, CruiseShip cruiseShip) throws ServiceException {
         if (cruise.getFreeSpaces() > cruiseShip.getCapacity())
-            throw new ServiceException("Ship capacity less then cruise free spaces");
+            throw new ServiceException("error.addShip.capacity");
+    }
+
+    /**
+     * Validate if cruise don't started
+     *
+     * @param cruiseStatus - status of cruise
+     */
+    public static void validateIfStarted(String cruiseStatus) throws ServiceException {
+        if (cruiseStatus.equals("Started"))
+            throw new ServiceException("error.cruiseStatus.started");
+    }
+
+    /**
+     * Validate if cruise don't ended
+     *
+     * @param cruiseStatus - status of cruise
+     */
+    public static void validateIfEnded(String cruiseStatus) throws ServiceException {
+        if (cruiseStatus.equals("Ended"))
+            throw new ServiceException("error.cruiseStatus.ended");
     }
 }

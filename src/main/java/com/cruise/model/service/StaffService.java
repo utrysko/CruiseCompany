@@ -18,9 +18,10 @@ public interface StaffService {
      * Calls DAO to get staff instance from database
      *
      * @param id - staff id
+     * @param cruiseShipId - ship id
      * @return Staff
      */
-    Staff findById(int id) throws ServiceException;
+    Staff findById(int id, int cruiseShipId) throws ServiceException;
 
     /**
      * Calls DAO to get staff in required order

@@ -132,6 +132,7 @@ public class CruiseServiceImpl implements CruiseService {
 
     @Override
     public void delete(Cruise cruise) throws ServiceException {
+        ValidationUtil.validateIfStarted(cruise.getStatus());
         try {
             cruiseDAO.delete(cruise);
             cruiseShipDAO.changeAvailableDate(cruise.getCruiseShip(), Date.valueOf(LocalDate.now()));
@@ -153,6 +154,8 @@ public class CruiseServiceImpl implements CruiseService {
 
     @Override
     public void addShipToCruise(CruiseShip cruiseShip, Cruise cruise) throws ServiceException {
+        ValidationUtil.validateIfStarted(cruise.getStatus());
+        ValidationUtil.validateIfEnded(cruise.getStatus());
         ValidationUtil.validateAddingShip(cruise, cruiseShip);
         try {
             CruiseShip cruiseShipOld = cruise.getCruiseShip();
@@ -169,6 +172,8 @@ public class CruiseServiceImpl implements CruiseService {
 
     @Override
     public void addRouteToCruise(Route route, Cruise cruise) throws ServiceException {
+        ValidationUtil.validateIfStarted(cruise.getStatus());
+        ValidationUtil.validateIfEnded(cruise.getStatus());
         try {
             cruiseDAO.addRouteToCruise(route, cruise);
         } catch (DAOException e) {
@@ -179,6 +184,8 @@ public class CruiseServiceImpl implements CruiseService {
 
     @Override
     public void changeFreeSpaces(Cruise cruise, int freeSpaces) throws ServiceException {
+        ValidationUtil.validateIfStarted(cruise.getStatus());
+        ValidationUtil.validateIfEnded(cruise.getStatus());
         try {
             cruiseDAO.changeFreeSpaces(cruise, freeSpaces);
         } catch (DAOException e) {
@@ -189,14 +196,16 @@ public class CruiseServiceImpl implements CruiseService {
 
 
     private void checkCruises(List<Cruise> cruises) throws ServiceException {
+        String started = "Started";
+        String ended = "Ended";
         for (Cruise cruise : cruises) {
-            if (!cruise.getStart().after(Date.valueOf(LocalDate.now())) && !cruise.getStatus().equals("Started")) {
-                changeStatus(cruise, "Started");
-                cruise.setStatus("Started");
+            if (!cruise.getStart().after(Date.valueOf(LocalDate.now())) && !cruise.getStatus().equals(started)) {
+                changeStatus(cruise, started);
+                cruise.setStatus(started);
             }
-            if (!cruise.getEnd().after(Date.valueOf(LocalDate.now())) && !cruise.getStatus().equals("Ended")) {
-                changeStatus(cruise, "Ended");
-                cruise.setStatus("Ended");
+            if (!cruise.getEnd().after(Date.valueOf(LocalDate.now())) && !cruise.getStatus().equals(ended)) {
+                changeStatus(cruise, ended);
+                cruise.setStatus(ended);
             }
         }
     }
@@ -206,5 +215,7 @@ public class CruiseServiceImpl implements CruiseService {
         ValidationUtil.validateEndDateCruise(cruiseDTO.getEnd(), cruiseDTO.getStart());
         ValidationUtil.validateDigitField(cruiseDTO.getFreeSpaces());
         ValidationUtil.validateCruisePrice(cruiseDTO.getTicketPrice());
+        ValidationUtil.validateIfStarted(cruiseDTO.getStatus());
+        ValidationUtil.validateIfEnded(cruiseDTO.getStatus());
     }
 }

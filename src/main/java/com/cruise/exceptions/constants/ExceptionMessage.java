@@ -22,6 +22,8 @@ public class ExceptionMessage {
     public static final String ERROR_PORT_NAME = "error.portName.format";
     public static final String ERROR_ROUTE_DELETE = "error.route.delete";
     public static final String ERROR_SHIP_NAME = "error.format.shipName";
+    public static final String ERROR_SHIP_NAME_IS_USED = "error.isUsed.shipName";
+    public static final String ERROR_SHIP_IS_USED = "error.isUsed.ship";
 
     private ExceptionMessage(){}
 }

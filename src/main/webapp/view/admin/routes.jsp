@@ -14,17 +14,7 @@
 <body class="text-center">
 <jsp:include page="/view/templates/admin_navbar.jsp"/>
 <div class="container">
-    <c:if test="${sessionScope.error != null}">
-        <div class="form-control">
-            <h2 style="color: red"><c:out value="${sessionScope.error}"/></h2>
-                ${sessionScope.remove('error')}
-        </div>
-    </c:if>
-    <c:if test="${requestScope.error != null}">
-        <div class="form-control">
-            <h2 style="color: red"><c:out value="${requestScope.error}"/></h2>
-        </div>
-    </c:if>
+    <jsp:include page="/view/templates/display_error.jsp"/>
     <div class="row">
         <div class="col-md-8">
             <form class="row" action="/Cruise/controller" method="get">
@@ -38,19 +28,19 @@
                         key="common.filtering.numberPerPage"/>:</span></div>
                 <div class="col-auto">
                     <select name="limit" class="form-select">
-                        <option value="2">2</option>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
+                        <option value="2" ${requestScope.limit eq '2' ? 'selected' : ''}>2</option>
+                        <option value="5" ${requestScope.limit eq '5' ? 'selected' : ''}>5</option>
+                        <option value="10" ${requestScope.limit eq '10' ? 'selected' : ''}>10</option>
                     </select>
                 </div>
                 <div class="col-auto"><span class="form-control"><fmt:message key="common.filtering.sortBy"/>:</span>
                 </div>
                 <div class="col-auto">
                     <select name="sortBy" class="form-select">
-                        <option value="1">Id</option>
-                        <option value="2"><fmt:message key="routes.table.numberOfPorts"/></option>
-                        <option value="3"><fmt:message key="routes.table.startPort"/></option>
-                        <option value="5"><fmt:message key="routes.table.endPort"/></option>
+                        <option value="1" ${requestScope.sortBy eq '1' ? 'selected' : ''}>Id</option>
+                        <option value="2" ${requestScope.sortBy eq '2' ? 'selected' : ''}><fmt:message key="routes.table.numberOfPorts"/></option>
+                        <option value="3" ${requestScope.sortBy eq '3' ? 'selected' : ''}><fmt:message key="routes.table.startPort"/></option>
+                        <option value="5" ${requestScope.sortBy eq '5' ? 'selected' : ''}><fmt:message key="routes.table.endPort"/></option>
                     </select>
                 </div>
                 <div class="col-auto">
@@ -145,10 +135,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form class="form" action="controller">
+                <form class="form" action="controller" onsubmit="">
                     <input type="hidden" name="action" value="add_route">
                     <h2 class="h3 mb-3 font-weight-normal"><fmt:message key="addRoute.enter.numberOfPorts"/></h2>
-                    <input type="number" name="numberOfPorts" class="form-control" required>
+                    <input type="number" pattern="[3-9]{1}" name="numberOfPorts" class="form-control" required />
                     <button class="btn btn-md btn-primary btn-block" type="submit"><fmt:message
                             key="common.button.confirm"/></button>
                 </form>

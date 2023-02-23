@@ -36,7 +36,7 @@ public class MysqlUserDAO implements UserDAO {
     private static final String SQL_INSERT =
             "INSERT INTO user (login, first_name, last_name, email, password, role_id, balance) VALUES (?, ? ,?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE =
-            "UPDATE user SET login = ?, first_name = ?, last_name = ?, email = ? WHERE id = ?";
+            "UPDATE user SET login = ?, first_name = ?, last_name = ?, email = ?, role_id = ? WHERE id = ?";
     private static final String SQL_DELETE =
             "DELETE FROM user WHERE login = ?";
     private static final String SQL_CHANGE_PASSWORD =
@@ -153,6 +153,7 @@ public class MysqlUserDAO implements UserDAO {
             pst.setString(++k, user.getFirstName());
             pst.setString(++k, user.getLastName());
             pst.setString(++k, user.getEmail());
+            pst.setInt(++k, user.getRoleId());
             pst.setInt(++k, user.getId());
             int affectedRows = pst.executeUpdate();
             if (affectedRows == 0){

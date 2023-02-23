@@ -22,6 +22,16 @@ public enum Role {
         return Role.values()[--roleId];
     }
 
+    /**
+     * Obtains the roleId by the role.
+     * @param role value of Role enum
+     * @return role id
+     */
+    public static int getRoleId(Role role){
+        int roleId = role.ordinal();
+        return ++roleId;
+    }
+
     public String getName() {
         return name().toLowerCase();
     }

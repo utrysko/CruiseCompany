@@ -35,9 +35,10 @@ public class DeleteStaffCommand implements Command {
     @Override
     public String execute(HttpServletRequest req, HttpServletResponse resp) {
         String forward = AllPath.EDIT_STAFF_COMMAND;
-        int cruiseId = Integer.parseInt(req.getParameter("id"));
+        int staffId = Integer.parseInt(req.getParameter("id"));
+        int cruiseShipId = Integer.parseInt(req.getParameter("cruiseShipId"));
         try {
-            Staff staff = staffService.findById(cruiseId);
+            Staff staff = staffService.findById(staffId, cruiseShipId);
             staffService.delete(staff);
         } catch (ServiceException e) {
             LOG.error(e.getMessage());

@@ -5,7 +5,7 @@
 --%>
 <!doctype html>
 <html>
-<jsp:include page="/view/templates/head.jsp"></jsp:include>
+<jsp:include page="/view/templates/head.jsp"/>
 <head>
   <title><fmt:message key="addCruiseShip.title"/></title>
   <!-- Custom styles for this template -->
@@ -14,7 +14,7 @@
 <body class="text-center">
   <form class="form-signin" method="post" action="controller?action=add_cruise_ship">
     <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="addCruiseShip.header"/></h1>
-    <c:if test="${requestScope.error != null}"><h4 style="color: red"><fmt:message key="${requestScope.error}"/></h4></c:if>
+    <jsp:include page="/view/templates/display_error.jsp"/>
     <input type="text" name="name" class="form-control"
            placeholder="<fmt:message key="addCruiseShip.placeholder.name"/>" required>
     <input type="text" name="capacity" class="form-control"

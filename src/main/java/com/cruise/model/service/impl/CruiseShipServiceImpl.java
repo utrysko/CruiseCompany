@@ -1,10 +1,8 @@
 package com.cruise.model.service.impl;
 
-import com.cruise.exceptions.CruiseShipCantFindException;
+import com.cruise.exceptions.*;
 import com.cruise.model.dao.CruiseShipDAO;
 import com.cruise.dto.CruiseShipDTO;
-import com.cruise.exceptions.DAOException;
-import com.cruise.exceptions.ServiceException;
 import com.cruise.exceptions.constants.ExceptionMessage;
 import com.cruise.model.entities.Cruise;
 import com.cruise.model.entities.CruiseShip;
@@ -64,7 +62,7 @@ public class CruiseShipServiceImpl implements CruiseShipService {
 
     public void create(CruiseShipDTO cruiseShipDTO) throws ServiceException {
         Optional<CruiseShip> ship = cruiseShipDAO.findByName(cruiseShipDTO.getName());
-        if (ship.isPresent()) throw new ServiceException("name already used");
+        if (ship.isPresent()) throw new ShipNameIsUsedException();
         validateCruiseShip(cruiseShipDTO);
         CruiseShip cruiseShip = ConvertorUtil.convertDTOtoCruiseShip(cruiseShipDTO);
         try {
@@ -130,7 +128,7 @@ public class CruiseShipServiceImpl implements CruiseShipService {
     @Override
     public void update(CruiseShipDTO cruiseShipDTO) throws ServiceException {
         Optional<CruiseShip> ship = cruiseShipDAO.findByName(cruiseShipDTO.getName());
-        if (ship.isPresent() && cruiseShipDTO.getId() != ship.get().getId()) throw new ServiceException("name already used");
+        if (ship.isPresent() && cruiseShipDTO.getId() != ship.get().getId()) throw new ShipNameIsUsedException();
         validateCruiseShip(cruiseShipDTO);
         CruiseShip cruiseShip = ConvertorUtil.convertDTOtoCruiseShip(cruiseShipDTO);
         try {
@@ -143,7 +141,7 @@ public class CruiseShipServiceImpl implements CruiseShipService {
 
     @Override
     public void delete(CruiseShip cruiseShip) throws ServiceException {
-        if (cruiseShip.getStatus().equals("Used")) throw new ServiceException("Ship is used");
+        if (cruiseShip.getStatus().equals("Used")) throw new ShipIsUsedException();
         try {
             cruiseShipDAO.delete(cruiseShip);
         } catch (DAOException e) {

@@ -26,7 +26,7 @@ public class MysqlStaffDAO implements StaffDAO {
     }
 
     private static final String SQL_FIND_BY_ID =
-            "SELECT * FROM staff WHERE id = ?";
+            "SELECT * FROM staff WHERE id = ? AND cruise_ship_id = ?";
     private static final String SQL_COUNT_ALL =
             "SELECT COUNT(id) AS total FROM cruises WHERE cruise_ship_id = ?";
     private static final String SQL_FIND_ALL_BY_CRUISE_ID =
@@ -42,12 +42,13 @@ public class MysqlStaffDAO implements StaffDAO {
 
 
     @Override
-    public Optional<Staff> findById(int id) throws DAOException {
+    public Optional<Staff> findById(int id, int cruiseShipId) throws DAOException {
         Optional<Staff> staff = Optional.empty();
         try (Connection con = dataSource.getConnection();
              PreparedStatement pst = con.prepareStatement(SQL_FIND_BY_ID)){
             int k = 0;
             pst.setInt(++k, id);
+            pst.setInt(++k, cruiseShipId);
             ResultSet resultSet = pst.executeQuery();
             if (resultSet.next()){
                 staff = Optional.of(map(resultSet));

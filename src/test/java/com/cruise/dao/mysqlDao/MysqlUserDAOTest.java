@@ -147,7 +147,7 @@ class MysqlUserDAOTest {
         //verify and assert
         verify(mockConn, times(1)).prepareStatement(anyString());
         verify(mockPreparedStmt, times(4)).setString(anyInt(), anyString());
-        verify(mockPreparedStmt, times(1)).setInt(anyInt(), anyInt());
+        verify(mockPreparedStmt, times(2)).setInt(anyInt(), anyInt());
         verify(mockPreparedStmt, times(1)).executeUpdate();
     }
 

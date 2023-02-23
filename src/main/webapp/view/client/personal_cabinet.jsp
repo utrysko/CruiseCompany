@@ -14,17 +14,7 @@
 <body class="">
 <jsp:include page="/view/templates/client_navbar.jsp"/>
 <div class="container">
-    <c:if test="${sessionScope.error != null}">
-        <div class="form-control">
-            <h2 style="color: red"><c:out value="${sessionScope.error}"/></h2>
-                ${sessionScope.remove('error')}
-        </div>
-    </c:if>
-    <c:if test="${requestScope.error != null}">
-        <div class="form-control">
-            <h2 style="color: red"><c:out value="${requestScope.error}"/></h2>
-        </div>
-    </c:if>
+    <jsp:include page="/view/templates/display_error.jsp"/>
     <br/>
         <div class="row justify-content-md-center">
     <div class="col-md-6 text-center">

@@ -15,17 +15,7 @@
 <jsp:include page="/view/templates/client_navbar.jsp"/>
 
 <div class="container">
-    <c:if test="${sessionScope.error != null}">
-        <div class="form-control">
-            <h2 style="color: red"><c:out value="${sessionScope.error}"/></h2>
-                ${sessionScope.remove('error')}
-        </div>
-    </c:if>
-    <c:if test="${requestScope.error != null}">
-        <div class="form-control">
-            <h2 style="color: red"><c:out value="${requestScope.error}"/></h2>
-        </div>
-    </c:if>
+    <jsp:include page="/view/templates/display_error.jsp"/>
     <div class="row">
         <div class="col-md-8">
             <form class="row" action="/Cruise/controller" >
@@ -33,18 +23,18 @@
                 <div class="col-auto"><span class="form-control"> <fmt:message key="common.filtering.numberPerPage"/>:</span></div>
                 <div class="col-auto">
                     <select name="limit" class="form-select">
-                        <option value="2">2</option>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
+                        <option value="2" ${requestScope.limit eq '2' ? 'selected' : ''}>2</option>
+                        <option value="5" ${requestScope.limit eq '5' ? 'selected' : ''}>5</option>
+                        <option value="10" ${requestScope.limit eq '10' ? 'selected' : ''}>10</option>
                     </select>
                 </div>
                 <div class="col-auto"><span class="form-control"><fmt:message key="common.filtering.sortBy"/>:</span></div>
                 <div class="col-auto">
                     <select name="sortBy" class="form-select">
-                        <option value="1">Id</option>
-                        <option value="3"><fmt:message key="cruises.table.startDate"/></option>
-                        <option value="4"><fmt:message key="cruises.table.endDate"/></option>
-                        <option value="6"><fmt:message key="cruises.table.ticketPrice"/></option>
+                        <option value="1" ${requestScope.sortBy eq '1' ? 'selected' : ''}>Id</option>
+                        <option value="3" ${requestScope.sortBy eq '3' ? 'selected' : ''}><fmt:message key="cruises.table.startDate"/></option>
+                        <option value="4" ${requestScope.sortBy eq '4' ? 'selected' : ''}><fmt:message key="cruises.table.endDate"/></option>
+                        <option value="6" ${requestScope.sortBy eq '6' ? 'selected' : ''}><fmt:message key="cruises.table.ticketPrice"/></option>
                     </select>
                 </div>
                 <div class="col-auto">

@@ -37,7 +37,7 @@ class StaffServiceImplTest {
     @BeforeEach
     public void setUp() {
         reset(mockStaffDAO);
-        when(mockStaffDAO.findById(staffId)).thenReturn(Optional.of(testStaff));
+        when(mockStaffDAO.findById(staffId, 3)).thenReturn(Optional.of(testStaff));
         when(mockStaffDAO.getStaffInOrderAndLimit(anyInt(), anyInt(), anyInt(), anyInt()))
                 .thenReturn(List.of(testStaff));
         when(mockStaffDAO.countAll(anyInt())).thenReturn(1);
@@ -48,11 +48,11 @@ class StaffServiceImplTest {
 
     @Test
     void findById() throws ServiceException {
-        Staff staff = staffService.findById(staffId);
+        Staff staff = staffService.findById(staffId, 3);
 
-        verify(mockStaffDAO, times(1)).findById(anyInt());
+        verify(mockStaffDAO, times(1)).findById(anyInt(), anyInt());
         assertEquals(testStaff.getFirstName(), staff.getFirstName());
-        assertThrows(ServiceException.class, () -> staffService.findById(0));
+        assertThrows(ServiceException.class, () -> staffService.findById(0, 3));
     }
 
     @Test

@@ -5,7 +5,7 @@
 --%>
 <!doctype html>
 <html>
-<jsp:include page="/view/templates/head.jsp"></jsp:include>
+<jsp:include page="/view/templates/head.jsp"/>
 <head>
     <title><fmt:message key="register.title"/></title>
     <!-- Custom styles for this template -->
@@ -13,17 +13,7 @@
 </head>
 <body class="text-center">
 <form class="form-signin" method="post" action="controller?action=register">
-    <c:if test="${sessionScope.error != null}">
-        <div class="form-control">
-            <h2 style="color: red"><fmt:message key="${sessionScope.error}"/></h2>
-                ${sessionScope.remove('error')}
-        </div>
-    </c:if>
-    <c:if test="${requestScope.error != null}">
-        <div class="form-control">
-            <h2 style="color: red"><fmt:message key="${requestScope.error}"/></h2>
-        </div>
-    </c:if>
+    <jsp:include page="/view/templates/display_error.jsp"/>
     <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="register.header"/></h1>
     <input type="text" id="login" name="login" class="form-control" placeholder="<fmt:message key="login.placeholder.login"/>" required>
     <input type="text" name="firstName" class="form-control" placeholder="<fmt:message key="register.placeholder.firstname"/>" required>
