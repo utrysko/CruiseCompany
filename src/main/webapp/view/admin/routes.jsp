@@ -138,7 +138,7 @@
                 <form class="form" action="controller" onsubmit="">
                     <input type="hidden" name="action" value="add_route">
                     <h2 class="h3 mb-3 font-weight-normal"><fmt:message key="addRoute.enter.numberOfPorts"/></h2>
-                    <input type="number" pattern="[3-9]{1}" name="numberOfPorts" class="form-control" required />
+                    <input type="number" pattern="[3-9]{1}" title="from 3 to 9" name="numberOfPorts" class="form-control" required />
                     <button class="btn btn-md btn-primary btn-block" type="submit"><fmt:message
                             key="common.button.confirm"/></button>
                 </form>

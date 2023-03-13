@@ -27,6 +27,9 @@ public class AddCruiseShipCommand implements Command {
     public AddCruiseShipCommand(){
         this.cruiseShipService = AppContext.getInstance().getCruiseShipService();
     }
+    public AddCruiseShipCommand(CruiseShipService cruiseShipService){
+        this.cruiseShipService = cruiseShipService;
+    }
 
     /**
      * Called from main controller. Tries to add new cruise ship.

@@ -28,6 +28,9 @@ public class CruiseShipsCommand implements Command {
     public CruiseShipsCommand(){
         cruiseShipService = AppContext.getInstance().getCruiseShipService();
     }
+    public CruiseShipsCommand(CruiseShipService cruiseShipService){
+        this.cruiseShipService = cruiseShipService;
+    }
 
     /**
      * Called from main controller. Tries to get cruise ships in some order.

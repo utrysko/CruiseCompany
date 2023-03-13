@@ -26,6 +26,9 @@ public class ReplenishBalanceCommand implements Command {
     public ReplenishBalanceCommand(){
         userService = AppContext.getInstance().getUserService();
     }
+    public ReplenishBalanceCommand(UserService userService){
+        this.userService = userService;
+    }
 
     /**
      * Called from main controller. Tries to replenish user balance.

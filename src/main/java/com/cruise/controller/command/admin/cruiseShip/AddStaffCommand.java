@@ -24,6 +24,9 @@ public class AddStaffCommand implements Command {
     public AddStaffCommand(){
         staffService = AppContext.getInstance().getStaffService();
     }
+    public AddStaffCommand(StaffService staffService){
+        this.staffService = staffService;
+    }
 
     /**
      * Called from main controller. Tries to add staff to cruise ship.

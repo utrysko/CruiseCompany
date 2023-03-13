@@ -12,7 +12,7 @@
     <link href="https://getbootstrap.com/docs/4.0/examples/sign-in/signin.css" rel="stylesheet">
 </head>
 <body class="text-center">
-<form class="form-signin" method="post" action="controller?action=sign_in">
+<form class="form-signin" method="post" action="/Cruise/controller?action=sign_in">
     <h1 class="h3 mb-3 font-weight-normal">Dream Cruise</h1>
     <jsp:include page="/view/templates/display_error.jsp"/>
     <input type="text" id="login" name="login" class="form-control" pattern="[a-z]{4,10}" title="lowercase a-z length = 4 to 10" placeholder="<fmt:message key="login.placeholder.login"/>" required>

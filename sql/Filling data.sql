@@ -8,7 +8,9 @@ INSERT INTO role (name) VALUES ('client');
 -- Filling user table; password for all this user == 12345
 -- -----------------------------------------------------
 INSERT INTO user (login, first_name, last_name, email, password, role_id, balance) VALUES ('frodo', 'Frodo', 'Baggins', 'frodoBaggins@gmail.com', '$s0$e0801$KgKOAjrxkNli3AKqQR0EiA==$Zs3g4yt9D6bFYPX7UkdQVpTqbE0yf3OuWd2oWuGQgeA=', 1, 0.0);
-INSERT INTO user (login, first_name, last_name, email, password, role_id, balance) VALUES ('harry', 'Harry', 'Potter', 'harryPotter@gmail.com', '$s0$e0801$KgKOAjrxkNli3AKqQR0EiA==$Zs3g4yt9D6bFYPX7UkdQVpTqbE0yf3OuWd2oWuGQgeA=', 2, 0.0);
+INSERT INTO user (login, first_name, last_name, email, password, role_id, balance) VALUES ('harry', 'Harry', 'Potter', 'harryPotter@gmail.com', '$s0$e0801$KgKOAjrxkNli3AKqQR0EiA==$Zs3g4yt9D6bFYPX7UkdQVpTqbE0yf3OuWd2oWuGQgeA=', 2, 20.0);
+INSERT INTO user (login, first_name, last_name, email, password, role_id, balance) VALUES ('miguel', 'Miguel', 'Been', 'miguelbeen@gmail.com', '$s0$e0801$KgKOAjrxkNli3AKqQR0EiA==$Zs3g4yt9D6bFYPX7UkdQVpTqbE0yf3OuWd2oWuGQgeA=', 2, 150.0);
+INSERT INTO user (login, first_name, last_name, email, password, role_id, balance) VALUES ('mark', 'Mark', 'Smith', 'marksmith@gmail.com', '$s0$e0801$KgKOAjrxkNli3AKqQR0EiA==$Zs3g4yt9D6bFYPX7UkdQVpTqbE0yf3OuWd2oWuGQgeA=', 2, 180.0);
 -- -----------------------------------------------------
 -- Filling route table
 -- -----------------------------------------------------
@@ -20,8 +22,8 @@ INSERT INTO route (number_of_ports, start_port, middle_ports, end_port) VALUES (
 -- -----------------------------------------------------
 -- Filling cruise_ship table
 -- -----------------------------------------------------
-INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Rosa', 150, 'Used', '2023-03-22');
-INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Naomi', 50, 'Used', '2023-03-24');
+INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Rosa', 150, 'Used', '2023-04-02');
+INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Naomi', 50, 'Used', '2023-04-04');
 INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Cerberus', 100, 'Available', '2023-01-18');
 INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Кайзер', 200, 'Used', '2023-03-25');
 INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Kronos', 85, 'Available', '2023-02-01');
@@ -37,7 +39,10 @@ INSERT INTO staff (first_name, last_name, position, cruise_ship_id) VALUES ('Leo
 -- -----------------------------------------------------
 -- Filling cruise table
 -- -----------------------------------------------------
-INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-03-15', '2023-03-22', 'Available', 50.0, 150, 1, 1);
-INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-03-16', '2023-03-24', 'Available', 95.0, 50, 2, 2);
+INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-03-25', '2023-04-02', 'Available', 50.0, 150, 1, 1);
+INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-03-26', '2023-04-04', 'Available', 95.0, 50, 2, 2);
 INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-01-07', '2023-01-18', 'Ended', 85.0, 100, 3, 3);
-INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-02-23', '2023-03-25', 'Started', 75.0, 100, 4, 5);
+INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-03-01', '2023-03-25', 'Started', 75.0, 100, 4, 5);
+-- -----------------------------------------------------
+-- Filling cruise table
+-- -----------------------------------------------------
