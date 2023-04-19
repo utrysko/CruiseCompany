@@ -28,7 +28,7 @@ public class MysqlStaffDAO implements StaffDAO {
     private static final String SQL_FIND_BY_ID =
             "SELECT * FROM staff WHERE id = ? AND cruise_ship_id = ?";
     private static final String SQL_COUNT_ALL =
-            "SELECT COUNT(id) AS total FROM cruises WHERE cruise_ship_id = ?";
+            "SELECT COUNT(id) AS total FROM staff WHERE cruise_ship_id = ?";
     private static final String SQL_FIND_ALL_BY_CRUISE_ID =
             "SELECT * FROM staff WHERE cruise_ship_id = ?";
     private static final String SQL_STAFF_IN_ORDER_AND_LIMIT =

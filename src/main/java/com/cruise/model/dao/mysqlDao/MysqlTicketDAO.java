@@ -41,7 +41,7 @@ public class MysqlTicketDAO implements TicketDAO {
     private static final String SQL_TICKETS_IN_ORDER_AND_LIMIT =
             "SELECT * FROM ticket ORDER BY ? LIMIT ? OFFSET ?";
     private static final String SQL_COUNT_ALL =
-            "SELECT COUNT(id) AS total FROM cruises";
+            "SELECT COUNT(id) AS total FROM ticket";
     private static final String SQL_GET_ALL_TICKET =
             "SELECT id, user_id, cruises_id, status, document FROM ticket ORDER BY id";
     private static final String SQL_INSERT =

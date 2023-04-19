@@ -5,7 +5,7 @@
             <PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss.SSS} %c{1}:%L - %m%n"/>
         </Console>
         <RollingFile name="ToRollingFile" fileName="CruiseCompany/log/logs.log"
-                     filePattern="/CruiseCompany/log/logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log">
+                     filePattern="CruiseCompany/log/logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log">
             <PatternLayout pattern="[%-5p] %d{yyyy-MM-dd HH:mm:ss.SSS} %c{1}:%L - %m%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>

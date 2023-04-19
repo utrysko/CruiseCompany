@@ -29,7 +29,7 @@ public class MysqlRouteDAO implements RouteDAO {
     private static final String SQL_GET_ALL_ROUTE_ORDER_BY_ID =
             "SELECT * FROM route ORDER BY id";
     private static final String SQL_COUNT_ALL =
-            "SELECT COUNT(id) AS total FROM cruises";
+            "SELECT COUNT(id) AS total FROM route";
     private static final String SQL_ROUTES_IN_ORDER_AND_LIMIT =
             "SELECT * FROM route ORDER BY ? LIMIT ? OFFSET ?";
     private static final String SQL_INSERT =

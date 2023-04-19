@@ -32,7 +32,7 @@ public class MysqlUserDAO implements UserDAO {
     private static final String SQL_GET_ALL_USER_ORDER_BY_ID =
             "SELECT id, login, first_name, last_name, email, password, role_id, balance FROM user ORDER BY id";
     private static final String SQL_COUNT_ALL =
-            "SELECT COUNT(id) AS total FROM cruises";
+            "SELECT COUNT(id) AS total FROM user";
     private static final String SQL_INSERT =
             "INSERT INTO user (login, first_name, last_name, email, password, role_id, balance) VALUES (?, ? ,?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE =

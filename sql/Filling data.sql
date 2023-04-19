@@ -22,10 +22,10 @@ INSERT INTO route (number_of_ports, start_port, middle_ports, end_port) VALUES (
 -- -----------------------------------------------------
 -- Filling cruise_ship table
 -- -----------------------------------------------------
-INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Rosa', 150, 'Used', '2023-04-02');
-INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Naomi', 50, 'Used', '2023-04-04');
-INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Cerberus', 100, 'Available', '2023-01-18');
-INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Кайзер', 200, 'Used', '2023-03-25');
+INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Rosa', 150, 'Used', '2023-05-15');
+INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Naomi', 50, 'Used', '2023-02-17');
+INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Cerberus', 100, 'Available', '2023-02-18');
+INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Кайзер', 200, 'Used', '2023-05-13');
 INSERT INTO cruise_ship (name, capacity, status, available_from) VALUES ('Kronos', 85, 'Available', '2023-02-01');
 -- -----------------------------------------------------
 -- Filling staff table
@@ -39,10 +39,7 @@ INSERT INTO staff (first_name, last_name, position, cruise_ship_id) VALUES ('Leo
 -- -----------------------------------------------------
 -- Filling cruise table
 -- -----------------------------------------------------
-INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-03-25', '2023-04-02', 'Available', 50.0, 150, 1, 1);
-INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-03-26', '2023-04-04', 'Available', 95.0, 50, 2, 2);
-INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-01-07', '2023-01-18', 'Ended', 85.0, 100, 3, 3);
-INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-03-01', '2023-03-25', 'Started', 75.0, 100, 4, 5);
--- -----------------------------------------------------
--- Filling cruise table
--- -----------------------------------------------------
+INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-04-25', '2023-05-15', 'Available', 50.0, 150, 1, 1);
+INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-04-26', '2023-05-17', 'Available', 95.0, 50, 2, 2);
+INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-02-07', '2023-02-18', 'Ended', 85.0, 100, 3, 3);
+INSERT INTO cruises ( start, end, status, ticket_price, free_spaces, cruise_ship_id, route_id) VALUES ( '2023-04-11', '2023-05-13', 'Started', 75.0, 100, 4, 5);
