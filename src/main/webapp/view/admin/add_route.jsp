@@ -17,14 +17,14 @@
     <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="addRoute.header"/></h1>
     <jsp:include page="/view/templates/display_error.jsp"/>
     <input type="text" name="startPort" class="form-control"
-           placeholder="<fmt:message key="addRoute.placeholder.startPort"/>" required>
+           placeholder="<fmt:message key="addRoute.placeholder.startPort"/>" pattern="^[A-ZА-ЩЬЮЯҐІЇЄ]{1}[a-zа-щьюяґіїє]{1,20}[- ]?[A-ZА-ЩЬЮЯҐІЇЄ]?[a-zа-щьюяґіїє]*" required>
     <c:forEach var="i" begin="2" end="${requestScope.numberOfPorts - 1}">
         <input type="text" name="middlePort${i}" class="form-control"
-               placeholder="<fmt:message key="addRoute.placeholder.middlePort"/>" required>
+               placeholder="<fmt:message key="addRoute.placeholder.middlePort"/>" pattern="^[A-ZА-ЩЬЮЯҐІЇЄ]{1}[a-zа-щьюяґіїє]{1,20}[- ]?[A-ZА-ЩЬЮЯҐІЇЄ]?[a-zа-щьюяґіїє]*" required>
     </c:forEach>
     <input type="hidden" name="numberOfPorts" value="${requestScope.numberOfPorts}">
     <input type="text" name="endPort" class="form-control"
-           placeholder="<fmt:message key="addRoute.placeholder.endPort"/>" required>
+           placeholder="<fmt:message key="addRoute.placeholder.endPort"/>" pattern="^[A-ZА-ЩЬЮЯҐІЇЄ]{1}[a-zа-щьюяґіїє]{1,20}[- ]?[A-ZА-ЩЬЮЯҐІЇЄ]?[a-zа-щьюяґіїє]*" required>
     <a href="controller?action=routes"
        class="btn btn-lg btn-primary"><fmt:message key="common.button.back"/></a>
     <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message

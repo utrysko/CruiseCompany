@@ -217,9 +217,9 @@
             <div class="modal-body">
                 <form action="/Cruise/controller?action=add_cruise_ship" method="post">
                     <fmt:message key="cruiseShips.addForm.name"/>
-                    <input type="text" name="name" class="form-control">
+                    <input type="text" name="name" class="form-control" pattern="^[A-Za-zА-ЩЬЮЯҐІЇЄа-щьюяґіїє'\- ]{1,19}" required>
                     <fmt:message key="cruiseShips.addForm.capacity"/>
-                    <input type="text" name="capacity" class="form-control">
+                    <input type="number" name="capacity" class="form-control" pattern="[1-9]{3}" required>
                     <fmt:message key="cruiseShips.addForm.status"/>
                     <select name="status" class="form-select">
                         <option value="Available">Available</option>

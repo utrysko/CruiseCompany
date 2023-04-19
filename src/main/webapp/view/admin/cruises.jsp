@@ -236,7 +236,7 @@
                     <fmt:message key="cruises.addForm.endDate"/>
                     <input type="date" name="endDate" class="form-control" required>
                     <fmt:message key="cruises.addForm.freeSpaces"/>
-                    <input type="number" name="freeSpaces" class="form-control" required>
+                    <input type="number" name="freeSpaces" class="form-control" pattern="[1-9]{3}" required>
                     <fmt:message key="cruises.addForm.status"/>
                     <select name="status" class="form-select" required>
                         <option value="Available">Available</option>

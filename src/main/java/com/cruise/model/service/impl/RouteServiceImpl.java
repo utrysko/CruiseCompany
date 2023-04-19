@@ -111,7 +111,7 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public void delete(int routeId) throws ServiceException{
-        if (cruiseDAO.cruiseUsedRoute(routeId)) throw new ServiceException("route is used");
+        if (cruiseDAO.cruiseUsedRoute(routeId)) throw new ServiceException("error.route.isUsed");
         try {
             Route route = findById(routeId);
             routeDao.delete(route);

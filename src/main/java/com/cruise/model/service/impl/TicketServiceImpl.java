@@ -129,7 +129,7 @@ public class TicketServiceImpl implements TicketService {
             Cruise cruise = cruiseDAO.findById(ticket.getCruiseId()).get();
             User user = userDAO.findById(ticket.getClientId()).get();
             if (cruise.getFreeSpaces() < 1 || user.getBalance() < cruise.getTicketPrice()){
-                throw new ServiceException("Cruise don't have free spaces or your balance is less then ticket price");
+                throw new ServiceException("error.ticket.buy");
             }
             ticketDAO.create(ticket, user, cruise);
         } catch (DAOException e){

@@ -16,9 +16,9 @@
   <h1 class="h3 mb-3 font-weight-normal"><fmt:message key="staff.form.header"/></h1>
   <jsp:include page="/view/templates/display_error.jsp"/>
   <input type="text" name="firstName" class="form-control"
-         placeholder="<fmt:message key="staff.form.firstName"/>" required>
+         placeholder="<fmt:message key="staff.form.firstName"/>" pattern="^[A-Za-zА-ЩЬЮЯҐІЇЄа-щьюяґіїє'\- ]{1,19}" required>
   <input type="text" name="lastName" class="form-control"
-         placeholder="<fmt:message key="staff.form.lastName"/>" required>
+         placeholder="<fmt:message key="staff.form.lastName"/>" pattern="^[A-Za-zА-ЩЬЮЯҐІЇЄа-щьюяґіїє'\- ]{1,19}" required>
   <input type="text" name="<fmt:message key="staff.form.position"/>" class="form-control"
          placeholder="position" required>
   <button class="btn btn-lg btn-primary btn-block" type="submit"><fmt:message

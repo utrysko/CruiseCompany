@@ -135,7 +135,9 @@ public class CruiseServiceImpl implements CruiseService {
         ValidationUtil.validateIfStarted(cruise.getStatus());
         try {
             cruiseDAO.delete(cruise);
-            cruiseShipDAO.changeAvailableDate(cruise.getCruiseShip(), Date.valueOf(LocalDate.now()));
+            if (cruise.getCruiseShip() != null) {
+                cruiseShipDAO.changeAvailableDate(cruise.getCruiseShip(), Date.valueOf(LocalDate.now()));
+            }
         } catch (DAOException e) {
             LOG.error(e.getMessage());
             throw new ServiceException(e.getMessage());

@@ -42,7 +42,7 @@ public class AddRouteCommand implements Command {
         HttpSession session = req.getSession();
         int numberOfPorts = Integer.parseInt(req.getParameter("numberOfPorts"));
         if (numberOfPorts < 2){
-            session.setAttribute("error", "number of ports cannot be less then 2");
+            session.setAttribute("error", "error.route.numberCannotBeLessThen2");
             return AllPath.ROUTES_COMMAND;
         }
         if (req.getParameter("startPort") == null){

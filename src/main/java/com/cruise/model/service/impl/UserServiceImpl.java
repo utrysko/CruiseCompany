@@ -140,7 +140,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changePassword(User user, String password, String oldPassword) throws ServiceException {
         if(!SCryptUtil.check(oldPassword, user.getPassword())){
-            throw new ServiceException("password dont match");
+            throw new ServiceException("error.password.dont.match");
         }
         try {
             userDAO.changePassword(user, SCryptUtil.scrypt(password, 16384, 8, 1));
